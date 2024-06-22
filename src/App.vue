@@ -1,8 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import NotificationBar from './components/common/NotificationBar.vue';
+</script>
 
 <template>
 	<VApp theme="dark">
 		<RouterView />
+		<NotificationBar />
 	</VApp>
 </template>
 

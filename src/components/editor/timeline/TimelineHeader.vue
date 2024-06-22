@@ -1,26 +1,27 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import PlayHead from './PlayHead.vue';
 import TimeTrack from './TimeTrack.vue';
 import { useEditor } from '../../../store';
+import { clamp, toFixed } from '../../../utils/functions';
 
 const editor = useEditor();
 const isMoving = ref(false);
-const startX = ref(0);
-const startTime = ref(0);
+const wrapperLeft = ref(0);
 
 const startMove = (event) => {
+	const { left } = event.currentTarget.getBoundingClientRect();
 	isMoving.value = true;
-	startX.value = event.clientX;
-	startTime.value = editor.time;
+	wrapperLeft.value = left;
+	editor.time = toFixed(clamp((event.clientX - left) / editor.secondWidth, 0, editor.seconds));
 	document.addEventListener('mousemove', move);
 	document.addEventListener('mouseup', stopMove);
 };
 
 const move = (event) => {
 	if (isMoving) {
-		const delta = (event.clientX - startX.value) / editor.secondWidth;
-		editor.time = Math.max(delta + startTime.value, 0);
+		editor.time = toFixed(
+			clamp((event.clientX - wrapperLeft.value) / editor.secondWidth, 0, editor.seconds)
+		);
 	}
 };
 
@@ -44,7 +45,7 @@ onBeforeUnmount(() => {
 		<VCol class="settings"></VCol>
 		<VCol class="timetrack" @mousedown.prevent="startMove">
 			<TimeTrack />
-			<PlayHead />
+			<div class="playhead" :style="{ left: editor.playheadPosition }" />
 		</VCol>
 	</VRow>
 </template>
@@ -68,5 +69,16 @@ onBeforeUnmount(() => {
 	width: calc(100% - 312px);
 	flex-basis: auto;
 	overflow: hidden;
+	.playhead {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 15px;
+		height: 20px;
+		background-color: aliceblue;
+		cursor: ew-resize;
+		transform: translateX(-50%);
+		clip-path: polygon(0% 0%, 100% 0, 100% 50%, 50% 100%, 0 50%);
+	}
 }
 </style>

@@ -2,7 +2,7 @@
 import { inject, ref } from 'vue';
 import AppBar from '../components/common/AppBar.vue';
 import FormContainer from '../components/common/FormContainer.vue';
-import { useUser } from '../store';
+import { useNotification, useUser } from '../store';
 import { useRouter } from 'vue-router';
 const axios = inject('axios');
 const email = ref('');
@@ -10,6 +10,7 @@ const password = ref('');
 const loading = ref(false);
 const userData = useUser();
 const router = useRouter();
+const { send } = useNotification();
 const login = () => {
 	loading.value = true;
 	axios
@@ -25,6 +26,7 @@ const login = () => {
 		.catch((error) => {
 			console.log(error);
 			loading.value = false;
+			send(error.message, 'error');
 		});
 };
 </script>

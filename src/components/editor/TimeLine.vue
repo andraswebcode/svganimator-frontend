@@ -42,7 +42,13 @@ onBeforeMount(() => {
 </script>
 
 <template>
-	<footer class="timeline" :style="{ height: editor.timelineHeight + 'px' }">
+	<footer
+		class="timeline"
+		:style="{
+			height: editor.timelineHeight + 'px',
+			transitionProperty: isResizing ? 'none' : 'height'
+		}"
+	>
 		<div class="timeline__resize" @mousedown.prevent="startResize" />
 		<PlaybackButtons />
 		<TimelineHeader />
@@ -65,6 +71,9 @@ onBeforeMount(() => {
 	background-color: settings.$navigation-drawer-background;
 	border-top: settings.$navigation-drawer-border-color settings.$navigation-drawer-border-style
 		settings.$navigation-drawer-border-thin-width;
+	transition-duration: settings.$navigation-drawer-transition-duration;
+	transition-property: height;
+	transition-timing-function: settings.$navigation-drawer-transition-timing-function;
 	z-index: 1008;
 	&__resize {
 		position: absolute;

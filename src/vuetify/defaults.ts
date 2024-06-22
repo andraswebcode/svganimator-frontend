@@ -43,6 +43,15 @@ const defaults = {
 			color: 'primary'
 		}
 	},
+	VSlider: {
+		thumbSize: 15,
+		trackSize: 2,
+		VBtn: {
+			density: 'comfortable',
+			size: 'x-small',
+			rounded: true
+		}
+	},
 
 	// Custom components.
 	ToolBarList: {

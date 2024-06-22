@@ -1,19 +1,10 @@
 <script setup>
 import { mdiAccount, mdiAccountCog, mdiDraw, mdiLogin, mdiLogout, mdiViewDashboard } from '@mdi/js';
 import { useUser } from '../../store';
-import { inject } from 'vue';
-const axios = inject('axios');
 const userData = useUser();
 const logout = () => {
-	axios
-		.post('logout')
-		.then(() => {
-			userData.user = {};
-			localStorage.clear('userData');
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	userData.user = {};
+	localStorage.clear('userData');
 };
 </script>
 

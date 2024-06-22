@@ -1,5 +1,13 @@
 <script setup>
-import { mdiChevronDown, mdiChevronUp, mdiPause, mdiPlay } from '@mdi/js';
+import {
+	mdiChevronDown,
+	mdiChevronUp,
+	mdiInfinity,
+	mdiPause,
+	mdiPlay,
+	mdiSkipNext,
+	mdiSkipPrevious
+} from '@mdi/js';
 import { useEditor } from '../../../store';
 const editor = useEditor();
 const toggleTimeline = () => {
@@ -21,7 +29,10 @@ const toggleTimeline = () => {
 		</VBtnGroup>
 		<VChip density="compact" class="mx-2">{{ editor.formatTime }}</VChip>
 		<VBtnGroup density="compact">
+			<VBtn :icon="mdiSkipPrevious" />
 			<VBtn :icon="mdiPlay" />
+			<VBtn :icon="mdiSkipNext" />
+			<VBtn :icon="mdiInfinity" />
 		</VBtnGroup>
 	</div>
 </template>
