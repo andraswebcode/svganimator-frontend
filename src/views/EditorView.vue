@@ -4,7 +4,7 @@ import OptionsMenu from '../components/editor/OptionsMenu.vue';
 import ToolBar from '../components/editor/ToolBar.vue';
 import LeftSideBar from '../components/editor/LeftSideBar.vue';
 import RightSideBar from '../components/editor/RightSideBar.vue';
-import DrawingCanvas from '../components/editor/DrawingCanvas.vue';
+import MainContent from '../components/editor/MainContent.vue';
 import TimeLine from '../components/editor/TimeLine.vue';
 </script>
 
@@ -13,7 +13,7 @@ import TimeLine from '../components/editor/TimeLine.vue';
 	<AppBar />
 	<ToolBar />
 	<LeftSideBar />
-	<DrawingCanvas />
+	<MainContent />
 	<RightSideBar />
 	<TimeLine />
 </template>

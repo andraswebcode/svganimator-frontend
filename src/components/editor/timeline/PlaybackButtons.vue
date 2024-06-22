@@ -17,6 +17,12 @@ const toggleTimeline = () => {
 		editor.timelineHeight = 300;
 	}
 };
+const goToStart = () => {
+	editor.time = 0;
+};
+const goToEnd = () => {
+	editor.time = editor.seconds;
+};
 </script>
 
 <template>
@@ -29,9 +35,9 @@ const toggleTimeline = () => {
 		</VBtnGroup>
 		<VChip density="compact" class="mx-2">{{ editor.formatTime }}</VChip>
 		<VBtnGroup density="compact">
-			<VBtn :icon="mdiSkipPrevious" />
+			<VBtn :icon="mdiSkipPrevious" @click="goToStart" />
 			<VBtn :icon="mdiPlay" />
-			<VBtn :icon="mdiSkipNext" />
+			<VBtn :icon="mdiSkipNext" @click="goToEnd" />
 			<VBtn :icon="mdiInfinity" />
 		</VBtnGroup>
 	</div>

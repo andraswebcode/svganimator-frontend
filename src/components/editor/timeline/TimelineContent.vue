@@ -1,9 +1,15 @@
-<script setup></script>
+<script setup>
+import { useEditor } from '../../../store';
+
+const editor = useEditor();
+</script>
 
 <template>
 	<VRow class="content" no-gutters>
 		<VCol class="settings"></VCol>
-		<VCol class="tracks"> </VCol>
+		<VCol class="tracks">
+			<span class="time-line" :style="{ left: editor.playheadPosition }"></span>
+		</VCol>
 	</VRow>
 </template>
 
@@ -24,5 +30,15 @@
 	width: calc(100% - 312px);
 	flex-basis: auto;
 	overflow: hidden;
+	.time-line {
+		position: absolute;
+		display: inline-block;
+		top: 0;
+		left: 0;
+		width: 2px;
+		height: 100%;
+		background-color: white;
+		transform: translateX(-50%);
+	}
 }
 </style>
