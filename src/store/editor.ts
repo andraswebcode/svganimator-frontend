@@ -3,10 +3,14 @@ import { defineStore } from 'pinia';
 declare type ActiveTool = 'list' | 'shapes' | 'text' | 'uploads' | 'images';
 declare type ActiveMode = 'select' | 'draw' | 'pan';
 declare type EditorState = {
+	// UI
 	activeTool: ActiveTool;
 	activeMode: ActiveMode;
 	showOptions: boolean;
+	showRulers: boolean;
+	showGrid: boolean;
 	timelineHeight: number;
+	// Times
 	time: number;
 	seconds: number;
 	secondWidth: number;
@@ -25,6 +29,8 @@ export default defineStore<string, EditorState, EditorGetters>('editor', {
 		activeTool: 'list',
 		activeMode: 'select',
 		showOptions: false,
+		showRulers: true,
+		showGrid: false,
 		timelineHeight: 300,
 		// Times
 		time: 0,

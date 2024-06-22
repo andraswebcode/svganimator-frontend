@@ -1,12 +1,14 @@
 <script setup>
+import { useEditor } from '../../store';
 import CanvasRuler from './canvas/CanvasRuler.vue';
 import DrawingCanvas from './canvas/DrawingCanvas.vue';
+const editor = useEditor();
 </script>
 
 <template>
 	<VMain>
-		<CanvasRuler direction="x" />
-		<CanvasRuler direction="y" />
+		<CanvasRuler v-if="editor.showRulers" direction="x" />
+		<CanvasRuler v-if="editor.showRulers" direction="y" />
 		<DrawingCanvas />
 	</VMain>
 </template>

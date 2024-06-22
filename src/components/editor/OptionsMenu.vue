@@ -1,5 +1,6 @@
 <script setup>
 import {
+	mdiCheck,
 	mdiChevronDown,
 	mdiChevronUp,
 	mdiContentSave,
@@ -17,6 +18,12 @@ import {
 import { useEditor } from '../../store';
 
 const editor = useEditor();
+const toggleRulers = () => {
+	editor.showRulers = !editor.showRulers;
+};
+const toggleGrid = () => {
+	editor.showGrid = !editor.showGrid;
+};
 </script>
 
 <template>
@@ -65,17 +72,23 @@ const editor = useEditor();
 						<VListItemTitle>View</VListItemTitle>
 					</VListItem>
 				</template>
-				<VListItem href="#">
+				<VListItem href="#" @click.prevent="toggleRulers">
 					<template v-slot:prepend>
 						<VIcon :icon="mdiRulerSquare" />
 					</template>
 					<VListItemTitle>Show Rulers</VListItemTitle>
+					<template v-if="editor.showRulers" v-slot:append>
+						<VIcon :icon="mdiCheck" />
+					</template>
 				</VListItem>
-				<VListItem href="#">
+				<VListItem href="#" @click.prevent="toggleGrid">
 					<template v-slot:prepend>
 						<VIcon :icon="mdiGrid" />
 					</template>
 					<VListItemTitle>Show Grid</VListItemTitle>
+					<template v-if="editor.showGrid" v-slot:append>
+						<VIcon :icon="mdiCheck" />
+					</template>
 				</VListItem>
 			</VListGroup>
 			<VListGroup :expand-icon="mdiChevronDown" :collapse-icon="mdiChevronUp">

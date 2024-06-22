@@ -5,7 +5,7 @@ const { show, message, type } = storeToRefs(useNotification());
 </script>
 
 <template>
-	<VSnackbar v-model="show" :color="type" :timeout="8000" timer>
+	<VSnackbar v-model="show" :color="type" :timeout="5000" timer>
 		{{ message }}
 	</VSnackbar>
 </template>
