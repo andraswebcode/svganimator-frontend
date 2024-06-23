@@ -1,9 +1,11 @@
-<script setup></script>
+<script setup>
+import { Canvas, ShapeTree } from '@grafikjs/vue';
+</script>
 
 <template>
-	<VRow class="h-100">
-		<VCol></VCol>
-	</VRow>
+	<Canvas>
+		<ShapeTree />
+	</Canvas>
 </template>
 
 <style scoped></style>

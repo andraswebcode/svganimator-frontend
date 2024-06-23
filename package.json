@@ -10,6 +10,8 @@
 		"api": "cd ../website && php artisan serve"
 	},
 	"dependencies": {
+		"@grafikjs/core": "^0.0.51",
+		"@grafikjs/vue": "^0.0.11",
 		"@mdi/js": "^7.4.47",
 		"axios": "^1.7.2",
 		"pinia": "^2.1.7",
