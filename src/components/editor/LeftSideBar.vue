@@ -1,8 +1,14 @@
 <script setup>
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
 import { ref } from 'vue';
+import LayerTree from './leftsidebar/LayerTree.vue';
+import { useEditor } from '../../store';
 
 const show = ref(true);
+const editor = useEditor();
+const items = {
+	list: LayerTree
+};
 </script>
 
 <template>
@@ -10,6 +16,7 @@ const show = ref(true);
 		<template v-slot:append>
 			<SideBarToggler @click="show = !show" :icon="show ? mdiChevronLeft : mdiChevronRight" />
 		</template>
+		<component :is="items[editor.activeTool] || null" />
 	</VNavigationDrawer>
 </template>
 
