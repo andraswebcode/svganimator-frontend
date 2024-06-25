@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import NotificationBar from './components/common/NotificationBar.vue';
 </script>
 

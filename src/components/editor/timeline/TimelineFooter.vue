@@ -12,9 +12,9 @@ const clickIcon = (dir) => {
 </script>
 
 <template>
-	<VRow class="footer" no-gutters align="stretch">
+	<VRow class="footer" no-gutters align="center">
 		<VCol class="zoom">
-			<VSlider v-model="editor.secondWidth" min="40" max="400">
+			<VSlider v-model="editor.secondWidth" min="40" max="400" hide-details>
 				<template v-slot:prepend>
 					<VBtn :icon="mdiMagnifyMinus" @click="clickIcon('minus')" />
 				</template>

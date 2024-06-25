@@ -1,21 +1,20 @@
 <script setup>
-import AppBar from '../components/editor/AppBar.vue';
-import OptionsMenu from '../components/editor/OptionsMenu.vue';
-import ToolBar from '../components/editor/ToolBar.vue';
-import LeftSideBar from '../components/editor/LeftSideBar.vue';
-import RightSideBar from '../components/editor/RightSideBar.vue';
-import MainContent from '../components/editor/MainContent.vue';
-import TimeLine from '../components/editor/TimeLine.vue';
+import { useRoute } from 'vue-router';
+import EditorWrapper from '../components/editor/EditorWrapper.vue';
+import PageLoader from '../components/common/PageLoader.vue';
+import { useProject } from '../store';
+import { onMounted } from 'vue';
+const route = useRoute();
+const project = useProject();
+
+onMounted(() => {
+	project.fetch(route.params.id);
+});
 </script>
 
 <template>
-	<OptionsMenu />
-	<AppBar />
-	<ToolBar />
-	<LeftSideBar />
-	<MainContent />
-	<RightSideBar />
-	<TimeLine />
+	<EditorWrapper v-if="!project.loading" />
+	<PageLoader v-if="project.loading" />
 </template>
 
 <style scoped></style>

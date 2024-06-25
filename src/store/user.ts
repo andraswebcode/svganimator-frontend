@@ -15,7 +15,7 @@ try {
 	// console.error(error);
 }
 
-export default defineStore<string, { user: userData }>('user', {
+export default defineStore<string, { user: UserData }>('user', {
 	state: () => ({ user }),
 	getters: {
 		loggedIn: ({ user: { id, token } }) => !!(id && token),

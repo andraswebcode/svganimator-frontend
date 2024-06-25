@@ -10,7 +10,7 @@ import { useUser } from '../store';
 const routes: RouteRecordRaw[] = [
 	{
 		name: 'editor',
-		path: '/',
+		path: '/:id?',
 		component: EditorView
 	},
 	{

@@ -6,18 +6,25 @@ declare type Notification = {
 	type: NotificationType;
 	show: boolean;
 };
+declare type NotificationGetters = {};
+declare type NotificationActions = {
+	send: (message: string, type: NotificationType) => void;
+};
 
-export default defineStore<string, Notification>('notification', {
-	state: () => ({
-		message: '',
-		type: 'info',
-		show: false
-	}),
-	actions: {
-		send(message: string, type: NotificationType) {
-			this.$state.message = message;
-			this.$state.type = type;
-			this.$state.show = true;
+export default defineStore<string, Notification, NotificationGetters, NotificationActions>(
+	'notification',
+	{
+		state: () => ({
+			message: '',
+			type: 'info',
+			show: false
+		}),
+		actions: {
+			send(message, type) {
+				this.$state.message = message;
+				this.$state.type = type;
+				this.$state.show = true;
+			}
 		}
 	}
-});
+);

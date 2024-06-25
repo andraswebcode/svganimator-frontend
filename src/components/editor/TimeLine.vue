@@ -1,5 +1,6 @@
 <script setup>
 import { useEditor } from '../../store';
+import { clamp } from '../../utils/functions';
 import PlaybackButtons from './timeline/PlaybackButtons.vue';
 import TimelineHeader from './timeline/TimelineHeader.vue';
 import TimelineContent from './timeline/TimelineContent.vue';
@@ -22,7 +23,8 @@ const startResize = (event) => {
 const resize = (event) => {
 	if (isResizing.value) {
 		const delta = event.clientY - startY.value;
-		editor.timelineHeight = Math.max(startHeight.value - delta, 0);
+		const wHeight = window.innerHeight;
+		editor.timelineHeight = clamp(startHeight.value - delta, 0, wHeight - 90);
 	}
 };
 
