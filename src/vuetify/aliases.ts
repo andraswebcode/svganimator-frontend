@@ -1,6 +1,6 @@
 import { VBtn, VBtnToggle } from 'vuetify/components';
 
-const aliases = {
+const aliases: any = {
 	ToolBarList: VBtnToggle,
 	ToolBarItem: VBtn,
 	SideBarToggler: VBtn

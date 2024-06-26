@@ -2,7 +2,7 @@ import { ShapeObject } from '@grafikjs/core';
 import { defineStore } from 'pinia';
 import axios from '../axios';
 import { useNotification, useUser } from '.';
-import { parse } from '../utils/project';
+import { parse, serialize } from '../utils/project';
 
 declare type IDList = string[];
 
@@ -33,6 +33,7 @@ declare type ProjectGetters = {
 	height: (state: ProjectStateUndoable) => number | undefined;
 	ids: (state: ProjectStateUndoable) => IDList | undefined;
 	byIds: (state: ProjectStateUndoable) => ByIDs | undefined;
+	structuredData: (state: ProjectStateUndoable) => ShapeObject[];
 };
 
 declare type ProjectActions = {
@@ -55,7 +56,8 @@ export default defineStore<string, ProjectStateUndoable, ProjectGetters, Project
 			width: (state) => state.current.width,
 			height: (state) => state.current.height,
 			ids: (state) => state.current.ids,
-			byIds: (state) => state.current.byIds
+			byIds: (state) => state.current.byIds,
+			structuredData: (state) => serialize(state.current.byIds, state.current.ids)
 		},
 		actions: {
 			fetch(id) {
@@ -75,11 +77,14 @@ export default defineStore<string, ProjectStateUndoable, ProjectGetters, Project
 					.then((response) => {
 						const {
 							data: {
-								project: { layers }
+								project: { width, height, layers }
 							}
 						} = response;
+
 						const { ids, byIds } = parse(layers);
 						this.loading = false;
+						this.current.width = width;
+						this.current.height = height;
 						this.current.ids = ids;
 						this.current.byIds = byIds;
 					})

@@ -1,11 +1,26 @@
 <script setup>
-import { Canvas, ShapeTree } from '@grafikjs/vue';
+import { Canvas, Interactive, ShapeTree, Wrapper, Selector, Defs } from '@grafikjs/vue';
+import { useProject } from '../../../store';
+const project = useProject();
 </script>
 
 <template>
-	<Canvas :width="0" :height="0">
-		<ShapeTree :json="[]" />
-	</Canvas>
+	<Wrapper>
+		<Canvas :drawingWidth="project.width" :drawingHeight="project.height">
+			<template v-slot:defs>
+				<Defs />
+			</template>
+			<ShapeTree :json="project.structuredData" />
+		</Canvas>
+		<Interactive>
+			<Selector />
+		</Interactive>
+	</Wrapper>
 </template>
 
-<style scoped></style>
+<style scoped>
+.grafik-wrapper {
+	width: 100%;
+	height: 100%;
+}
+</style>
