@@ -1,53 +1,5 @@
-<script setup>
-import { ref } from 'vue';
-import AppBar from '../components/common/AppBar.vue';
-import FormContainer from '../components/common/FormContainer.vue';
-import { useNotification, useUser } from '../store';
-import { useRouter } from 'vue-router';
-import axios from '../axios';
-const email = ref('');
-const password = ref('');
-const loading = ref(false);
-const userData = useUser();
-const router = useRouter();
-const { send } = useNotification();
-const login = () => {
-	loading.value = true;
-	axios
-		.post('login', {
-			email: email.value,
-			password: password.value
-		})
-		.then(({ data }) => {
-			userData.user = data.user;
-			localStorage.setItem('userData', JSON.stringify(userData.user));
-			router.push('/');
-		})
-		.catch((error) => {
-			console.log(error);
-			loading.value = false;
-			send(error.message, 'error');
-		});
-};
-</script>
+<script setup></script>
 
-<template>
-	<AppBar />
-	<FormContainer>
-		<template v-slot:title>Login</template>
-		<template v-slot:subtitle>
-			New to SVGEditor?
-			<RouterLink to="/register">Create an account</RouterLink>
-		</template>
-		<VTextField label="Email" type="email" required v-model="email" />
-		<VTextField label="Password" type="password" required v-model="password" />
-		<small class="d-block mb-2">
-			<RouterLink to="/pwreset">Forgot your password?</RouterLink>
-		</small>
-		<template v-slot:actions>
-			<VBtn @click="login" :loading="loading">Login</VBtn>
-		</template>
-	</FormContainer>
-</template>
+<template></template>
 
 <style scoped></style>

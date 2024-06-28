@@ -1,9 +1,5 @@
-<script setup>
-import AppBar from '../components/common/AppBar.vue';
-</script>
+<script setup></script>
 
-<template>
-	<AppBar />
-</template>
+<template></template>
 
 <style scoped></style>

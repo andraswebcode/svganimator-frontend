@@ -1,13 +1,5 @@
-<script setup>
-import AppBar from '../components/common/AppBar.vue';
-import SideBar from '../components/dashboard/SideBar.vue';
-import MainContent from '../components/dashboard/MainContent.vue';
-</script>
+<script setup></script>
 
-<template>
-	<AppBar />
-	<SideBar />
-	<MainContent />
-</template>
+<template></template>
 
 <style scoped></style>
