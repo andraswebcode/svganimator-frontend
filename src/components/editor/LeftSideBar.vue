@@ -9,12 +9,16 @@ const editor = useEditor();
 const items = {
 	list: LayerTree
 };
+const onClick = () => {
+	show.value = !show.value;
+	// setTimeout(() => window.dispatchEvent(new Event('resize')), 220);
+};
 </script>
 
 <template>
-	<VNavigationDrawer tag="aside" v-model="show">
+	<VNavigationDrawer v-if="editor.activeTool" tag="aside" v-model="show">
 		<template v-slot:append>
-			<SideBarToggler @click="show = !show" :icon="show ? mdiChevronLeft : mdiChevronRight" />
+			<SideBarToggler @click="onClick" :icon="show ? mdiChevronLeft : mdiChevronRight" />
 		</template>
 		<component :is="items[editor.activeTool] || null" />
 	</VNavigationDrawer>

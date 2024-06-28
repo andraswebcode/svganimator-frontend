@@ -1,11 +1,17 @@
 <script setup>
 import { Canvas, Interactive, ShapeTree, Wrapper, Selector, Defs } from '@grafikjs/vue';
-import { useProject } from '../../../store';
+import { useEditor, useProject } from '../../../store';
+import { computed } from 'vue';
 const project = useProject();
+const editor = useEditor();
+const height = computed(() => {
+	const n = editor.timelineHeight;
+	return `calc(100% - ${n}px)`;
+});
 </script>
 
 <template>
-	<Wrapper>
+	<Wrapper :style="{ height }">
 		<Canvas :drawingWidth="project.width" :drawingHeight="project.height">
 			<template v-slot:defs>
 				<Defs />

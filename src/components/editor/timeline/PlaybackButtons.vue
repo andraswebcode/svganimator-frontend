@@ -16,6 +16,11 @@ const toggleTimeline = () => {
 	} else {
 		editor.timelineHeight = 300;
 	}
+	// Dispatch a resize event here to update canvas position.
+	setTimeout(
+		() => window.dispatchEvent(new Event('resize')),
+		200 /** this is the css transition-duration */
+	);
 };
 const goToStart = () => {
 	editor.time = 0;

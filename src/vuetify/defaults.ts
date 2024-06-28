@@ -52,6 +52,9 @@ const defaults = {
 			rounded: true
 		}
 	},
+	VTreeview: {
+		density: 'compact'
+	},
 
 	// Custom components.
 	ToolBarList: {

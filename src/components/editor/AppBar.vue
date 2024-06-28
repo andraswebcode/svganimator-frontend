@@ -19,7 +19,7 @@ const editor = useEditor();
 		<template v-slot:prepend>
 			<VBtn :icon="mdiDotsVertical" title="Options" @click="editor.showOptions = true" />
 			<VDivider vertical />
-			<VBtn :icon="mdiCursorDefault" title="Select Mode" />
+			<VBtn :icon="mdiCursorDefault" title="Select Mode" variant="elevated" />
 			<VBtn :icon="mdiPen" title="Drawing Mode" />
 			<VBtn :icon="mdiHandBackLeft" title="Hand Mode" />
 			<VDivider vertical />

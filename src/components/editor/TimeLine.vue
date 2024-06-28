@@ -25,6 +25,8 @@ const resize = (event) => {
 		const delta = event.clientY - startY.value;
 		const wHeight = window.innerHeight;
 		editor.timelineHeight = clamp(startHeight.value - delta, 0, wHeight - 90);
+		// Dispatch a resize event here to update canvas position.
+		window.dispatchEvent(new Event('resize'));
 	}
 };
 

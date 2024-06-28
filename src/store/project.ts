@@ -48,7 +48,12 @@ export default defineStore<string, ProjectStateUndoable, ProjectGetters, Project
 	{
 		state: () => ({
 			loading: true,
-			current: {},
+			current: {
+				width: 400,
+				height: 400,
+				ids: [],
+				byIds: {}
+			},
 			previous: [],
 			next: []
 		}),

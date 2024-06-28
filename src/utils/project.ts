@@ -10,8 +10,6 @@ const _parseLayers = (layers: any[], idsRef: string[], byIdsRef: any) => {
 	});
 };
 
-// const _serializeLayer = (layer, byIds) => {};
-
 export const parse = (layers: any[]) => {
 	const output = {
 		ids: [],
@@ -23,5 +21,13 @@ export const parse = (layers: any[]) => {
 	return output;
 };
 
-export const serialize = (byIds: any, ids: any) =>
-	ids.map((id: string) => ({ ...byIds[id], children: undefined }));
+const _serializeMap = (byIds: any) => (id: string) => {
+	const item = byIds[id];
+	const children = item.children?.map(_serializeMap(byIds));
+	return {
+		...item,
+		children
+	};
+};
+
+export const serialize = (byIds: any, ids: any) => ids.map(_serializeMap(byIds));
