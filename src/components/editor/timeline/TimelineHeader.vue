@@ -1,6 +1,5 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import TimeTrack from './TimeTrack.vue';
 import { useEditor } from '../../../store';
 import { clamp, toFixed } from '../../../utils/functions';
 
@@ -41,7 +40,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-	<div class="row header" no-gutters align="stretch">
+	<div class="row header">
 		<div class="col settings"></div>
 		<div class="col timetrack" @mousedown.prevent="startMove">
 			<TimeTrack />
@@ -57,9 +56,10 @@ onBeforeUnmount(() => {
 	flex-grow: 0;
 }
 .settings {
-	width: 312px;
+	width: 312px !important;
 	flex-grow: 0;
 	flex-basis: auto;
+	border-right: solid 1px $editor-border-dark-color;
 }
 .timetrack {
 	position: relative;

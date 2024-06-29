@@ -1,5 +1,7 @@
 <script setup></script>
 
-<template></template>
+<template>
+	<div class="col col-grow"></div>
+</template>
 
 <style scoped></style>

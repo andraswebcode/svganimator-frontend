@@ -6,10 +6,10 @@ const open = ref(true);
 </script>
 
 <template>
-	<QDrawer side="right" v-model="open">
-		<QBtn class="close" :icon="mdiChevronRight" square dense @click="open = false" />
+	<QDrawer side="right" :width="256" :breakpoint="0" overlay elevated v-model="open">
+		<QBtn class="close q-dark" :icon="mdiChevronRight" square dense @click="open = false" />
 	</QDrawer>
-	<QBtn class="open" :icon="mdiChevronLeft" square dense @click="open = true" />
+	<QBtn class="open q-dark" :icon="mdiChevronLeft" square dense @click="open = true" />
 </template>
 
 <style scoped>

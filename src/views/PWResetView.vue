@@ -1,5 +1,7 @@
 <script setup></script>
 
-<template></template>
+<template>
+	<AppBar />
+</template>
 
 <style scoped></style>

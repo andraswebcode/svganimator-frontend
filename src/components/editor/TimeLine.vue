@@ -1,10 +1,6 @@
 <script setup>
 import { useEditor } from '../../store';
 import { clamp } from '../../utils/functions';
-import PlaybackButtons from './timeline/PlaybackButtons.vue';
-import TimelineHeader from './timeline/TimelineHeader.vue';
-import TimelineContent from './timeline/TimelineContent.vue';
-import TimelineFooter from './timeline/TimelineFooter.vue';
 import { onBeforeMount, onMounted, ref } from 'vue';
 
 const editor = useEditor();
@@ -47,11 +43,12 @@ onBeforeMount(() => {
 
 <template>
 	<QFooter
-		class="timeline q-dark"
+		class="timeline q-dark column"
 		:style="{
 			height: editor.timelineHeight + 'px',
 			transitionProperty: isResizing ? 'none' : 'height'
 		}"
+		elevated
 	>
 		<div class="timeline__resize" @mousedown.prevent="startResize" />
 		<PlaybackButtons />
@@ -63,6 +60,7 @@ onBeforeMount(() => {
 
 <style scoped lang="scss">
 .timeline {
+	transition: height $generic-hover-transition;
 	&__resize {
 		position: absolute;
 		width: 100%;

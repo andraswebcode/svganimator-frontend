@@ -28,6 +28,7 @@ const editor = useEditor();
 }
 .second {
 	flex-basis: auto;
+	border-left: solid 1px $editor-border-dark-color;
 }
 .number {
 	display: inline-block;
@@ -42,6 +43,7 @@ const editor = useEditor();
 	flex-basis: auto;
 }
 .notch:not(:last-child) {
+	border-right: solid 1px $editor-border-dark-color;
 }
 .notch:nth-child(5) {
 	height: 24px;

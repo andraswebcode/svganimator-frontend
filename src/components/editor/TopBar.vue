@@ -10,7 +10,6 @@ import {
 	mdiUngroup
 } from '@mdi/js';
 import { useEditor } from '../../store';
-import UserMenu from '../common/UserMenu.vue';
 const editor = useEditor();
 const toggleOptions = () => {
 	editor.showOptions = !editor.showOptions;
@@ -18,20 +17,21 @@ const toggleOptions = () => {
 </script>
 
 <template>
-	<QHeader class="q-dark">
+	<QHeader class="q-dark" elevated>
 		<QToolbar>
-			<QBtn size="sm" round :icon="mdiDotsVertical" @click="toggleOptions" />
-			<QSeparator vertical />
-			<QBtn size="sm" round :icon="mdiCursorDefault" />
-			<QBtn size="sm" round :icon="mdiPen" />
-			<QBtn size="sm" round :icon="mdiHandBackLeft" />
-			<QSeparator vertical />
-			<QBtn size="sm" round :icon="mdiGroup" disable />
-			<QBtn size="sm" round :icon="mdiUngroup" disable />
+			<QBtn class="q-mr-sm" size="sm" round :icon="mdiDotsVertical" @click="toggleOptions" />
+			<QSeparator class="q-mr-sm" vertical />
+			<QBtn class="q-mx-sm" size="sm" round :icon="mdiCursorDefault" />
+			<QBtn class="q-mx-sm" size="sm" round :icon="mdiPen" />
+			<QBtn class="q-mx-sm" size="sm" round :icon="mdiHandBackLeft" />
+			<QSeparator class="q-mr-sm" vertical />
+			<QBtn class="q-mx-sm" size="sm" round :icon="mdiGroup" disable />
+			<QBtn class="q-mx-sm" size="sm" round :icon="mdiUngroup" disable />
 			<QSpace />
-			<QBtn size="sm" round :icon="mdiUndo" />
-			<QBtn size="sm" round :icon="mdiRedo" />
+			<QBtn class="q-mx-sm" size="sm" round :icon="mdiUndo" />
+			<QBtn class="q-mx-sm" size="sm" round :icon="mdiRedo" />
 			<QSpace />
+			<QBtn class="q-mx-sm" size="sm" color="primary">Save</QBtn>
 			<UserMenu />
 		</QToolbar>
 	</QHeader>

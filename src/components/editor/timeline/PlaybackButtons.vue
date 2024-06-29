@@ -32,7 +32,7 @@ const goToEnd = () => {
 
 <template>
 	<div class="playback">
-		<QBtnGroup rounded glossy>
+		<QBtnGroup class="q-dark" rounded glossy>
 			<QBtn
 				size="sm"
 				:icon="editor.timelineHeight ? mdiChevronDown : mdiChevronUp"

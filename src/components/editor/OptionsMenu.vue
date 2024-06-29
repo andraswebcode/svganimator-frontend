@@ -8,8 +8,8 @@ const editor = useEditor();
 	<QDrawer side="left" overlay elevated v-model="editor.showOptions"> </QDrawer>
 </template>
 
-<style scoped>
-::v-deep .q-drawer {
-	z-index: 99999;
+<style scoped lang="scss">
+:deep(.q-drawer) {
+	z-index: $z-fixed-drawer + 1;
 }
 </style>

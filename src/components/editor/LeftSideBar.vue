@@ -1,19 +1,22 @@
 <script setup>
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
 import { ref } from 'vue';
+import { useEditor } from '../../store';
 
 const open = ref(true);
+const editor = useEditor();
 </script>
 
 <template>
-	<QDrawer side="left" v-model="open">
-		<QBtn class="close" :icon="mdiChevronLeft" square dense @click="open = false" />
+	<QDrawer side="left" :width="256" :breakpoint="0" overlay elevated v-model="open">
+		<QBtn class="close q-dark" :icon="mdiChevronLeft" square dense @click="open = false" />
+		<CanvasRuler v-if="editor.showRulers" direction="y" />
 	</QDrawer>
-	<QBtn class="open" :icon="mdiChevronRight" square dense @click="open = true" />
+	<QBtn class="open q-dark" :icon="mdiChevronRight" square dense @click="open = true" />
 </template>
 
 <style scoped>
-::v-deep .q-drawer {
+:deep(.q-drawer) {
 	margin-left: 56px;
 }
 .open {
@@ -26,5 +29,11 @@ const open = ref(true);
 	position: absolute;
 	top: 0;
 	right: -32px;
+}
+.ruler {
+	position: absolute;
+	top: 0;
+	right: -24px;
+	z-index: -2;
 }
 </style>
