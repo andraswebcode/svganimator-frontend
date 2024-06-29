@@ -7,8 +7,22 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ElAside: typeof import('element-plus/es')['ElAside']
+    ElButtin: typeof import('element-plus/es')['ElButtin']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElButtonGroup: typeof import('element-plus/es')['ElButtonGroup']
+    ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElHeader: typeof import('element-plus/es')['ElHeader']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElMain: typeof import('element-plus/es')['ElMain']
+    ElPageHeader: typeof import('element-plus/es')['ElPageHeader']
+    LeftSideBar: typeof import('./src/components/LeftSideBar.vue')['default']
+    MainContent: typeof import('./src/components/MainContent.vue')['default']
+    RightSideBar: typeof import('./src/components/RightSideBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TimeLine: typeof import('./src/components/TimeLine.vue')['default']
+    ToolBar: typeof import('./src/components/ToolBar.vue')['default']
+    TopBar: typeof import('./src/components/TopBar.vue')['default']
   }
 }

@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-	<RouterView />
+	<ElAside></ElAside>
 </template>
 
 <style scoped></style>

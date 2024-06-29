@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-	<RouterView />
+	<ElHeader></ElHeader>
 </template>
 
 <style scoped></style>
