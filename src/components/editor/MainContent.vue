@@ -1,9 +1,9 @@
 <script setup></script>
 
 <template>
-	<QLayout view="hHh lpR fFf">
-		<RouterView />
-	</QLayout>
+	<QPageContainer>
+		<QPage></QPage>
+	</QPageContainer>
 </template>
 
 <style scoped></style>

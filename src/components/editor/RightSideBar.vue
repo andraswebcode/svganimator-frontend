@@ -1,0 +1,27 @@
+<script setup>
+import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
+import { ref } from 'vue';
+
+const open = ref(true);
+</script>
+
+<template>
+	<QDrawer side="right" v-model="open">
+		<QBtn class="close" :icon="mdiChevronRight" square dense @click="open = false" />
+	</QDrawer>
+	<QBtn class="open" :icon="mdiChevronLeft" square dense @click="open = true" />
+</template>
+
+<style scoped>
+.open {
+	position: fixed;
+	top: 50px;
+	right: 0px;
+	z-index: 999;
+}
+.close {
+	position: absolute;
+	top: 0;
+	left: -32px;
+}
+</style>

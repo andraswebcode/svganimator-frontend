@@ -1,12 +1,21 @@
 <script setup>
-import TopBar from '../components/TopBar.vue';
-import ToolBar from '../components/ToolBar.vue';
-import LeftSideBar from '../components/LeftSideBar.vue';
-import MainContent from '../components/MainContent.vue';
-import RightSideBar from '../components/RightSideBar.vue';
-import TimeLine from '../components/TimeLine.vue';
+import TopBar from '../components/editor/TopBar.vue';
+import OptionsMenu from '../components/editor/OptionsMenu.vue';
+import ToolBar from '../components/editor/ToolBar.vue';
+import LeftSideBar from '../components/editor/LeftSideBar.vue';
+import MainContent from '../components/editor/MainContent.vue';
+import RightSideBar from '../components/editor/RightSideBar.vue';
+import TimeLine from '../components/editor/TimeLine.vue';
 </script>
 
-<template></template>
+<template>
+	<TopBar />
+	<OptionsMenu />
+	<ToolBar />
+	<LeftSideBar />
+	<MainContent />
+	<RightSideBar />
+	<TimeLine />
+</template>
 
 <style scoped></style>
