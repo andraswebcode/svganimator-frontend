@@ -1,7 +1,5 @@
 <script setup></script>
 
-<template>
-	<ElAside></ElAside>
-</template>
+<template></template>
 
 <style scoped></style>

@@ -7,17 +7,6 @@ import RightSideBar from '../components/RightSideBar.vue';
 import TimeLine from '../components/TimeLine.vue';
 </script>
 
-<template>
-	<ElContainer direction="vertical">
-		<TopBar />
-		<ElContainer>
-			<ToolBar />
-			<LeftSideBar />
-			<MainContent />
-			<RightSideBar />
-		</ElContainer>
-		<TimeLine />
-	</ElContainer>
-</template>
+<template></template>
 
 <style scoped></style>

@@ -1,7 +1,5 @@
 <script setup></script>
 
-<template>
-	<ElHeader></ElHeader>
-</template>
+<template></template>
 
 <style scoped></style>

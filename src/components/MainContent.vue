@@ -1,7 +1,5 @@
 <script setup></script>
 
-<template>
-	<ElMain></ElMain>
-</template>
+<template></template>
 
 <style scoped></style>

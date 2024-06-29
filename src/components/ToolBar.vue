@@ -1,17 +1,5 @@
-<script setup>
-import { mdiAccount } from '@mdi/js';
-</script>
+<script setup></script>
 
-<template>
-	<ElAside width="56px">
-		<ElButtonGroup>
-			<ElButton>
-				<ElIcon></ElIcon>
-			</ElButton>
-			<ElButton />
-			<ElButton />
-		</ElButtonGroup>
-	</ElAside>
-</template>
+<template></template>
 
 <style scoped></style>
