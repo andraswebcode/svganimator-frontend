@@ -1,7 +1,11 @@
 <script setup></script>
 
 <template>
-	<div class="col col-grow"></div>
+	<div class="content col col-grow"></div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.content {
+	min-height: 50px;
+}
+</style>

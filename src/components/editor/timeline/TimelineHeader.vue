@@ -51,9 +51,10 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 .header {
-	height: 48px;
-	min-height: 48px;
+	height: 40px;
+	min-height: 40px;
 	flex-grow: 0;
+	border-bottom: solid 1px $editor-border-dark-color;
 }
 .settings {
 	width: 312px !important;

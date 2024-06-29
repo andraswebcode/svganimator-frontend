@@ -4,14 +4,14 @@ const editor = useEditor();
 </script>
 
 <template>
-	<div class="row track">
+	<div class="row no-wrap track">
 		<div
 			class="col second"
 			v-for="sec in editor.secondList"
 			:style="{ width: editor.secondWidth + 'px' }"
 		>
 			<span class="number">{{ sec }}</span>
-			<div class="row notches">
+			<div class="row no-wrap notches">
 				<div class="col notch" v-for="notch in editor.secondNotchList" />
 			</div>
 		</div>
@@ -24,7 +24,6 @@ const editor = useEditor();
 	top: 0;
 	left: 0;
 	height: 100%;
-	flex-wrap: nowrap;
 }
 .second {
 	flex-basis: auto;
@@ -32,12 +31,11 @@ const editor = useEditor();
 }
 .number {
 	display: inline-block;
-	height: 36px;
+	height: 28px;
 	padding: 2px 4px;
 }
 .notches {
 	height: 12px;
-	flex-wrap: nowrap;
 }
 .notch {
 	flex-basis: auto;

@@ -1,8 +1,9 @@
 import { ShapeObject } from '@grafikjs/core';
 import { defineStore } from 'pinia';
 import axios from '../axios';
-import { useNotification, useUser } from '.';
+import { useUser } from '.';
 import { parse, serialize } from '../utils/project';
+import { useNotice } from '../hooks';
 
 declare type IDList = string[];
 
@@ -74,7 +75,7 @@ export default defineStore<string, ProjectStateUndoable, ProjectGetters, Project
 				}
 
 				const userData = useUser();
-				const { send } = useNotification();
+				const { send } = useNotice();
 				const { token } = userData.user;
 
 				axios
@@ -95,7 +96,7 @@ export default defineStore<string, ProjectStateUndoable, ProjectGetters, Project
 					})
 					.catch((error) => {
 						this.loading = false;
-						send(error.message, 'error');
+						send(error.message, 'negative');
 					});
 			},
 			getById(id) {

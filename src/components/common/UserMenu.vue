@@ -1,10 +1,13 @@
 <script setup>
 import { mdiAccount, mdiAccountCog, mdiDraw, mdiLogin, mdiLogout, mdiViewDashboard } from '@mdi/js';
 import { useUser } from '../../store';
+import { useRouter } from 'vue-router';
 const userData = useUser();
+const router = useRouter();
 const logout = () => {
 	userData.user = {};
 	localStorage.clear('userData');
+	router.push('/login');
 };
 </script>
 

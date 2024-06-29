@@ -1,5 +1,5 @@
 <script setup>
-import { mdiFileTree, mdiShape } from '@mdi/js';
+import { mdiCog, mdiFileTree, mdiFormatText, mdiImage, mdiShape, mdiUpload } from '@mdi/js';
 </script>
 
 <template>
@@ -8,6 +8,11 @@ import { mdiFileTree, mdiShape } from '@mdi/js';
 			<QBtn class="q-ma-sm" square dense :icon="mdiFileTree" />
 			<QSeparator />
 			<QBtn class="q-ma-sm" square dense :icon="mdiShape" />
+			<QBtn class="q-ma-sm" square dense :icon="mdiFormatText" />
+			<QBtn class="q-ma-sm" square dense :icon="mdiUpload" />
+			<QBtn class="q-ma-sm" square dense :icon="mdiImage" />
+			<QSeparator />
+			<QBtn class="q-ma-sm" square dense :icon="mdiCog" />
 		</div>
 	</QDrawer>
 </template>

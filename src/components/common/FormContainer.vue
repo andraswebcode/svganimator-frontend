@@ -5,16 +5,23 @@
 		<QPage class="row justify-center items-center">
 			<QCard class="col-4 shadow-5">
 				<QCardSection>
-					<slot name="title" />
+					<div class="text-h6">
+						<slot name="title" />
+					</div>
+					<div class="text-subtitle2">
+						<slot name="subtitle" />
+					</div>
 				</QCardSection>
 				<QSeparator />
-				<QCardSection>
-					<slot name="form" />
-				</QCardSection>
-				<QSeparator />
-				<QCardActions>
-					<slot name="actions" />
-				</QCardActions>
+				<QForm @submit="$emit('submit')">
+					<QCardSection>
+						<slot name="form" />
+					</QCardSection>
+					<QSeparator />
+					<QCardActions>
+						<slot name="actions" />
+					</QCardActions>
+				</QForm>
 			</QCard>
 		</QPage>
 	</QPageContainer>

@@ -11,6 +11,7 @@ declare module 'vue' {
     CanvasRuler: typeof import('./src/components/editor/canvas/CanvasRuler.vue')['default']
     DrawingCanvas: typeof import('./src/components/editor/canvas/DrawingCanvas.vue')['default']
     FormContainer: typeof import('./src/components/common/FormContainer.vue')['default']
+    LayerList: typeof import('./src/components/editor/leftsidebar/LayerList.vue')['default']
     LeftSideBar: typeof import('./src/components/editor/LeftSideBar.vue')['default']
     MainContent: typeof import('./src/components/editor/MainContent.vue')['default']
     OptionsMenu: typeof import('./src/components/editor/OptionsMenu.vue')['default']

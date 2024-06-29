@@ -1,10 +1,16 @@
-<script setup></script>
+<script setup>
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const show = !route.meta.hideOnLoggedIn;
+</script>
 
 <template>
 	<QHeader class="q-dark" elevated>
 		<QToolbar>
-			<QSpace />
-			<UserMenu />
+			<QToolbarTitle>
+				<RouterLink to="/">SVGAnimator</RouterLink>
+			</QToolbarTitle>
+			<UserMenu v-if="show" />
 		</QToolbar>
 	</QHeader>
 </template>

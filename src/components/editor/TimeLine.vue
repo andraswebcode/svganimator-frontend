@@ -43,7 +43,7 @@ onBeforeMount(() => {
 
 <template>
 	<QFooter
-		class="timeline q-dark column"
+		class="timeline q-dark column no-wrap"
 		:style="{
 			height: editor.timelineHeight + 'px',
 			transitionProperty: isResizing ? 'none' : 'height'
