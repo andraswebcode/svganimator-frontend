@@ -38,7 +38,7 @@ const logout = () => {
 					</QItemSection>
 					<QItemSection>Login</QItemSection>
 				</QItem>
-				<QItem v-if="userData.loggedIn" to="/login">
+				<QItem v-if="userData.loggedIn" clickable @click="logout">
 					<QItemSection>
 						<QIcon :name="mdiLogout" />
 					</QItemSection>
