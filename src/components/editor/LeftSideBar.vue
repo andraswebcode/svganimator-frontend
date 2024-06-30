@@ -9,7 +9,9 @@ const editor = useEditor();
 
 <template>
 	<QDrawer side="left" :width="256" :breakpoint="0" overlay elevated v-model="open">
-		<LayerList />
+		<div class="q-pa-md">
+			<LayerList v-if="editor.activeTool === 'list'" />
+		</div>
 		<QBtn class="close q-dark" :icon="mdiChevronLeft" square dense @click="open = false" />
 		<CanvasRuler v-if="editor.showRulers" direction="y" />
 	</QDrawer>

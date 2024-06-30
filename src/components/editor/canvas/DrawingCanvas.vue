@@ -1,7 +1,8 @@
 <script setup>
 import { Canvas, Interactive, ShapeTree, Wrapper, Selector, Defs } from '@grafikjs/vue';
-import { useProject } from '../../../store';
+import { useEditor, useProject } from '../../../store';
 const project = useProject();
+const editor = useEditor();
 </script>
 
 <template>

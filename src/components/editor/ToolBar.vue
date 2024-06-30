@@ -1,16 +1,58 @@
 <script setup>
 import { mdiCog, mdiFileTree, mdiFormatText, mdiImage, mdiShape, mdiUpload } from '@mdi/js';
+import { useEditor } from '../../store';
+const editor = useEditor();
 </script>
 
 <template>
 	<QDrawer side="left" :width="56" :breakpoint="0" elevated persistent show-if-above>
 		<div class="column">
-			<QBtn class="q-ma-sm" square dense :icon="mdiFileTree" />
+			<QBtn
+				class="q-ma-sm"
+				square
+				dense
+				flat
+				:icon="mdiFileTree"
+				:color="editor.activeTool === 'list' ? 'primary' : undefined"
+				@click="editor.activeTool = 'list'"
+			/>
 			<QSeparator />
-			<QBtn class="q-ma-sm" square dense :icon="mdiShape" />
-			<QBtn class="q-ma-sm" square dense :icon="mdiFormatText" />
-			<QBtn class="q-ma-sm" square dense :icon="mdiUpload" />
-			<QBtn class="q-ma-sm" square dense :icon="mdiImage" />
+			<QBtn
+				class="q-ma-sm"
+				square
+				dense
+				flat
+				:icon="mdiShape"
+				:color="editor.activeTool === 'shapes' ? 'primary' : undefined"
+				@click="editor.activeTool = 'shapes'"
+			/>
+			<QBtn
+				class="q-ma-sm"
+				square
+				dense
+				flat
+				:icon="mdiFormatText"
+				:color="editor.activeTool === 'text' ? 'primary' : undefined"
+				@click="editor.activeTool = 'text'"
+			/>
+			<QBtn
+				class="q-ma-sm"
+				square
+				dense
+				flat
+				:icon="mdiUpload"
+				:color="editor.activeTool === 'uploads' ? 'primary' : undefined"
+				@click="editor.activeTool = 'uploads'"
+			/>
+			<QBtn
+				class="q-ma-sm"
+				square
+				dense
+				flat
+				:icon="mdiImage"
+				:color="editor.activeTool === 'images' ? 'primary' : undefined"
+				@click="editor.activeTool = 'images'"
+			/>
 			<QSeparator />
 			<QBtn class="q-ma-sm" square dense :icon="mdiCog" />
 		</div>

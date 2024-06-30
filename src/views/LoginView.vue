@@ -42,6 +42,9 @@ const login = () => {
 		<template #form>
 			<QInput label="Email" type="email" v-model="email" required />
 			<QInput label="Password" type="password" v-model="password" required />
+			<small>
+				<RouterLink to="/pwreset">Forgot your password?</RouterLink>
+			</small>
 		</template>
 		<template #actions>
 			<QBtn type="submit" :loading="loading" color="primary">Login</QBtn>

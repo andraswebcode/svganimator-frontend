@@ -1,3 +1,3 @@
 import useNotice from './notice';
-
-export { useNotice };
+import useLoader from './loader';
+export { useNotice, useLoader };

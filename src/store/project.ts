@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import axios from '../axios';
 import { useUser } from '.';
 import { parse, serialize } from '../utils/project';
-import { useNotice } from '../hooks';
+import { useLoader, useNotice } from '../hooks';
 
 declare type IDList = string[];
 
@@ -23,7 +23,6 @@ declare type ProjectState = {
 };
 
 declare type ProjectStateUndoable = {
-	loading: boolean;
 	current: ProjectState;
 	previous: ProjectState[];
 	next: ProjectState[];
@@ -48,7 +47,6 @@ export default defineStore<string, ProjectStateUndoable, ProjectGetters, Project
 	'project',
 	{
 		state: () => ({
-			loading: true,
 			current: {
 				width: 400,
 				height: 400,
@@ -70,13 +68,15 @@ export default defineStore<string, ProjectStateUndoable, ProjectGetters, Project
 				const _id = parseInt(id);
 
 				if (!_id) {
-					this.loading = false;
 					return;
 				}
 
 				const userData = useUser();
 				const { send } = useNotice();
+				const { show, hide } = useLoader();
 				const { token } = userData.user;
+
+				show('Project is loading. This might take a while...');
 
 				axios
 					.get('projects/' + _id, { headers: { Authorization: 'Bearer ' + token } })
@@ -88,15 +88,15 @@ export default defineStore<string, ProjectStateUndoable, ProjectGetters, Project
 						} = response;
 
 						const { ids, byIds } = parse(layers);
-						this.loading = false;
 						this.current.width = width;
 						this.current.height = height;
 						this.current.ids = ids;
 						this.current.byIds = byIds;
+						hide();
 					})
 					.catch((error) => {
-						this.loading = false;
-						send(error.message, 'negative');
+						send(error.response?.data.message || error.message, 'negative');
+						hide();
 					});
 			},
 			getById(id) {

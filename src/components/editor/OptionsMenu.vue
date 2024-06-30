@@ -5,11 +5,14 @@ const editor = useEditor();
 </script>
 
 <template>
-	<QDrawer side="left" overlay elevated v-model="editor.showOptions"> </QDrawer>
+	<QDrawer side="left" class="q-pa-md" overlay elevated v-model="editor.showOptions">
+		<QInput label="Project Name" />
+		<QSeparator />
+	</QDrawer>
 </template>
 
 <style scoped lang="scss">
 :deep(.q-drawer) {
-	z-index: $z-fixed-drawer + 1;
+	z-index: $z-menu;
 }
 </style>

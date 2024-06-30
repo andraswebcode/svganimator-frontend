@@ -4,6 +4,7 @@ import { useProject } from '../../../store';
 import {
 	mdiArtboard,
 	mdiCircleOutline,
+	mdiClose,
 	mdiFormatText,
 	mdiGroup,
 	mdiHeartOutline,
@@ -38,10 +39,38 @@ const items = computed(() => {
 	];
 });
 const expanded = ref(['canvas']);
+const filterRef = ref(null);
+const filter = ref('');
+const resetFilter = () => {
+	filter.value = '';
+	filterRef.value.focus();
+};
 </script>
 
 <template>
-	<QTree :nodes="items" node-key="id" v-model:expanded="expanded" />
+	<QInput
+		v-if="items[0].children.length > 0"
+		ref="filterRef"
+		dense
+		v-model="filter"
+		label="Filter"
+	>
+		<template #append>
+			<QIcon
+				v-if="filter !== ''"
+				:name="mdiClose"
+				class="cursor-pointer"
+				@click="resetFilter"
+			/>
+		</template>
+	</QInput>
+	<QTree
+		:nodes="items"
+		:filter="filter"
+		no-results-label="No matching layers found."
+		node-key="id"
+		v-model:expanded="expanded"
+	/>
 </template>
 
 <style scoped></style>

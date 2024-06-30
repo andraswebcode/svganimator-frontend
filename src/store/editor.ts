@@ -10,6 +10,8 @@ declare type EditorState = {
 	showRulers: boolean;
 	showGrid: boolean;
 	timelineHeight: number;
+	// Layers
+	activeLayerIds: string[];
 	// Times
 	time: number;
 	seconds: number;
@@ -23,7 +25,11 @@ declare type EditorGetters = {
 	playheadPosition: (state: EditorState) => string;
 };
 
-export default defineStore<string, EditorState, EditorGetters>('editor', {
+declare type EditorActions = {
+	selectLayer: (id: string) => void;
+};
+
+export default defineStore<string, EditorState, EditorGetters, EditorActions>('editor', {
 	state: () => ({
 		// UI
 		activeTool: 'list',
@@ -32,6 +38,8 @@ export default defineStore<string, EditorState, EditorGetters>('editor', {
 		showRulers: true,
 		showGrid: false,
 		timelineHeight: 300,
+		// Layers
+		activeLayerIds: [],
 		// Times
 		time: 0,
 		seconds: 30,
@@ -51,6 +59,15 @@ export default defineStore<string, EditorState, EditorGetters>('editor', {
 		playheadPosition: (state) => {
 			const pos = state.time * state.secondWidth;
 			return pos + 'px';
+		}
+	},
+	actions: {
+		selectLayer(id) {
+			if (this.activeLayerIds.includes(id)) {
+				this.activeLayerIds = this.activeLayerIds.filter((_id) => id !== _id);
+			} else {
+				this.activeLayerIds = this.activeLayerIds.concat([id]);
+			}
 		}
 	}
 });

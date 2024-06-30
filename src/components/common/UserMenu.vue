@@ -12,7 +12,7 @@ const logout = () => {
 </script>
 
 <template>
-	<QBtn size="sm" round :icon="mdiAccount">
+	<QBtn size="sm" round flat :icon="mdiAccount">
 		<QMenu>
 			<QList dense>
 				<QItem v-if="userData.loggedIn"></QItem>

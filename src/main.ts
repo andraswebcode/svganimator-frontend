@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { Notify, Quasar } from 'quasar';
+import { Loading, Notify, Quasar } from 'quasar';
 import quasarIconSet from 'quasar/icon-set/svg-mdi-v7';
 import App from './App.vue';
 import router from './router';
@@ -12,11 +12,13 @@ createApp(App)
 	.use(Quasar, {
 		config: {
 			dark: true,
-			notify: {}
+			notify: {},
+			loading: {}
 		},
 		plugins: {
-			Notify
-		}, // import Quasar plugins and add here
+			Notify,
+			Loading
+		},
 		iconSet: quasarIconSet
 		/*
   config: {
