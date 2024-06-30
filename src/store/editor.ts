@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
 
-declare type ActiveTool = 'list' | 'shapes' | 'text' | 'uploads' | 'images';
-declare type ActiveMode = 'select' | 'draw' | 'pan';
+declare type Tool = 'list' | 'shapes' | 'text' | 'uploads' | 'images';
+declare type Mode = 'select' | 'draw' | 'pan';
 declare type EditorState = {
 	// UI
-	activeTool: ActiveTool;
-	activeMode: ActiveMode;
+	tool: Tool;
+	mode: Mode;
 	showOptions: boolean;
 	showRulers: boolean;
 	showGrid: boolean;
@@ -32,8 +32,8 @@ declare type EditorActions = {
 export default defineStore<string, EditorState, EditorGetters, EditorActions>('editor', {
 	state: () => ({
 		// UI
-		activeTool: 'list',
-		activeMode: 'select',
+		tool: 'list',
+		mode: 'select',
 		showOptions: false,
 		showRulers: true,
 		showGrid: false,

@@ -1,8 +1,11 @@
 <script setup>
-import { Canvas, Interactive, ShapeTree, Wrapper, Selector, Defs } from '@grafikjs/vue';
+import { Canvas, Interactive, ShapeTree, Wrapper, Selector, Defs, useCanvas } from '@grafikjs/vue';
 import { useEditor, useProject } from '../../../store';
 const project = useProject();
 const editor = useEditor();
+const canvas = useCanvas();
+
+editor.$subscribe((mutation, state) => {});
 </script>
 
 <template>

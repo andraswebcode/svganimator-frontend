@@ -13,8 +13,8 @@ const editor = useEditor();
 				dense
 				flat
 				:icon="mdiFileTree"
-				:color="editor.activeTool === 'list' ? 'primary' : undefined"
-				@click="editor.activeTool = 'list'"
+				:color="editor.tool === 'list' ? 'primary' : undefined"
+				@click="editor.tool = 'list'"
 			/>
 			<QSeparator />
 			<QBtn
@@ -23,8 +23,8 @@ const editor = useEditor();
 				dense
 				flat
 				:icon="mdiShape"
-				:color="editor.activeTool === 'shapes' ? 'primary' : undefined"
-				@click="editor.activeTool = 'shapes'"
+				:color="editor.tool === 'shapes' ? 'primary' : undefined"
+				@click="editor.tool = 'shapes'"
 			/>
 			<QBtn
 				class="q-ma-sm"
@@ -32,8 +32,8 @@ const editor = useEditor();
 				dense
 				flat
 				:icon="mdiFormatText"
-				:color="editor.activeTool === 'text' ? 'primary' : undefined"
-				@click="editor.activeTool = 'text'"
+				:color="editor.tool === 'text' ? 'primary' : undefined"
+				@click="editor.tool = 'text'"
 			/>
 			<QBtn
 				class="q-ma-sm"
@@ -41,8 +41,8 @@ const editor = useEditor();
 				dense
 				flat
 				:icon="mdiUpload"
-				:color="editor.activeTool === 'uploads' ? 'primary' : undefined"
-				@click="editor.activeTool = 'uploads'"
+				:color="editor.tool === 'uploads' ? 'primary' : undefined"
+				@click="editor.tool = 'uploads'"
 			/>
 			<QBtn
 				class="q-ma-sm"
@@ -50,8 +50,8 @@ const editor = useEditor();
 				dense
 				flat
 				:icon="mdiImage"
-				:color="editor.activeTool === 'images' ? 'primary' : undefined"
-				@click="editor.activeTool = 'images'"
+				:color="editor.tool === 'images' ? 'primary' : undefined"
+				@click="editor.tool = 'images'"
 			/>
 			<QSeparator />
 			<QBtn class="q-ma-sm" square dense :icon="mdiCog" />

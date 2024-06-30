@@ -31,8 +31,8 @@ const editor = useEditor();
 				round
 				flat
 				:icon="mdiCursorDefault"
-				:color="editor.activeMode === 'select' ? 'primary' : undefined"
-				@click="editor.activeMode = 'select'"
+				:color="editor.mode === 'select' ? 'primary' : undefined"
+				@click="editor.mode = 'select'"
 			/>
 			<QBtn
 				class="q-mx-sm"
@@ -40,8 +40,8 @@ const editor = useEditor();
 				round
 				flat
 				:icon="mdiPen"
-				:color="editor.activeMode === 'draw' ? 'primary' : undefined"
-				@click="editor.activeMode = 'draw'"
+				:color="editor.mode === 'draw' ? 'primary' : undefined"
+				@click="editor.mode = 'draw'"
 			/>
 			<QBtn
 				class="q-mx-sm"
@@ -49,8 +49,8 @@ const editor = useEditor();
 				round
 				flat
 				:icon="mdiHandBackLeft"
-				:color="editor.activeMode === 'pan' ? 'primary' : undefined"
-				@click="editor.activeMode = 'pan'"
+				:color="editor.mode === 'pan' ? 'primary' : undefined"
+				@click="editor.mode = 'pan'"
 			/>
 			<QSeparator class="q-mr-sm" vertical />
 			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiGroup" disable />
