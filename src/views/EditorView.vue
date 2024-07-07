@@ -12,7 +12,6 @@ onMounted(() => {
 
 <template>
 	<TopBar />
-	<OptionsMenu />
 	<ToolBar />
 	<LeftSideBar />
 	<MainContent />

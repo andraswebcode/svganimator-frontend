@@ -54,7 +54,15 @@ const editor = useEditor();
 				@click="editor.tool = 'images'"
 			/>
 			<QSeparator />
-			<QBtn class="q-ma-sm" square dense :icon="mdiCog" />
+			<QBtn
+				class="q-ma-sm"
+				square
+				dense
+				flat
+				:icon="mdiCog"
+				:color="editor.tool === 'settings' ? 'primary' : undefined"
+				@click="editor.tool = 'settings'"
+			/>
 		</div>
 	</QDrawer>
 </template>

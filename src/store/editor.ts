@@ -1,15 +1,18 @@
 import { defineStore } from 'pinia';
 
-declare type Tool = 'list' | 'shapes' | 'text' | 'uploads' | 'images';
+declare type Tool = 'list' | 'shapes' | 'text' | 'uploads' | 'images' | 'settings';
 declare type Mode = 'select' | 'draw' | 'pan';
 declare type EditorState = {
 	// UI
 	tool: Tool;
-	mode: Mode;
-	showOptions: boolean;
 	showRulers: boolean;
 	showGrid: boolean;
 	timelineHeight: number;
+	// Canvas
+	mode: Mode;
+	zoom: number;
+	panX: number;
+	panY: number;
 	// Layers
 	activeLayerIds: string[];
 	// Times
@@ -21,7 +24,7 @@ declare type EditorState = {
 declare type EditorGetters = {
 	formatTime: (state: EditorState) => string;
 	secondList: (state: EditorState) => string[];
-	secondNotchList: (state: EditorState) => string[];
+	secondMarkList: (state: EditorState) => string[];
 	playheadPosition: (state: EditorState) => string;
 };
 
@@ -33,11 +36,14 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 	state: () => ({
 		// UI
 		tool: 'list',
-		mode: 'select',
-		showOptions: false,
 		showRulers: true,
 		showGrid: false,
 		timelineHeight: 300,
+		// Canvas
+		mode: 'select',
+		zoom: 1,
+		panX: 0,
+		panY: 0,
 		// Layers
 		activeLayerIds: [],
 		// Times
@@ -47,6 +53,7 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 	}),
 	getters: {
 		formatTime: (state) => {
+			// @ts-ignore
 			const date = new Date(null);
 			date.setMilliseconds(state.time * 1000);
 			return date.toISOString().substring(14, 22);
@@ -55,7 +62,7 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 			Array(state.seconds)
 				.fill('')
 				.map((_, i) => '' + i),
-		secondNotchList: () => Array(10).fill(''),
+		secondMarkList: () => Array(10).fill(''),
 		playheadPosition: (state) => {
 			const pos = state.time * state.secondWidth;
 			return pos + 'px';

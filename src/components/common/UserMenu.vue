@@ -14,8 +14,18 @@ const logout = () => {
 <template>
 	<QBtn size="sm" round flat :icon="mdiAccount">
 		<QMenu>
+			<QList v-if="userData.loggedIn">
+				<QItem>
+					<QItemSection>
+						<QAvatar color="primary">U</QAvatar>
+					</QItemSection>
+					<QItemSection>
+						<QItemLabel>{{ userData.user.name }}</QItemLabel>
+						<QItemLabel>{{ userData.user.email }}</QItemLabel>
+					</QItemSection>
+				</QItem>
+			</QList>
 			<QList dense>
-				<QItem v-if="userData.loggedIn"></QItem>
 				<QSeparator />
 				<QItem v-if="userData.loggedIn" to="/">
 					<QItemSection>

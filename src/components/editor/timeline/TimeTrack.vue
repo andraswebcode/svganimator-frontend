@@ -11,8 +11,8 @@ const editor = useEditor();
 			:style="{ width: editor.secondWidth + 'px' }"
 		>
 			<span class="number">{{ sec }}</span>
-			<div class="row no-wrap notches">
-				<div class="col notch" v-for="notch in editor.secondNotchList" />
+			<div class="row no-wrap marks">
+				<div class="col mark" v-for="mark in editor.secondMarkList" />
 			</div>
 		</div>
 	</div>
@@ -34,16 +34,16 @@ const editor = useEditor();
 	height: 28px;
 	padding: 2px 4px;
 }
-.notches {
+.marks {
 	height: 12px;
 }
-.notch {
+.mark {
 	flex-basis: auto;
 }
-.notch:not(:last-child) {
+.mark:not(:last-child) {
 	border-right: solid 1px $editor-border-dark-color;
 }
-.notch:nth-child(5) {
+.mark:nth-child(5) {
 	height: 24px;
 	margin-top: -12px;
 }

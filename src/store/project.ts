@@ -16,10 +16,10 @@ declare type ByIDs = {
 };
 
 declare type ProjectState = {
-	width?: number;
-	height?: number;
-	byIds?: ByIDs;
-	ids?: IDList;
+	width: number;
+	height: number;
+	byIds: ByIDs;
+	ids: IDList;
 };
 
 declare type ProjectStateUndoable = {
@@ -34,11 +34,15 @@ declare type ProjectGetters = {
 	ids: (state: ProjectStateUndoable) => IDList | undefined;
 	byIds: (state: ProjectStateUndoable) => ByIDs | undefined;
 	structuredData: (state: ProjectStateUndoable) => ShapeObject[];
+	rulerXMarks: (state: ProjectStateUndoable) => string[];
+	rulerYMarks: (state: ProjectStateUndoable) => string[];
+	rulerSubmarks: (state: ProjectStateUndoable) => string[];
 };
 
 declare type ProjectActions = {
 	fetch: (id: string) => void;
 	getById: (id: string) => ByID | undefined;
+	updateProps: (id: string, props: any) => void;
 	undo: () => void;
 	redo: () => void;
 };
@@ -61,7 +65,16 @@ export default defineStore<string, ProjectStateUndoable, ProjectGetters, Project
 			height: (state) => state.current.height,
 			ids: (state) => state.current.ids,
 			byIds: (state) => state.current.byIds,
-			structuredData: (state) => serialize(state.current.byIds, state.current.ids)
+			structuredData: (state) => serialize(state.current.byIds, state.current.ids),
+			rulerXMarks: (state) =>
+				Array(Math.ceil(state.current.width / 100))
+					.fill('')
+					.map((_, i) => '' + i * 100),
+			rulerYMarks: (state) =>
+				Array(Math.ceil(state.current.height / 100))
+					.fill('')
+					.map((_, i) => '' + i * 100),
+			rulerSubmarks: () => Array(10).fill('')
 		},
 		actions: {
 			fetch(id) {
@@ -101,6 +114,14 @@ export default defineStore<string, ProjectStateUndoable, ProjectGetters, Project
 			},
 			getById(id) {
 				return this.byIds?.[id];
+			},
+			updateProps(id, props) {
+				if (this.byIds?.[id]) {
+					this.byIds[id] = {
+						...this.byIds[id],
+						...props
+					};
+				}
 			},
 			undo() {},
 			redo() {}

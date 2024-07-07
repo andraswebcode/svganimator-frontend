@@ -14,7 +14,6 @@ declare module 'vue' {
     LayerList: typeof import('./src/components/editor/leftsidebar/LayerList.vue')['default']
     LeftSideBar: typeof import('./src/components/editor/LeftSideBar.vue')['default']
     MainContent: typeof import('./src/components/editor/MainContent.vue')['default']
-    OptionsMenu: typeof import('./src/components/editor/OptionsMenu.vue')['default']
     PlaybackButtons: typeof import('./src/components/editor/timeline/PlaybackButtons.vue')['default']
     RightSideBar: typeof import('./src/components/editor/RightSideBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
