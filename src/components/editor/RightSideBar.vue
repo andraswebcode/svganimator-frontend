@@ -7,9 +7,16 @@ const open = ref(true);
 
 <template>
 	<QDrawer side="right" :width="256" :breakpoint="0" overlay elevated v-model="open">
-		<QBtn class="close q-dark" :icon="mdiChevronRight" square dense @click="open = false" />
+		<QBtn
+			class="close q-dark"
+			:icon="mdiChevronRight"
+			square
+			dense
+			size="sm"
+			@click="open = false"
+		/>
 	</QDrawer>
-	<QBtn class="open q-dark" :icon="mdiChevronLeft" square dense @click="open = true" />
+	<QBtn class="open q-dark" :icon="mdiChevronLeft" square dense size="sm" @click="open = true" />
 </template>
 
 <style scoped>
@@ -22,6 +29,6 @@ const open = ref(true);
 .close {
 	position: absolute;
 	top: 0;
-	left: -32px;
+	left: -23px;
 }
 </style>

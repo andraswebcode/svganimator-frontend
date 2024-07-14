@@ -12,10 +12,17 @@ const editor = useEditor();
 		<div class="q-pa-md">
 			<LayerList v-if="editor.tool === 'list'" />
 		</div>
-		<QBtn class="close q-dark" :icon="mdiChevronLeft" square dense @click="open = false" />
+		<QBtn
+			class="close q-dark"
+			:icon="mdiChevronLeft"
+			square
+			dense
+			size="sm"
+			@click="open = false"
+		/>
 		<CanvasRuler v-if="editor.showRulers" direction="y" />
 	</QDrawer>
-	<QBtn class="open q-dark" :icon="mdiChevronRight" square dense @click="open = true" />
+	<QBtn class="open q-dark" :icon="mdiChevronRight" square dense size="sm" @click="open = true" />
 </template>
 
 <style scoped>
@@ -31,7 +38,7 @@ const editor = useEditor();
 .close {
 	position: absolute;
 	top: 0;
-	right: -32px;
+	right: -23px;
 }
 .ruler {
 	position: absolute;

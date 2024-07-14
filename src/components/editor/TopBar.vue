@@ -31,38 +31,38 @@ const editor = useEditor();
 				<QMenu>
 					<QList dense>
 						<QItem>
-							<QItemSection>
-								<QIcon :name="mdiDraw" />
+							<QItemSection side>
+								<QIcon :name="mdiDraw" size="small" />
 							</QItemSection>
 							<QItemSection>Create New</QItemSection>
 						</QItem>
 						<QItem to="/dashboard">
-							<QItemSection>
-								<QIcon :name="mdiViewDashboard" />
+							<QItemSection side>
+								<QIcon :name="mdiViewDashboard" size="small" />
 							</QItemSection>
 							<QItemSection>Projects</QItemSection>
 						</QItem>
 						<QSeparator />
 						<QItem clickable>
-							<QItemSection>
-								<QIcon :name="mdiContentSave" />
+							<QItemSection side>
+								<QIcon :name="mdiContentSave" size="small" />
 							</QItemSection>
 							<QItemSection>Save</QItemSection>
 						</QItem>
 						<QItem clickable>
-							<QItemSection>
-								<QIcon :name="mdiContentSaveAll" />
+							<QItemSection side>
+								<QIcon :name="mdiContentSaveAll" size="small" />
 							</QItemSection>
 							<QItemSection>Save as..</QItemSection>
 						</QItem>
 						<QSeparator />
 						<QItem clickable>
-							<QItemSection>
-								<QIcon :name="mdiEye" />
+							<QItemSection side>
+								<QIcon :name="mdiEye" size="small" />
 							</QItemSection>
 							<QItemSection>View</QItemSection>
 							<QItemSection side>
-								<QIcon :name="mdiChevronRight" />
+								<QIcon :name="mdiChevronRight" size="small" />
 							</QItemSection>
 							<QMenu anchor="top end" self="top start">
 								<QList dense>
@@ -70,14 +70,14 @@ const editor = useEditor();
 										clickable
 										@click="editor.showRulers = !editor.showRulers"
 									>
-										<QItemSection>
-											<QIcon :name="mdiRulerSquare" />
+										<QItemSection side>
+											<QIcon :name="mdiRulerSquare" size="small" />
 										</QItemSection>
 										<QItemSection>Show Rulers</QItemSection>
 									</QItem>
 									<QItem clickable @click="editor.showGrid = !editor.showGrid">
-										<QItemSection>
-											<QIcon :name="mdiGrid" />
+										<QItemSection side>
+											<QIcon :name="mdiGrid" size="small" />
 										</QItemSection>
 										<QItemSection>Show Grid</QItemSection>
 									</QItem>
@@ -85,24 +85,24 @@ const editor = useEditor();
 							</QMenu>
 						</QItem>
 						<QItem clickable>
-							<QItemSection>
-								<QIcon :name="mdiHelp" />
+							<QItemSection side>
+								<QIcon :name="mdiHelp" size="small" />
 							</QItemSection>
 							<QItemSection>Help</QItemSection>
 							<QItemSection side>
-								<QIcon :name="mdiChevronRight" />
+								<QIcon :name="mdiChevronRight" size="small" />
 							</QItemSection>
 							<QMenu anchor="top end" self="top start">
 								<QList dense>
 									<QItem clickable>
-										<QItemSection>
-											<QIcon :name="mdiKeyboard" />
+										<QItemSection side>
+											<QIcon :name="mdiKeyboard" size="small" />
 										</QItemSection>
 										<QItemSection>Keyboard Shortcuts</QItemSection>
 									</QItem>
 									<QItem clickable>
-										<QItemSection>
-											<QIcon :name="mdiLightbulbOn" />
+										<QItemSection side>
+											<QIcon :name="mdiLightbulbOn" size="small" />
 										</QItemSection>
 										<QItemSection>Start Tour</QItemSection>
 									</QItem>

@@ -16,7 +16,7 @@ const logout = () => {
 		<QMenu>
 			<QList v-if="userData.loggedIn">
 				<QItem>
-					<QItemSection>
+					<QItemSection avatar>
 						<QAvatar color="primary">U</QAvatar>
 					</QItemSection>
 					<QItemSection>
@@ -28,32 +28,32 @@ const logout = () => {
 			<QList dense>
 				<QSeparator />
 				<QItem v-if="userData.loggedIn" to="/">
-					<QItemSection>
-						<QIcon :name="mdiDraw" />
+					<QItemSection side>
+						<QIcon :name="mdiDraw" size="small" />
 					</QItemSection>
 					<QItemSection>Editor</QItemSection>
 				</QItem>
 				<QItem v-if="userData.loggedIn" to="/dashboard">
-					<QItemSection>
-						<QIcon :name="mdiViewDashboard" />
+					<QItemSection side>
+						<QIcon :name="mdiViewDashboard" size="small" />
 					</QItemSection>
 					<QItemSection>Dashboard</QItemSection>
 				</QItem>
 				<QItem v-if="userData.loggedIn" to="/account">
-					<QItemSection>
-						<QIcon :name="mdiAccountCog" />
+					<QItemSection side>
+						<QIcon :name="mdiAccountCog" size="small" />
 					</QItemSection>
 					<QItemSection>Account</QItemSection>
 				</QItem>
 				<QItem v-if="!userData.loggedIn" to="/login">
-					<QItemSection>
-						<QIcon :name="mdiLogin" />
+					<QItemSection side>
+						<QIcon :name="mdiLogin" size="small" />
 					</QItemSection>
 					<QItemSection>Login</QItemSection>
 				</QItem>
 				<QItem v-if="userData.loggedIn" clickable @click="logout">
-					<QItemSection>
-						<QIcon :name="mdiLogout" />
+					<QItemSection side>
+						<QIcon :name="mdiLogout" size="small" />
 					</QItemSection>
 					<QItemSection>Logout</QItemSection>
 				</QItem>

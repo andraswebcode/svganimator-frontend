@@ -14,16 +14,14 @@ const {
 	(canvas) => {
 		const vpt = canvas.get('viewportMatrix');
 		const { x, y } = canvas.getDrawingAreaPosition().transform(vpt);
-		const size = { x: 0, y: 0 }; //canvas.getDrawingAreaSize().transform(vpt);
+		const size = canvas.getDrawingAreaSize().multiplyScalar(canvas.zoom);
 		return { left: x, top: y, width: size.x, height: size.y };
 	},
 	null,
 	'set'
 );
-const style = computed(() => {
-	console.log(left);
-
-	return isX
+const style = computed(() =>
+	isX
 		? {
 				left: left.value + 'px',
 				width: width.value + 'px'
@@ -31,8 +29,8 @@ const style = computed(() => {
 		: {
 				top: top.value + 'px',
 				height: height.value + 'px'
-		  };
-});
+		  }
+);
 </script>
 
 <template>
@@ -40,7 +38,7 @@ const style = computed(() => {
 		<div class="ruler__inner no-wrap" :class="isX ? 'row' : 'column'" :style="style">
 			<div v-for="mark in project[isX ? 'rulerXMarks' : 'rulerYMarks']" class="col mark">
 				<span class="number">{{ mark }}</span>
-				<div class="no-wrap" :class="isX ? 'row' : 'column'">
+				<div class="no-wrap submarks" :class="isX ? 'row' : 'column'">
 					<div class="col submark" v-for="_submark in project.rulerSubmarks" />
 				</div>
 			</div>
@@ -60,21 +58,73 @@ const style = computed(() => {
 		.submark {
 			border-left: solid 1px $editor-border-dark-color;
 		}
+		.submarks {
+			align-items: flex-end;
+			width: 100%;
+			height: 50%;
+			left: 0;
+			bottom: 0;
+		}
+		.submark {
+			height: 50%;
+		}
+		.mark:last-child {
+			border-right: solid 1px $editor-border-dark-color;
+		}
+		.submark:first-child {
+			border-left: none;
+		}
+		.submark:nth-child(6) {
+			height: 100%;
+		}
 	}
 	&__y {
 		width: 24px;
 		height: 100%;
+		.mark,
+		.submark {
+			border-top: solid 1px $editor-border-dark-color;
+		}
+		.submarks {
+			align-items: flex-end;
+			width: 50%;
+			height: 100%;
+			top: 0;
+			right: 0;
+		}
+		.submark {
+			width: 50%;
+		}
+		.submark:first-child {
+			border-top: none;
+		}
+		.mark:last-child {
+			border-bottom: solid 1px $editor-border-dark-color;
+		}
+		.submark:nth-child(6) {
+			width: 100%;
+		}
 	}
 	&__inner {
 		position: absolute;
 	}
 	&__x &__inner {
 		top: 0;
-		width: 100%;
+		height: 100%;
 	}
 	&__y &__inner {
 		left: 0;
-		height: 100%;
+		width: 100%;
+	}
+	.number {
+		display: inline-block;
+		font-size: 12px;
+	}
+	.mark {
+		position: relative;
+	}
+	.submarks {
+		position: absolute;
 	}
 }
 </style>

@@ -22,6 +22,15 @@ const editor = useEditor();
 				square
 				dense
 				flat
+				:icon="mdiUpload"
+				:color="editor.tool === 'uploads' ? 'primary' : undefined"
+				@click="editor.tool = 'uploads'"
+			/>
+			<QBtn
+				class="q-ma-sm"
+				square
+				dense
+				flat
 				:icon="mdiShape"
 				:color="editor.tool === 'shapes' ? 'primary' : undefined"
 				@click="editor.tool = 'shapes'"
@@ -34,15 +43,6 @@ const editor = useEditor();
 				:icon="mdiFormatText"
 				:color="editor.tool === 'text' ? 'primary' : undefined"
 				@click="editor.tool = 'text'"
-			/>
-			<QBtn
-				class="q-ma-sm"
-				square
-				dense
-				flat
-				:icon="mdiUpload"
-				:color="editor.tool === 'uploads' ? 'primary' : undefined"
-				@click="editor.tool = 'uploads'"
 			/>
 			<QBtn
 				class="q-ma-sm"
@@ -70,5 +70,8 @@ const editor = useEditor();
 <style scoped lang="scss">
 :deep(.q-drawer) {
 	z-index: $z-fixed-drawer + 1;
+}
+:deep(.scroll) {
+	overflow: hidden;
 }
 </style>
