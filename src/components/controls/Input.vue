@@ -6,6 +6,7 @@ const props = withDefaults(
 	defineProps<{
 		label: string;
 		type?: 'text' | 'number';
+		animatable: boolean;
 	}>(),
 	{
 		type: 'number'
@@ -18,6 +19,7 @@ const emit = defineEmits(['animate']);
 	<QInput :type="props.type" dense stack-label :label="props.label" v-model="model">
 		<template v-slot:append>
 			<QIcon
+				v-if="props.animatable"
 				:name="mdiCardsDiamond"
 				size="xs"
 				@click="emit('animate', model)"

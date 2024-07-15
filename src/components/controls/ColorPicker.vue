@@ -5,6 +5,7 @@ import { ref } from 'vue';
 const model = defineModel();
 const props = defineProps<{
 	label: string;
+	animatable: boolean;
 }>();
 const emit = defineEmits(['animate']);
 const type = ref('color');
@@ -41,6 +42,7 @@ const type = ref('color');
 		</template>
 		<template v-slot:append>
 			<QIcon
+				v-if="props.animatable"
 				:name="mdiCardsDiamond"
 				class="cursor-pointer"
 				title="Animate"

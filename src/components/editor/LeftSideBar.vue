@@ -16,6 +16,8 @@ const editor = useEditor();
 	>
 		<div class="q-pa-md">
 			<LayerList v-if="editor.tool === 'list'" />
+			<FileUploader v-else-if="editor.tool === 'uploads'" />
+			<ProjectSettings v-else-if="editor.tool === 'settings'" />
 		</div>
 		<QBtn
 			class="close q-dark"

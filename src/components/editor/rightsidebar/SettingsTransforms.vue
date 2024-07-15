@@ -2,17 +2,17 @@
 
 <template>
 	<InputGroup label="Translate">
-		<Input label="left" />
-		<Input label="top" />
+		<Input label="left" animatable />
+		<Input label="top" animatable />
 	</InputGroup>
 	<InputGroup label="Scale">
-		<Input label="x" />
-		<Input label="y" />
+		<Input label="x" animatable />
+		<Input label="y" animatable />
 	</InputGroup>
-	<Input label="Rotate" />
+	<Input label="Rotate" animatable />
 	<InputGroup label="Skew">
-		<Input label="x" />
-		<Input label="y" />
+		<Input label="x" animatable />
+		<Input label="y" animatable />
 	</InputGroup>
 </template>
 
