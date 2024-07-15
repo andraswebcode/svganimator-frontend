@@ -1,0 +1,31 @@
+<script setup lang="ts">
+import { mdiCardsDiamond } from '@mdi/js';
+
+const model = defineModel();
+const props = withDefaults(
+	defineProps<{
+		label: string;
+		type?: 'text' | 'number';
+	}>(),
+	{
+		type: 'number'
+	}
+);
+const emit = defineEmits(['animate']);
+</script>
+
+<template>
+	<QInput :type="props.type" dense stack-label :label="props.label" v-model="model">
+		<template v-slot:append>
+			<QIcon
+				:name="mdiCardsDiamond"
+				size="xs"
+				@click="emit('animate', model)"
+				class="cursor-pointer"
+				title="Animate"
+			/>
+		</template>
+	</QInput>
+</template>
+
+<style scoped></style>

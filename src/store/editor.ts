@@ -7,6 +7,8 @@ declare type EditorState = {
 	tool: Tool;
 	showRulers: boolean;
 	showGrid: boolean;
+	showRightSideBar: boolean;
+	showLeftSideBar: boolean;
 	timelineHeight: number;
 	// Canvas
 	mode: Mode;
@@ -38,6 +40,8 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 		tool: 'list',
 		showRulers: true,
 		showGrid: false,
+		showRightSideBar: true,
+		showLeftSideBar: true,
 		timelineHeight: 300,
 		// Canvas
 		mode: 'select',
@@ -71,9 +75,9 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 	actions: {
 		selectLayer(id) {
 			if (this.activeLayerIds.includes(id)) {
-				this.activeLayerIds = this.activeLayerIds.filter((_id) => id !== _id);
+				this.activeLayerIds = [];
 			} else {
-				this.activeLayerIds = this.activeLayerIds.concat([id]);
+				this.activeLayerIds = [id];
 			}
 		}
 	}

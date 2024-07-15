@@ -7,6 +7,15 @@ type UserData = {
 	token?: string;
 };
 
+type UserState = {
+	user: UserData;
+};
+
+type UserGetters = {
+	loggedIn: (state: UserState) => boolean;
+	bearerToken: (state: UserState) => string;
+};
+
 let user: UserData = {};
 
 try {
@@ -15,7 +24,7 @@ try {
 	// console.error(error);
 }
 
-export default defineStore<string, { user: UserData }>('user', {
+export default defineStore<string, UserState, UserGetters>('user', {
 	state: () => ({ user }),
 	getters: {
 		loggedIn: ({ user: { id, token } }) => !!(id && token),

@@ -1,14 +1,19 @@
 <script setup>
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
-import { ref } from 'vue';
 import { useEditor } from '../../store';
 
-const open = ref(true);
 const editor = useEditor();
 </script>
 
 <template>
-	<QDrawer side="left" :width="256" :breakpoint="0" overlay elevated v-model="open">
+	<QDrawer
+		side="left"
+		:width="256"
+		:breakpoint="0"
+		overlay
+		elevated
+		v-model="editor.showLeftSideBar"
+	>
 		<div class="q-pa-md">
 			<LayerList v-if="editor.tool === 'list'" />
 		</div>
@@ -18,11 +23,18 @@ const editor = useEditor();
 			square
 			dense
 			size="sm"
-			@click="open = false"
+			@click="editor.showLeftSideBar = false"
 		/>
 		<CanvasRuler v-if="editor.showRulers" direction="y" />
 	</QDrawer>
-	<QBtn class="open q-dark" :icon="mdiChevronRight" square dense size="sm" @click="open = true" />
+	<QBtn
+		class="open q-dark"
+		:icon="mdiChevronRight"
+		square
+		dense
+		size="sm"
+		@click="editor.showLeftSideBar = true"
+	/>
 </template>
 
 <style scoped>

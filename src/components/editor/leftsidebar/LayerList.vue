@@ -1,34 +1,43 @@
 <script setup>
 import { computed, ref } from 'vue';
-import { useProject } from '../../../store';
+import { useEditor, useProject } from '../../../store';
 import {
 	mdiArtboard,
 	mdiCircleOutline,
 	mdiClose,
+	mdiFolderOpenOutline,
+	mdiFolderOutline,
 	mdiFormatText,
-	mdiGroup,
 	mdiHeartOutline,
 	mdiRectangleOutline,
 	mdiStarOutline
 } from '@mdi/js';
 
 const project = useProject();
+const editor = useEditor();
 const iconMap = {
-	g: mdiGroup,
+	g: mdiFolderOutline,
 	rect: mdiRectangleOutline,
 	circle: mdiCircleOutline,
 	path: mdiHeartOutline,
 	polygon: mdiStarOutline,
 	text: mdiFormatText
 };
+const expanded = ref(['canvas']);
 const items = computed(() => {
-	const mapRecursve = ({ id, name, tagName, children }) => ({
-		id,
-		label: name || tagName,
-		icon: iconMap[tagName],
-		handler: console.log,
-		children: children?.map(mapRecursve)
-	});
+	const mapRecursve = ({ id, name, tagName, children }) => {
+		let icon = iconMap[tagName];
+		if (expanded.value.includes(id)) {
+			icon = mdiFolderOpenOutline;
+		}
+		return {
+			id,
+			label: name || tagName,
+			icon,
+			selected: editor.activeLayerIds.includes(id),
+			children: children?.map(mapRecursve)
+		};
+	};
 	return [
 		{
 			id: 'canvas',
@@ -38,7 +47,6 @@ const items = computed(() => {
 		}
 	];
 });
-const expanded = ref(['canvas']);
 const filterRef = ref(null);
 const filter = ref('');
 const resetFilter = () => {
@@ -70,7 +78,18 @@ const resetFilter = () => {
 		no-results-label="No matching layers found."
 		node-key="id"
 		v-model:expanded="expanded"
-	/>
+	>
+		<template v-slot:default-header="prop">
+			<QIcon
+				:name="prop.node.icon"
+				size="xs"
+				class="q-mr-sm"
+				:class="{ 'text-primary': prop.node.selected }"
+				@click="editor.selectLayer(prop.node.id)"
+			/>
+			<div :class="{ 'text-primary': prop.node.selected }">{{ prop.node.label }}</div>
+		</template></QTree
+	>
 </template>
 
 <style scoped></style>

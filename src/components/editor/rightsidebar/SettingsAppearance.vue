@@ -1,9 +1,8 @@
 <script setup></script>
 
 <template>
-	<AppBar />
-	<DashboardSideBar />
-	<DashboardContent />
+	<ColorPicker label="Fill" />
+	<ColorPicker label="Stroke" />
 </template>
 
 <style scoped></style>

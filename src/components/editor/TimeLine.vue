@@ -69,6 +69,7 @@ onBeforeMount(() => {
 		right: 0%;
 		left: 0%;
 		cursor: ns-resize;
+		z-index: 2;
 	}
 }
 </style>

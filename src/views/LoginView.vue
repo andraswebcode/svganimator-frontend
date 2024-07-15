@@ -21,7 +21,7 @@ const login = () => {
 		.then(({ data }) => {
 			userData.user = data.user;
 			localStorage.setItem('userData', JSON.stringify(userData.user));
-			router.push('/');
+			router.push('/dashboard');
 		})
 		.catch((error) => {
 			console.log(error);

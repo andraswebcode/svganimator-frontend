@@ -1,22 +1,41 @@
 <script setup>
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
-import { ref } from 'vue';
+import { useEditor } from '../../store';
 
-const open = ref(true);
+const editor = useEditor();
 </script>
 
 <template>
-	<QDrawer side="right" :width="256" :breakpoint="0" overlay elevated v-model="open">
+	<QDrawer
+		side="right"
+		:width="256"
+		:breakpoint="0"
+		overlay
+		elevated
+		v-model="editor.showRightSideBar"
+	>
+		<div class="q-pa-md">
+			<PropertySettings v-if="editor.activeLayerIds.length" />
+		</div>
 		<QBtn
 			class="close q-dark"
 			:icon="mdiChevronRight"
 			square
 			dense
 			size="sm"
-			@click="open = false"
+			@click="editor.showRightSideBar = false"
 		/>
+		<FitZoom position="absolute" />
 	</QDrawer>
-	<QBtn class="open q-dark" :icon="mdiChevronLeft" square dense size="sm" @click="open = true" />
+	<QBtn
+		class="open q-dark"
+		:icon="mdiChevronLeft"
+		square
+		dense
+		size="sm"
+		@click="editor.showRightSideBar = true"
+	/>
+	<FitZoom position="fixed" />
 </template>
 
 <style scoped>

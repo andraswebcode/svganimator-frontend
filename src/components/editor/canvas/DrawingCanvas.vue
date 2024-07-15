@@ -4,6 +4,17 @@ import { useEditor, useProject } from '../../../store';
 import { onMounted, onUnmounted } from 'vue';
 const project = useProject();
 const editor = useEditor();
+const canvasChanged = (_props, canvas) => {
+	const { zoom, panX, panY } = canvas;
+	editor.$patch({
+		zoom,
+		panX,
+		panY
+	});
+};
+const selectShapes = (shapes) => {
+	editor.activeLayerIds = shapes.filter((shape) => !!shape).map((shape) => shape.id);
+};
 </script>
 
 <template>
@@ -15,11 +26,12 @@ const editor = useEditor();
 			:panX="editor.panX"
 			:panY="editor.panY"
 			:mode="editor.mode"
+			@change="canvasChanged"
 		>
 			<template v-slot:defs>
 				<Defs />
 			</template>
-			<ShapeTree :json="project.structuredData" />
+			<ShapeTree @select="selectShapes" />
 		</Canvas>
 		<Interactive />
 	</Wrapper>

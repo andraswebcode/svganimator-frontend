@@ -87,12 +87,12 @@ export default defineStore<string, ProjectStateUndoable, ProjectGetters, Project
 				const userData = useUser();
 				const { send } = useNotice();
 				const { show, hide } = useLoader();
-				const { token } = userData.user;
+				const { bearerToken } = userData;
 
 				show('Project is loading. This might take a while...');
 
 				axios
-					.get('projects/' + _id, { headers: { Authorization: 'Bearer ' + token } })
+					.get('projects/' + _id, { headers: { Authorization: bearerToken } })
 					.then((response) => {
 						const {
 							data: {

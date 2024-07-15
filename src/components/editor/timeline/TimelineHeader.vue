@@ -2,6 +2,7 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { useEditor } from '../../../store';
 import { clamp, toFixed } from '../../../utils/functions';
+import { mdiChartBellCurveCumulative, mdiTransition } from '@mdi/js';
 
 const editor = useEditor();
 const isMoving = ref(false);
@@ -41,7 +42,24 @@ onBeforeUnmount(() => {
 
 <template>
 	<div class="row header">
-		<div class="col settings"></div>
+		<div class="col row justify-end items-center q-px-md settings">
+			<QBtn
+				title="Animation Presets"
+				:icon="mdiTransition"
+				class="q-mx-xs"
+				dense
+				flat
+				size="sm"
+			/>
+			<QBtn
+				title="Easing"
+				:icon="mdiChartBellCurveCumulative"
+				class="q-mx-xs"
+				dense
+				flat
+				size="sm"
+			/>
+		</div>
 		<div class="col timetrack" @mousedown.prevent="startMove">
 			<TimeTrack />
 			<div class="playhead" :style="{ left: editor.playheadPosition }" />
