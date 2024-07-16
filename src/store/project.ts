@@ -6,14 +6,19 @@ import { parse, serialize } from '../utils/project';
 import { useLoader, useNotice } from '../hooks';
 import { UndoRedoActions } from '../plugins/undo-redo';
 
-declare type IDList = string[];
+export type IDList = string[];
 
-declare interface ByID extends ShapeObject {
+export interface ByID extends ShapeObject {
+	parent: string;
 	children: IDList;
 }
 
-declare type ByIDs = {
+export type ByIDs = {
 	[key: string]: ByID;
+};
+
+export type ChangedProps = {
+	[key: string]: Partial<ByID>;
 };
 
 export interface ProjectState {
@@ -21,6 +26,7 @@ export interface ProjectState {
 	height: number;
 	byIds: ByIDs;
 	ids: IDList;
+	changedProps: ChangedProps;
 }
 
 export type ProjectGetters = {
@@ -32,7 +38,10 @@ export type ProjectGetters = {
 
 export interface ProjectActions extends UndoRedoActions {
 	fetch: (id: string) => void;
+	addLayer: (layer: ByID, parent?: string) => void;
+	removeLayer: (id: string) => void;
 	getById: (id: string) => ByID | undefined;
+	getProp: (id: string, prop: string) => any;
 	updateProps: (id: string, props: any) => void;
 }
 
@@ -41,7 +50,8 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 		width: 400,
 		height: 400,
 		ids: [],
-		byIds: {}
+		byIds: {},
+		changedProps: {}
 	}),
 	getters: {
 		structuredData: (state) => serialize(state.byIds, state.ids),
@@ -81,10 +91,12 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 					} = response;
 
 					const { ids, byIds } = parse(layers);
-					this.width = width;
-					this.height = height;
-					this.ids = ids;
-					this.byIds = byIds;
+					this.$patch({
+						width,
+						height,
+						ids,
+						byIds
+					});
 					hide();
 				})
 				.catch((error) => {
@@ -92,8 +104,23 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 					hide();
 				});
 		},
+		addLayer(layer, parent) {
+			const { id } = layer;
+			if (!parent) {
+				this.ids.push(id);
+				this.byIds[id] = layer;
+			} else {
+				//
+			}
+		},
+		removeLayer(id) {},
 		getById(id) {
 			return this.byIds?.[id];
+		},
+		getProp(id, prop) {
+			if (this.byIds[id]) {
+				return this.byIds[id][prop];
+			}
 		},
 		updateProps(id, props) {
 			if (this.byIds?.[id]) {
@@ -101,6 +128,7 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 					...this.byIds[id],
 					...props
 				};
+				this.changedProps[id] = props;
 			}
 		},
 		undo() {},

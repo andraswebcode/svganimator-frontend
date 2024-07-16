@@ -15,6 +15,12 @@ const canvasChanged = (_props, canvas) => {
 const selectShapes = (shapes) => {
 	editor.activeLayerIds = shapes.map((shape) => shape?.id).filter((id) => !!id);
 };
+const updateShape = (props, shape) => {
+	project.updateProps(shape.id, props);
+};
+const drawShape = (shape) => {
+	project.addLayer(shape.toJSON());
+};
 </script>
 
 <template>
@@ -31,7 +37,7 @@ const selectShapes = (shapes) => {
 			<template v-slot:defs>
 				<Defs />
 			</template>
-			<ShapeTree @select="selectShapes" />
+			<ShapeTree @select="selectShapes" @update="updateShape" @drawn="drawShape" />
 		</Canvas>
 		<Interactive />
 	</Wrapper>

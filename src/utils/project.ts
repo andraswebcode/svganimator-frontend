@@ -1,12 +1,17 @@
-const _parseLayers = (layers: any[], idsRef: string[], byIdsRef: any) => {
+import { IDList } from '../store/project';
+
+const _parseLayers = (layers: any[], idsRef: string[], byIdsRef: any, parentId?: string) => {
 	layers.forEach((layer) => {
-		idsRef.push(layer.id);
-		byIdsRef[layer.id] = layer;
+		if (parentId) {
+			layer.parent = parentId;
+		}
 		if (layer.children) {
-			const children: string[] = [];
-			_parseLayers(layer.children, children, byIdsRef);
+			const children: IDList = [];
+			_parseLayers(layer.children, children, byIdsRef, layer.id);
 			layer.children = children;
 		}
+		idsRef.push(layer.id);
+		byIdsRef[layer.id] = layer;
 	});
 };
 

@@ -146,8 +146,24 @@ const project = useProject();
 			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiGroup" disable />
 			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiUngroup" disable />
 			<QSpace />
-			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiUndo" @click="project.undo()" />
-			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiRedo" @click="project.redo()" />
+			<QBtn
+				class="q-mx-sm"
+				size="sm"
+				round
+				flat
+				:icon="mdiUndo"
+				:disable="!project.canUndo()"
+				@click="project.undo()"
+			/>
+			<QBtn
+				class="q-mx-sm"
+				size="sm"
+				round
+				flat
+				:icon="mdiRedo"
+				:disable="!project.canUndo()"
+				@click="project.redo()"
+			/>
 			<QSpace />
 			<QBtn class="q-mx-sm" size="sm" color="primary">Save</QBtn>
 			<UserMenu />
