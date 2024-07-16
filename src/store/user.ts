@@ -7,11 +7,11 @@ type UserData = {
 	token?: string;
 };
 
-type UserState = {
+export interface UserState {
 	user: UserData;
-};
+}
 
-type UserGetters = {
+export type UserGetters = {
 	loggedIn: (state: UserState) => boolean;
 	bearerToken: (state: UserState) => string;
 };

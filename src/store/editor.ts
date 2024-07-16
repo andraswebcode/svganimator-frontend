@@ -2,7 +2,8 @@ import { defineStore } from 'pinia';
 
 declare type Tool = 'list' | 'shapes' | 'text' | 'uploads' | 'images' | 'settings';
 declare type Mode = 'select' | 'draw' | 'pan';
-declare type EditorState = {
+
+export interface EditorState {
 	// UI
 	tool: Tool;
 	showRulers: boolean;
@@ -21,18 +22,18 @@ declare type EditorState = {
 	time: number;
 	seconds: number;
 	secondWidth: number;
-};
+}
 
-declare type EditorGetters = {
+export type EditorGetters = {
 	formatTime: (state: EditorState) => string;
 	secondList: (state: EditorState) => string[];
 	secondMarkList: (state: EditorState) => string[];
 	playheadPosition: (state: EditorState) => string;
 };
 
-declare type EditorActions = {
+export interface EditorActions {
 	selectLayer: (id: string) => void;
-};
+}
 
 export default defineStore<string, EditorState, EditorGetters, EditorActions>('editor', {
 	state: () => ({

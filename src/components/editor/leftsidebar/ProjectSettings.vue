@@ -7,8 +7,8 @@ const project = useProject();
 <template>
 	<Input type="text" label="Project Name" />
 	<InputGroup>
-		<Input label="Canvas Width" v-model="project.current.width" />
-		<Input label="Canvas Height" v-model="project.current.height" />
+		<Input label="Canvas Width" v-model="project.width" />
+		<Input label="Canvas Height" v-model="project.height" />
 	</InputGroup>
 </template>
 

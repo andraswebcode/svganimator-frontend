@@ -20,8 +20,10 @@ import {
 	mdiUngroup,
 	mdiViewDashboard
 } from '@mdi/js';
-import { useEditor } from '../../store';
+import { useEditor, useProject } from '../../store';
+
 const editor = useEditor();
+const project = useProject();
 </script>
 
 <template>
@@ -144,8 +146,8 @@ const editor = useEditor();
 			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiGroup" disable />
 			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiUngroup" disable />
 			<QSpace />
-			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiUndo" />
-			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiRedo" />
+			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiUndo" @click="project.undo()" />
+			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiRedo" @click="project.redo()" />
 			<QSpace />
 			<QBtn class="q-mx-sm" size="sm" color="primary">Save</QBtn>
 			<UserMenu />

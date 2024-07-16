@@ -4,6 +4,7 @@ import axios from '../axios';
 import { useUser } from '.';
 import { parse, serialize } from '../utils/project';
 import { useLoader, useNotice } from '../hooks';
+import { UndoRedoActions } from '../plugins/undo-redo';
 
 declare type IDList = string[];
 
@@ -15,116 +16,101 @@ declare type ByIDs = {
 	[key: string]: ByID;
 };
 
-declare type ProjectState = {
+export interface ProjectState {
 	width: number;
 	height: number;
 	byIds: ByIDs;
 	ids: IDList;
+}
+
+export type ProjectGetters = {
+	structuredData: (state: ProjectState) => ShapeObject[];
+	rulerXMarks: (state: ProjectState) => string[];
+	rulerYMarks: (state: ProjectState) => string[];
+	rulerSubmarks: (state: ProjectState) => string[];
 };
 
-declare type ProjectStateUndoable = {
-	current: ProjectState;
-	previous: ProjectState[];
-	next: ProjectState[];
-};
-
-declare type ProjectGetters = {
-	width: (state: ProjectStateUndoable) => number | undefined;
-	height: (state: ProjectStateUndoable) => number | undefined;
-	ids: (state: ProjectStateUndoable) => IDList | undefined;
-	byIds: (state: ProjectStateUndoable) => ByIDs | undefined;
-	structuredData: (state: ProjectStateUndoable) => ShapeObject[];
-	rulerXMarks: (state: ProjectStateUndoable) => string[];
-	rulerYMarks: (state: ProjectStateUndoable) => string[];
-	rulerSubmarks: (state: ProjectStateUndoable) => string[];
-};
-
-declare type ProjectActions = {
+export interface ProjectActions extends UndoRedoActions {
 	fetch: (id: string) => void;
 	getById: (id: string) => ByID | undefined;
 	updateProps: (id: string, props: any) => void;
-	undo: () => void;
-	redo: () => void;
-};
+}
 
-export default defineStore<string, ProjectStateUndoable, ProjectGetters, ProjectActions>(
-	'project',
-	{
-		state: () => ({
-			current: {
-				width: 400,
-				height: 400,
-				ids: [],
-				byIds: {}
-			},
-			previous: [],
-			next: []
-		}),
-		getters: {
-			width: (state) => state.current.width,
-			height: (state) => state.current.height,
-			ids: (state) => state.current.ids,
-			byIds: (state) => state.current.byIds,
-			structuredData: (state) => serialize(state.current.byIds, state.current.ids),
-			rulerXMarks: (state) =>
-				Array(Math.ceil(state.current.width / 100))
-					.fill('')
-					.map((_, i) => '' + i * 100),
-			rulerYMarks: (state) =>
-				Array(Math.ceil(state.current.height / 100))
-					.fill('')
-					.map((_, i) => '' + i * 100),
-			rulerSubmarks: () => Array(10).fill('')
+export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>('project', {
+	state: () => ({
+		width: 400,
+		height: 400,
+		ids: [],
+		byIds: {}
+	}),
+	getters: {
+		structuredData: (state) => serialize(state.byIds, state.ids),
+		rulerXMarks: (state) =>
+			Array(Math.ceil(state.width / 100))
+				.fill('')
+				.map((_, i) => '' + i * 100),
+		rulerYMarks: (state) =>
+			Array(Math.ceil(state.height / 100))
+				.fill('')
+				.map((_, i) => '' + i * 100),
+		rulerSubmarks: () => Array(10).fill('')
+	},
+	actions: {
+		fetch(id) {
+			const _id = parseInt(id);
+
+			if (!_id) {
+				this.startHistory();
+				return;
+			}
+
+			const userData = useUser();
+			const { send } = useNotice();
+			const { show, hide } = useLoader();
+			const { bearerToken } = userData;
+
+			show('Project is loading. This might take a while...');
+
+			axios
+				.get('projects/' + _id, { headers: { Authorization: bearerToken } })
+				.then((response) => {
+					const {
+						data: {
+							project: { width, height, layers }
+						}
+					} = response;
+
+					const { ids, byIds } = parse(layers);
+					this.width = width;
+					this.height = height;
+					this.ids = ids;
+					this.byIds = byIds;
+					hide();
+				})
+				.catch((error) => {
+					send(error.response?.data.message || error.message, 'negative');
+					hide();
+				});
 		},
-		actions: {
-			fetch(id) {
-				const _id = parseInt(id);
-
-				if (!_id) {
-					return;
-				}
-
-				const userData = useUser();
-				const { send } = useNotice();
-				const { show, hide } = useLoader();
-				const { bearerToken } = userData;
-
-				show('Project is loading. This might take a while...');
-
-				axios
-					.get('projects/' + _id, { headers: { Authorization: bearerToken } })
-					.then((response) => {
-						const {
-							data: {
-								project: { width, height, layers }
-							}
-						} = response;
-
-						const { ids, byIds } = parse(layers);
-						this.current.width = width;
-						this.current.height = height;
-						this.current.ids = ids;
-						this.current.byIds = byIds;
-						hide();
-					})
-					.catch((error) => {
-						send(error.response?.data.message || error.message, 'negative');
-						hide();
-					});
-			},
-			getById(id) {
-				return this.byIds?.[id];
-			},
-			updateProps(id, props) {
-				if (this.byIds?.[id]) {
-					this.byIds[id] = {
-						...this.byIds[id],
-						...props
-					};
-				}
-			},
-			undo() {},
-			redo() {}
-		}
+		getById(id) {
+			return this.byIds?.[id];
+		},
+		updateProps(id, props) {
+			if (this.byIds?.[id]) {
+				this.byIds[id] = {
+					...this.byIds[id],
+					...props
+				};
+			}
+		},
+		undo() {},
+		redo() {},
+		canUndo() {
+			return false;
+		},
+		canRedo() {
+			return false;
+		},
+		startHistory() {}
 	}
-);
+});

@@ -16,7 +16,10 @@ const editor = useEditor();
 	>
 		<div class="q-pa-md">
 			<LayerList v-if="editor.tool === 'list'" />
+			<ShapeLibrary v-else-if="editor.tool === 'shapes'" />
+			<TextCreator v-else-if="editor.tool === 'text'" />
 			<FileUploader v-else-if="editor.tool === 'uploads'" />
+			<ImageLibrary v-else-if="editor.tool === 'images'" />
 			<ProjectSettings v-else-if="editor.tool === 'settings'" />
 		</div>
 		<QBtn

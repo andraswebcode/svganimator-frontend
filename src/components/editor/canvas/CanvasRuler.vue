@@ -14,7 +14,14 @@ const {
 	(canvas) => {
 		const vpt = canvas.get('viewportMatrix');
 		const { x, y } = canvas.getDrawingAreaPosition().transform(vpt);
-		const size = canvas.getDrawingAreaSize().multiplyScalar(canvas.zoom);
+		const size = canvas
+			.getDrawingAreaSize()
+			// Ceil to the nerest 100.
+			.divideScalar(100)
+			.ceil()
+			.multiplyScalar(100)
+			.multiplyScalar(canvas.zoom);
+
 		return { left: x, top: y, width: size.x, height: size.y };
 	},
 	null,

@@ -1,17 +1,25 @@
 <script setup lang="ts">
+import { toFixed } from '@grafikjs/core';
 import { mdiCardsDiamond } from '@mdi/js';
 
-const model = defineModel();
 const props = withDefaults(
 	defineProps<{
 		label: string;
 		type?: 'text' | 'number';
-		animatable: boolean;
+		animatable?: boolean;
 	}>(),
 	{
 		type: 'number'
 	}
 );
+const model = defineModel({
+	set: (value) => {
+		if (props.type === 'number') {
+			return toFixed(value);
+		}
+		return value;
+	}
+});
 const emit = defineEmits(['animate']);
 </script>
 

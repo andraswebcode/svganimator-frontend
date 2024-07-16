@@ -13,7 +13,7 @@ const canvasChanged = (_props, canvas) => {
 	});
 };
 const selectShapes = (shapes) => {
-	editor.activeLayerIds = shapes.filter((shape) => !!shape).map((shape) => shape.id);
+	editor.activeLayerIds = shapes.map((shape) => shape?.id).filter((id) => !!id);
 };
 </script>
 
