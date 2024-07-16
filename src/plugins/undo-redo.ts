@@ -48,7 +48,6 @@ export default ({
 				_undoStack.value.push({ ...store.$state } as ProjectState);
 				_redoStack.value = [];
 			}
-			console.log(_undoStack, _redoStack);
 		});
 	};
 

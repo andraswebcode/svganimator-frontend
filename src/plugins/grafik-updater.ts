@@ -4,12 +4,11 @@ import { PiniaPluginContext } from 'pinia';
 
 export default ({ store }: PiniaPluginContext) => {
 	const {
-		actions: { byId, select, release },
+		actions: { byId, select },
 		context
 	} = useCanvas(null, (canvas) => ({
 		byId: canvas.childByIdDeep.bind(canvas),
-		select: canvas.selectShapes.bind(canvas),
-		release: canvas.releaseShapes.bind(canvas)
+		select: canvas.setSelectedShapes.bind(canvas)
 	}));
 	const importer = new JSONImporter(context);
 	let loaded = false;
@@ -29,7 +28,6 @@ export default ({ store }: PiniaPluginContext) => {
 				}
 			});
 		} else if (store.$id === 'editor') {
-			// release();
 			select(
 				store.activeLayerIds.map((id) => byId(id)),
 				true
