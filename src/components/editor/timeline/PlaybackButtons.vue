@@ -22,6 +22,9 @@ const toggleTimeline = () => {
 		200 /** this is the css transition-duration */
 	);
 };
+const play = () => {
+	editor.playing = !editor.playing;
+};
 const goToStart = () => {
 	editor.time = 0;
 };
@@ -42,7 +45,7 @@ const goToEnd = () => {
 				<QChip>{{ editor.formatTime }}</QChip>
 			</QBtn>
 			<QBtn size="sm" :icon="mdiSkipPrevious" @click="goToStart" />
-			<QBtn size="sm" :icon="mdiPlay" />
+			<QBtn size="sm" :icon="editor.playing ? mdiPause : mdiPlay" @click="play" />
 			<QBtn size="sm" :icon="mdiSkipNext" @click="goToEnd" />
 			<QBtn size="sm" :icon="mdiInfinity" />
 		</QBtnGroup>

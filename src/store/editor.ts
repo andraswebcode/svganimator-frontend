@@ -25,6 +25,7 @@ export interface EditorState {
 	time: number;
 	seconds: number;
 	secondWidth: number;
+	playing: boolean;
 	// Dialogs
 	exportDialog: boolean;
 }
@@ -63,6 +64,7 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 		time: 0,
 		seconds: 30,
 		secondWidth: 200,
+		playing: false,
 		// Dialogs
 		exportDialog: false
 	}),

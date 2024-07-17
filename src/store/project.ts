@@ -44,6 +44,7 @@ export type ProjectGetters = {
 
 export interface ProjectActions extends UndoRedoActions {
 	fetch: (id: string) => void;
+	save: () => void;
 	addLayer: (layer: ByID, parent?: string) => void;
 	removeLayer: (id: string) => void;
 	getById: (id: string) => ByID | undefined;
@@ -119,6 +120,9 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 					hide();
 				});
 		},
+		save() {
+			console.log(this.structuredData);
+		},
 		addLayer(layer, parent) {
 			const { id } = layer;
 			if (!parent) {
@@ -155,8 +159,8 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 			}
 		},
 		animate(id, prop, value, time) {
-			console.log(id, prop, value, time);
 			const byId = this.byIds[id];
+			const timeMs = time * 1000;
 			if (byId) {
 				if (!byId.animation) {
 					byId.animation = {
@@ -172,10 +176,10 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 					};
 					byId.animation.tracks.push(track);
 				}
-				let keyframe = track.keyframes.find((kf) => kf.to === time);
+				let keyframe = track.keyframes.find((kf) => kf.to === timeMs);
 				if (!keyframe) {
 					keyframe = {
-						to: time,
+						to: timeMs,
 						value
 					};
 					track.keyframes.push(keyframe);

@@ -12,6 +12,13 @@ const canvasChanged = (_props, canvas) => {
 		panY
 	});
 };
+const animateCanvas = (timeline) => {
+	const { playing, time } = timeline;
+	editor.playing = playing;
+	if (playing) {
+		editor.time = time / 1000;
+	}
+};
 const selectShapes = (shapes) => {
 	editor.activeLayerIds = shapes.map((shape) => shape?.id).filter((id) => !!id);
 };
@@ -35,6 +42,7 @@ const drawShape = (shape) => {
 			:penWidth="editor.penWidth"
 			:penColor="editor.penColor"
 			@change="canvasChanged"
+			@animate="animateCanvas"
 		>
 			<template v-slot:defs>
 				<Defs />
