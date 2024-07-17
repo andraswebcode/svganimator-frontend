@@ -11,8 +11,8 @@
 	</InputGroup>
 	<Input label="Rotate" animatable property="angle" />
 	<InputGroup label="Skew">
-		<Input label="x" animatable />
-		<Input label="y" animatable />
+		<Input label="x" animatable property="skewX" />
+		<Input label="y" animatable property="skewY" />
 	</InputGroup>
 </template>
 

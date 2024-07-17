@@ -1,32 +1,16 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useEditor, useProject } from '../../../store';
-import {
-	mdiArtboard,
-	mdiCircleOutline,
-	mdiClose,
-	mdiFolderOpenOutline,
-	mdiFolderOutline,
-	mdiFormatText,
-	mdiHeartOutline,
-	mdiRectangleOutline,
-	mdiStarOutline
-} from '@mdi/js';
+import { SHAPE_ICON_MAP } from '../../../utils/constants';
+import { mdiArtboard, mdiClose, mdiFolderOpenOutline } from '@mdi/js';
 
 const project = useProject();
 const editor = useEditor();
-const iconMap = {
-	g: mdiFolderOutline,
-	rect: mdiRectangleOutline,
-	circle: mdiCircleOutline,
-	path: mdiHeartOutline,
-	polygon: mdiStarOutline,
-	text: mdiFormatText
-};
+
 const expanded = ref(['canvas']);
 const items = computed(() => {
 	const mapRecursve = ({ id, name, tagName, children }) => {
-		let icon = iconMap[tagName];
+		let icon = SHAPE_ICON_MAP[tagName];
 		if (expanded.value.includes(id)) {
 			icon = mdiFolderOpenOutline;
 		}
@@ -85,11 +69,11 @@ const resetFilter = () => {
 				size="xs"
 				class="q-mr-sm"
 				:class="{ 'text-primary': prop.node.selected }"
-				@click="editor.selectLayer(prop.node.id)"
+				@click.stop="editor.selectLayer(prop.node.id)"
 			/>
 			<div :class="{ 'text-primary': prop.node.selected }">{{ prop.node.label }}</div>
-		</template></QTree
-	>
+		</template>
+	</QTree>
 </template>
 
 <style scoped></style>

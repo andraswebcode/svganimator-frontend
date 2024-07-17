@@ -1,4 +1,4 @@
-import { ShapeObject } from '@grafikjs/core';
+import { ShapeObject, TrackObject } from '@grafikjs/core';
 import { defineStore } from 'pinia';
 import axios from '../axios';
 import { useUser } from '.';
@@ -21,6 +21,11 @@ export type ChangedProps = {
 	[key: string]: Partial<ByID>;
 };
 
+export type AnimationList = {
+	id: string;
+	tracks?: TrackObject[];
+};
+
 export interface ProjectState {
 	width: number;
 	height: number;
@@ -31,6 +36,7 @@ export interface ProjectState {
 
 export type ProjectGetters = {
 	structuredData: (state: ProjectState) => ShapeObject[];
+	animations: (state: ProjectState) => AnimationList[];
 	rulerXMarks: (state: ProjectState) => string[];
 	rulerYMarks: (state: ProjectState) => string[];
 	rulerSubmarks: (state: ProjectState) => string[];
@@ -42,7 +48,8 @@ export interface ProjectActions extends UndoRedoActions {
 	removeLayer: (id: string) => void;
 	getById: (id: string) => ByID | undefined;
 	getProp: (id: string, prop: string) => any;
-	updateProps: (id: string, props: any) => void;
+	updateProps: (id: string | ChangedProps, props?: Partial<ByID>) => void;
+	animate: (id: string, prop: string, value: any, time: number) => void;
 }
 
 export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>('project', {
@@ -55,6 +62,13 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 	}),
 	getters: {
 		structuredData: (state) => serialize(state.byIds, state.ids),
+		animations: (state) =>
+			state.ids
+				.map((id) => ({
+					id,
+					tracks: state.byIds[id]?.animation?.tracks
+				}))
+				.filter((item) => !!item.tracks),
 		rulerXMarks: (state) =>
 			Array(Math.ceil(state.width / 100))
 				.fill('')
@@ -98,6 +112,7 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 						byIds
 					});
 					hide();
+					this.startHistory();
 				})
 				.catch((error) => {
 					send(error.response?.data.message || error.message, 'negative');
@@ -113,7 +128,9 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 				//
 			}
 		},
-		removeLayer(id) {},
+		removeLayer(id) {
+			console.log(id);
+		},
 		getById(id) {
 			return this.byIds?.[id];
 		},
@@ -123,12 +140,48 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 			}
 		},
 		updateProps(id, props) {
-			if (this.byIds?.[id]) {
-				this.byIds[id] = {
-					...this.byIds[id],
-					...props
-				};
-				this.changedProps[id] = props;
+			if (typeof id === 'string') {
+				if (this.byIds[id] && props) {
+					this.byIds[id] = {
+						...this.byIds[id],
+						...props
+					};
+					this.changedProps[id] = props;
+				}
+			} else {
+				for (let _id in id) {
+					this.updateProps(_id, id[_id]);
+				}
+			}
+		},
+		animate(id, prop, value, time) {
+			console.log(id, prop, value, time);
+			const byId = this.byIds[id];
+			if (byId) {
+				if (!byId.animation) {
+					byId.animation = {
+						tracks: []
+					};
+				}
+				let track = byId.animation.tracks.find((track) => track.property === prop);
+				if (!track) {
+					track = {
+						property: prop,
+						originalValue: value,
+						keyframes: []
+					};
+					byId.animation.tracks.push(track);
+				}
+				let keyframe = track.keyframes.find((kf) => kf.to === time);
+				if (!keyframe) {
+					keyframe = {
+						to: time,
+						value
+					};
+					track.keyframes.push(keyframe);
+				} else {
+					keyframe.value = value;
+				}
 			}
 		},
 		undo() {},

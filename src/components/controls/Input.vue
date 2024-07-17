@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import { toFixed } from '@grafikjs/core';
 import { mdiCardsDiamond } from '@mdi/js';
-import { computed } from 'vue';
 import { useEditor, useProject } from '../../store';
+import { computed } from 'vue';
 
 const editor = useEditor();
 const project = useProject();
-const id = computed(() => {
-	return editor.activeLayerIds[0];
-});
 const props = withDefaults(
 	defineProps<{
 		label: string;
@@ -20,7 +17,7 @@ const props = withDefaults(
 		type: 'number'
 	}
 );
-const model = defineModel({
+const model = defineModel<string | number>({
 	set: (value) => {
 		if (props.type === 'number') {
 			return toFixed(value);
@@ -29,22 +26,38 @@ const model = defineModel({
 	},
 	get(value) {
 		if (props.property) {
-			return project.byIds[id.value][props.property];
+			const ids = editor.activeLayerIds;
+			if (ids.length === 1) {
+				return project.byIds[ids[0]][props.property];
+			} else {
+				return '';
+			}
 		}
 		return value;
 	}
 });
-const emit = defineEmits(['animate']);
+const placeholder = computed(() => (editor.activeLayerIds.length === 1 ? '' : 'Mixed'));
 const update = (value) => {
 	if (props.type === 'number') {
 		value = toFixed(value);
 	}
 	model.value = value;
 	if (props.property) {
-		project.updateProps(id.value, {
-			[props.property]: value
-		});
+		project.updateProps(
+			editor.activeLayerIds.reduce((memo, id) => {
+				memo[id] = {
+					[props.property as string]: value
+				};
+				return memo;
+			}, {})
+		);
 	}
+};
+const animate = () => {
+	if (!props.animatable || !props.property) {
+		return;
+	}
+	project.animate(editor.activeLayerIds[0], props.property, model.value, editor.time);
 };
 </script>
 
@@ -54,6 +67,7 @@ const update = (value) => {
 		dense
 		stack-label
 		:label="props.label"
+		:placeholder="placeholder"
 		:model-value="model"
 		@update:model-value="update"
 	>
@@ -62,7 +76,7 @@ const update = (value) => {
 				v-if="props.animatable"
 				:name="mdiCardsDiamond"
 				size="xs"
-				@click="emit('animate', model)"
+				@click="animate"
 				class="cursor-pointer"
 				title="Animate"
 			/>

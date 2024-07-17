@@ -28,10 +28,7 @@ export default ({ store }: PiniaPluginContext) => {
 				}
 			});
 		} else if (store.$id === 'editor') {
-			select(
-				store.activeLayerIds.map((id) => byId(id)),
-				true
-			);
+			select(store.activeLayerIds.map((id) => byId(id)));
 		}
 	});
 };

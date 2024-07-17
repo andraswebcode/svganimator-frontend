@@ -165,6 +165,7 @@ const project = useProject();
 				@click="project.redo()"
 			/>
 			<QSpace />
+			<QBtn class="q-mx-sm" size="sm" flat @click="editor.exportDialog = true">Export</QBtn>
 			<QBtn class="q-mx-sm" size="sm" color="primary">Save</QBtn>
 			<UserMenu />
 		</QToolbar>

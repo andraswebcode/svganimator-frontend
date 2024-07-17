@@ -4,7 +4,7 @@ import { mdiAspectRatio, mdiBrushVariant, mdiStar } from '@mdi/js';
 
 <template>
 	<QList>
-		<QExpansionItem dense dense-toggle expand-separator>
+		<QExpansionItem dense dense-toggle expand-separator default-opened>
 			<template v-slot:header>
 				<QItemSection side>
 					<QIcon :name="mdiStar" size="xs" />
@@ -17,7 +17,7 @@ import { mdiAspectRatio, mdiBrushVariant, mdiStar } from '@mdi/js';
 				</QCardSection>
 			</QCard>
 		</QExpansionItem>
-		<QExpansionItem dense dense-toggle expand-separator>
+		<QExpansionItem dense dense-toggle expand-separator default-opened>
 			<template v-slot:header>
 				<QItemSection side>
 					<QIcon :name="mdiAspectRatio" size="xs" />

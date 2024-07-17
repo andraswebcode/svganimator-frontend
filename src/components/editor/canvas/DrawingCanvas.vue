@@ -32,12 +32,14 @@ const drawShape = (shape) => {
 			:panX="editor.panX"
 			:panY="editor.panY"
 			:mode="editor.mode"
+			:penWidth="editor.penWidth"
+			:penColor="editor.penColor"
 			@change="canvasChanged"
 		>
 			<template v-slot:defs>
 				<Defs />
 			</template>
-			<ShapeTree @select="selectShapes" @update="updateShape" @drawn="drawShape" />
+			<ShapeTree @select="selectShapes" @update="updateShape" @draw="drawShape" />
 		</Canvas>
 		<Interactive />
 	</Wrapper>

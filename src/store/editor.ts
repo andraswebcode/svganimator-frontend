@@ -16,12 +16,17 @@ export interface EditorState {
 	zoom: number;
 	panX: number;
 	panY: number;
+	// Pencil
+	penWidth: number;
+	penColor: string;
 	// Layers
 	activeLayerIds: string[];
 	// Times
 	time: number;
 	seconds: number;
 	secondWidth: number;
+	// Dialogs
+	exportDialog: boolean;
 }
 
 export type EditorGetters = {
@@ -49,12 +54,17 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 		zoom: 1,
 		panX: 0,
 		panY: 0,
+		// Pencil
+		penWidth: 2,
+		penColor: '#000',
 		// Layers
 		activeLayerIds: [],
 		// Times
 		time: 0,
 		seconds: 30,
-		secondWidth: 200
+		secondWidth: 200,
+		// Dialogs
+		exportDialog: false
 	}),
 	getters: {
 		formatTime: (state) => {

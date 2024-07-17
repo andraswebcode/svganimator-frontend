@@ -17,6 +17,7 @@ onMounted(() => {
 	<MainContent />
 	<RightSideBar />
 	<TimeLine />
+	<DialogList />
 </template>
 
 <style scoped></style>

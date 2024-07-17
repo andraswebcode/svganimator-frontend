@@ -16,6 +16,7 @@ const editor = useEditor();
 	>
 		<div class="q-pa-md">
 			<PropertySettings v-if="editor.activeLayerIds.length" />
+			<CanvasSettings v-else />
 		</div>
 		<QBtn
 			class="close q-dark"
