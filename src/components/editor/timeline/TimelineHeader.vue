@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useEditor } from '../../../store';
 import { clamp, toFixed } from '../../../utils/functions';
 import { mdiChartBellCurveCumulative, mdiTransition } from '@mdi/js';
@@ -7,6 +7,7 @@ import { mdiChartBellCurveCumulative, mdiTransition } from '@mdi/js';
 const editor = useEditor();
 const isMoving = ref(false);
 const wrapperLeft = ref(0);
+const playheadLeft = computed(() => editor.time * editor.secondWidth + 'px');
 
 const startMove = (event) => {
 	const { left } = event.currentTarget.getBoundingClientRect();
@@ -62,7 +63,7 @@ onBeforeUnmount(() => {
 		</div>
 		<div class="col timetrack" @mousedown.prevent="startMove">
 			<TimeTrack />
-			<div class="playhead" :style="{ left: editor.playheadPosition }" />
+			<div class="playhead" :style="{ left: playheadLeft }" />
 		</div>
 	</div>
 </template>

@@ -85,6 +85,7 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 			const _id = parseInt(id);
 
 			if (!_id) {
+				this.$reset();
 				this.startHistory();
 				return;
 			}

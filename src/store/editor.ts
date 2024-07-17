@@ -34,7 +34,6 @@ export type EditorGetters = {
 	formatTime: (state: EditorState) => string;
 	secondList: (state: EditorState) => string[];
 	secondMarkList: (state: EditorState) => string[];
-	playheadPosition: (state: EditorState) => string;
 };
 
 export interface EditorActions {
@@ -79,11 +78,7 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 			Array(state.seconds)
 				.fill('')
 				.map((_, i) => '' + i),
-		secondMarkList: () => Array(10).fill(''),
-		playheadPosition: (state) => {
-			const pos = state.time * state.secondWidth;
-			return pos + 'px';
-		}
+		secondMarkList: () => Array(10).fill('')
 	},
 	actions: {
 		selectLayer(id) {

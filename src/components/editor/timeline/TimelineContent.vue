@@ -17,6 +17,7 @@ const items = computed(() => {
 		};
 	});
 });
+const playheadLeft = computed(() => editor.time * editor.secondWidth + 311 + 'px');
 </script>
 
 <template>
@@ -53,6 +54,7 @@ const items = computed(() => {
 				</QList>
 			</QExpansionItem>
 		</QList>
+		<div class="playhead" :style="{ left: playheadLeft }" />
 	</div>
 </template>
 
@@ -60,18 +62,17 @@ const items = computed(() => {
 .content {
 	position: relative;
 	min-height: 32px !important;
-	&:before,
-	&:after {
+	&:after,
+	.playhead {
 		content: '';
 		position: absolute;
 		display: inline-block;
 		top: 0;
+		left: 311px;
 		width: 2px;
 		height: 100%;
 		background-color: $editor-border-dark-color;
-	}
-	&:before {
-		left: 311px;
+		pointer-events: none;
 	}
 }
 .leftside {
