@@ -24,6 +24,12 @@ import { useEditor, useProject } from '../../store';
 
 const editor = useEditor();
 const project = useProject();
+const changeMode = (mode) => {
+	editor.mode = mode;
+	if (mode === 'draw') {
+		editor.activeLayerIds = [];
+	}
+};
 </script>
 
 <template>
@@ -122,7 +128,7 @@ const project = useProject();
 				flat
 				:icon="mdiCursorDefault"
 				:color="editor.mode === 'select' ? 'primary' : undefined"
-				@click="editor.mode = 'select'"
+				@click="changeMode('select')"
 			/>
 			<QBtn
 				class="q-mx-sm"
@@ -131,7 +137,7 @@ const project = useProject();
 				flat
 				:icon="mdiPen"
 				:color="editor.mode === 'draw' ? 'primary' : undefined"
-				@click="editor.mode = 'draw'"
+				@click="changeMode('draw')"
 			/>
 			<QBtn
 				class="q-mx-sm"
@@ -140,7 +146,7 @@ const project = useProject();
 				flat
 				:icon="mdiHandBackLeft"
 				:color="editor.mode === 'pan' ? 'primary' : undefined"
-				@click="editor.mode = 'pan'"
+				@click="changeMode('pan')"
 			/>
 			<QSeparator class="q-mr-sm" vertical />
 			<QBtn class="q-mx-sm" size="sm" round flat :icon="mdiGroup" disable />
@@ -161,7 +167,7 @@ const project = useProject();
 				round
 				flat
 				:icon="mdiRedo"
-				:disable="!project.canUndo()"
+				:disable="!project.canRedo()"
 				@click="project.redo()"
 			/>
 			<QSpace />

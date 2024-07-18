@@ -31,7 +31,6 @@ export interface ProjectState {
 	height: number;
 	byIds: ByIDs;
 	ids: IDList;
-	changedProps: ChangedProps;
 }
 
 export type ProjectGetters = {
@@ -58,8 +57,7 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 		width: 400,
 		height: 400,
 		ids: [],
-		byIds: {},
-		changedProps: {}
+		byIds: {}
 	}),
 	getters: {
 		structuredData: (state) => serialize(state.byIds, state.ids),
@@ -69,7 +67,7 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 					id,
 					tracks: state.byIds[id]?.animation?.tracks
 				}))
-				.filter((item) => !!item.tracks),
+				.filter((item) => !!item.tracks?.length),
 		rulerXMarks: (state) =>
 			Array(Math.ceil(state.width / 100))
 				.fill('')
@@ -151,7 +149,6 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 						...this.byIds[id],
 						...props
 					};
-					this.changedProps[id] = props;
 				}
 			} else {
 				for (let _id in id) {

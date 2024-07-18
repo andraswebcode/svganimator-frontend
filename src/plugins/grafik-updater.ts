@@ -1,5 +1,6 @@
 import { JSONImporter } from '@grafikjs/core';
 import { PiniaPluginContext } from 'pinia';
+import { omit } from 'lodash';
 
 export default ({ store, app }: PiniaPluginContext) => {
 	const { grafikCanvas } = app as any;
@@ -14,12 +15,13 @@ export default ({ store, app }: PiniaPluginContext) => {
 				});
 				loaded = true;
 			}
-			Object.keys(store.changedProps).forEach((id) => {
+
+			for (let id in store.byIds) {
 				const shape = grafikCanvas.childByIdDeep(id);
 				if (shape) {
-					shape.set(store.changedProps[id]);
+					shape.set(omit(store.byIds[id], 'children'));
 				}
-			});
+			}
 		} else if (store.$id === 'editor') {
 			// Select shapes
 			grafikCanvas.setSelectedShapes(

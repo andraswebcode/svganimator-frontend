@@ -1,13 +1,15 @@
 <script setup>
+import { computed } from 'vue';
 import { useEditor } from '../../../store';
 const editor = useEditor();
+const trackLeft = computed(() => -editor.trackLeft + 'px');
 </script>
 
 <template>
-	<div class="row no-wrap track">
+	<div class="row no-wrap absolute track" :style="{ left: trackLeft }">
 		<div
-			class="col second"
 			v-for="sec in editor.secondList"
+			class="col second"
 			:style="{ width: editor.secondWidth + 'px' }"
 		>
 			<span class="number">{{ sec }}</span>
@@ -20,7 +22,6 @@ const editor = useEditor();
 
 <style scoped lang="scss">
 .track {
-	position: absolute;
 	top: 0;
 	left: 0;
 	height: 100%;

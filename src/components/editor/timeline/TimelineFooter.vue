@@ -39,7 +39,13 @@ const zoom = (dir) => {
 				</div>
 			</div>
 		</div>
-		<div class="col"></div>
+		<div class="col">
+			<div class="row">
+				<div class="col-3">
+					<QSlider v-model="editor.trackLeft" :max="2000" />
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 

@@ -25,6 +25,7 @@ export interface EditorState {
 	time: number;
 	seconds: number;
 	secondWidth: number;
+	trackLeft: number;
 	playing: boolean;
 	// Dialogs
 	exportDialog: boolean;
@@ -63,6 +64,7 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 		time: 0,
 		seconds: 30,
 		secondWidth: 200,
+		trackLeft: 0,
 		playing: false,
 		// Dialogs
 		exportDialog: false
@@ -82,6 +84,7 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 	},
 	actions: {
 		selectLayer(id) {
+			this.mode = 'select';
 			if (this.activeLayerIds.includes(id)) {
 				this.activeLayerIds = [];
 			} else {

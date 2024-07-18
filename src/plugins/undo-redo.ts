@@ -1,6 +1,6 @@
 import { PiniaPluginContext } from 'pinia';
 import { ProjectState } from '../store/project';
-import { ref, toRaw } from 'vue';
+import { toRaw } from 'vue';
 
 export interface UndoRedoActions {
 	undo: () => void;
@@ -17,38 +17,36 @@ export default ({
 		return;
 	}
 
-	let _undoStack = ref<ProjectState[]>([]);
-	let _redoStack = ref<ProjectState[]>([]);
+	let _stack: ProjectState[] = [];
+	let _index = 0;
 	let _isUndoRedoing = false;
 
 	const undo = () => {
-		const state = toRaw(_undoStack.value.pop());
-
-		if (state) {
-			_isUndoRedoing = true;
-			_redoStack.value = [...toRaw(_redoStack.value), state];
-			store.$patch(state);
-			_isUndoRedoing = false;
+		_isUndoRedoing = true;
+		if (_index > 0) {
+			_index--;
+			store.$patch(_stack[_index]);
 		}
+		_isUndoRedoing = false;
 	};
 	const redo = () => {
-		const state = toRaw(_redoStack.value.pop());
-		if (state) {
-			_isUndoRedoing = true;
-			_undoStack.value = [...toRaw(_undoStack.value), state];
-			store.$patch(state);
-			_isUndoRedoing = false;
+		_isUndoRedoing = true;
+		if (_index < _stack.length - 1) {
+			_index++;
+			store.$patch(_stack[_index]);
 		}
+		_isUndoRedoing = false;
 	};
-	const canUndo = () => !!_undoStack.value.length;
-	const canRedo = () => !!_redoStack.value.length;
+	const canUndo = () => true;
+	const canRedo = () => true;
 	const startHistory = () => {
+		_stack.push(JSON.parse(JSON.stringify(toRaw(store.$state))));
 		store.$subscribe(() => {
 			if (!_isUndoRedoing) {
 				const state = JSON.parse(JSON.stringify(toRaw(store.$state)));
-				_undoStack.value = [...toRaw(_undoStack.value), state];
-				_redoStack.value = [];
-				console.log(toRaw(_undoStack.value), toRaw(_redoStack.value));
+				_stack = _stack.slice(0, _index + 1);
+				_stack.push(state);
+				_index++;
 			}
 		});
 	};

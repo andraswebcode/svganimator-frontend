@@ -17,7 +17,12 @@ const items = computed(() => {
 		};
 	});
 });
-const playheadLeft = computed(() => editor.time * editor.secondWidth + 311 + 'px');
+const playheadLeft = computed(
+	() => editor.time * editor.secondWidth - editor.trackLeft + 311 + 'px'
+);
+const playheadDisplay = computed(() =>
+	parseInt(playheadLeft.value) < 311 ? 'none' : 'inline-block'
+);
 </script>
 
 <template>
@@ -30,7 +35,6 @@ const playheadLeft = computed(() => editor.time * editor.secondWidth + 311 + 'px
 				dense-toggle
 				switch-toggle-side
 				expand-icon-toggle
-				expand-separator
 				default-opened
 			>
 				<template v-slot:header>
@@ -46,15 +50,19 @@ const playheadLeft = computed(() => editor.time * editor.secondWidth + 311 + 'px
 						item.label
 					}}</QItemSection>
 				</template>
-				<QList>
+				<QList dense>
 					<QItem v-for="track of item.tracks">
 						<QItemSection class="leftside">{{ track.property }}</QItemSection>
-						<QItemSection class="keyframes col-grow">{{ track }}</QItemSection>
+						<QItemSection
+							class="keyframes relative-position q-px-none col-grow overflow-hidden"
+						>
+							<KeyFramesTrack :track="track" />
+						</QItemSection>
 					</QItem>
 				</QList>
 			</QExpansionItem>
 		</QList>
-		<div class="playhead" :style="{ left: playheadLeft }" />
+		<div class="playhead" :style="{ display: playheadDisplay, left: playheadLeft }" />
 	</div>
 </template>
 
@@ -69,7 +77,7 @@ const playheadLeft = computed(() => editor.time * editor.secondWidth + 311 + 'px
 		display: inline-block;
 		top: 0;
 		left: 311px;
-		width: 2px;
+		width: 1px;
 		height: 100%;
 		background-color: $editor-border-dark-color;
 		pointer-events: none;
@@ -79,8 +87,20 @@ const playheadLeft = computed(() => editor.time * editor.secondWidth + 311 + 'px
 	width: 312px !important;
 	flex: 0 0 auto;
 }
+.keyframes {
+	margin: 0 !important;
+}
 .q-list {
 	height: 100%;
+	.q-item {
+		height: 20px;
+		min-height: 20px;
+		padding: 0;
+		border-top: solid 1px $editor-border-dark-color;
+		&:last-child {
+			border-bottom: solid 1px $editor-border-dark-color;
+		}
+	}
 }
 :deep(.q-item) {
 	padding: 0;

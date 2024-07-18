@@ -10,11 +10,13 @@
 		"api": "cd ../website && php artisan serve"
 	},
 	"dependencies": {
-		"@grafikjs/core": "^0.0.621",
-		"@grafikjs/vue": "^0.0.2812",
+		"@grafikjs/core": "^0.0.63",
+		"@grafikjs/vue": "^0.0.29",
 		"@mdi/js": "^7.4.47",
 		"@quasar/extras": "^1.16.11",
+		"@vueuse/core": "^10.11.0",
 		"axios": "^1.7.2",
+		"lodash": "^4.17.21",
 		"pinia": "^2.1.7",
 		"quasar": "^2.16.4",
 		"vue": "^3.4.29",

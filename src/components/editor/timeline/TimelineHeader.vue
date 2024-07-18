@@ -7,13 +7,15 @@ import { mdiChartBellCurveCumulative, mdiTransition } from '@mdi/js';
 const editor = useEditor();
 const isMoving = ref(false);
 const wrapperLeft = ref(0);
-const playheadLeft = computed(() => editor.time * editor.secondWidth + 'px');
+const playheadLeft = computed(() => editor.time * editor.secondWidth - editor.trackLeft + 'px');
 
 const startMove = (event) => {
 	const { left } = event.currentTarget.getBoundingClientRect();
 	isMoving.value = true;
 	wrapperLeft.value = left;
-	editor.time = toFixed(clamp((event.clientX - left) / editor.secondWidth, 0, editor.seconds));
+	editor.time = toFixed(
+		clamp((event.clientX - left + editor.trackLeft) / editor.secondWidth, 0, editor.seconds)
+	);
 	document.addEventListener('mousemove', move);
 	document.addEventListener('mouseup', stopMove);
 };
@@ -21,7 +23,11 @@ const startMove = (event) => {
 const move = (event) => {
 	if (isMoving) {
 		editor.time = toFixed(
-			clamp((event.clientX - wrapperLeft.value) / editor.secondWidth, 0, editor.seconds)
+			clamp(
+				(event.clientX - wrapperLeft.value + editor.trackLeft) / editor.secondWidth,
+				0,
+				editor.seconds
+			)
 		);
 	}
 };
@@ -61,9 +67,9 @@ onBeforeUnmount(() => {
 				size="sm"
 			/>
 		</div>
-		<div class="col timetrack" @mousedown.prevent="startMove">
+		<div class="col timetrack relative-position" @mousedown.prevent="startMove">
 			<TimeTrack />
-			<div class="playhead" :style="{ left: playheadLeft }" />
+			<div class="playhead absolute" :style="{ left: playheadLeft }" />
 		</div>
 	</div>
 </template>
@@ -82,12 +88,10 @@ onBeforeUnmount(() => {
 	border-right: solid 1px $editor-border-dark-color;
 }
 .timetrack {
-	position: relative;
 	width: calc(100% - 312px);
 	flex-basis: auto;
 	overflow: hidden;
 	.playhead {
-		position: absolute;
 		bottom: 0;
 		left: 0;
 		width: 15px;
