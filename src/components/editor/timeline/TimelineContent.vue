@@ -152,6 +152,15 @@ const playheadDisplay = computed(() =>
 		}
 	}
 }
+:deep(.q-expansion-item__container > .q-item) {
+	background-image: linear-gradient(
+		to bottom,
+		rgba(255, 255, 255, 0.1),
+		rgba(255, 255, 255, 0) 50%,
+		rgba(0, 0, 0, 0.12) 51%,
+		rgba(0, 0, 0, 0.04)
+	) !important;
+}
 :deep(.q-item) {
 	padding: 0;
 }

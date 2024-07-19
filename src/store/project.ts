@@ -1,5 +1,6 @@
 import { KeyframeObject, Shape, ShapeObject, TrackObject, uniqueId } from '@grafikjs/core';
 import { defineStore } from 'pinia';
+import { isArray } from 'lodash';
 import axios from '../axios';
 import { useUser } from '.';
 import { useLoader, useNotice } from '../hooks';
@@ -119,7 +120,7 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 				this.byIds[id] = {
 					...defs.toJSON(),
 					...layer,
-					animation: layer.animation || []
+					animation: isArray(layer.animation) ? layer.animation : []
 				};
 			} else {
 				//

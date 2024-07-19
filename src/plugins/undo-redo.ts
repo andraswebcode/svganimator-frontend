@@ -1,6 +1,7 @@
 import { PiniaPluginContext } from 'pinia';
 import { ProjectState } from '../store/project';
 import { toRaw } from 'vue';
+import { throttle } from 'lodash';
 
 export interface UndoRedoActions {
 	undo: () => void;
@@ -41,14 +42,16 @@ export default ({
 	const canRedo = () => true;
 	const startHistory = () => {
 		_stack.push(JSON.parse(JSON.stringify(toRaw(store.$state))));
-		store.$subscribe(() => {
-			if (!_isUndoRedoing) {
-				const state = JSON.parse(JSON.stringify(toRaw(store.$state)));
-				_stack = _stack.slice(0, _index + 1);
-				_stack.push(state);
-				_index++;
-			}
-		});
+		store.$subscribe(
+			throttle(() => {
+				if (!_isUndoRedoing) {
+					const state = JSON.parse(JSON.stringify(toRaw(store.$state)));
+					_stack = _stack.slice(0, _index + 1);
+					_stack.push(state);
+					_index++;
+				}
+			}, 200)
+		);
 	};
 
 	return {
