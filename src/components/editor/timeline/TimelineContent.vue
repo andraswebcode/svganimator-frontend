@@ -1,10 +1,44 @@
 <script setup>
 import { computed } from 'vue';
+import { each } from 'lodash';
 import { useEditor, useProject } from './../../../store';
 import { SHAPE_ICON_MAP } from './../../../utils/constants';
+import { mdiRhombus } from '@mdi/js';
 const project = useProject();
 const editor = useEditor();
 const items = computed(() => {
+	const animations = [];
+	each(project.byIds, (layer, id) => {
+		const { tagName, name, animation } = layer;
+		if (!animation?.length) {
+			return;
+		}
+		let icon = SHAPE_ICON_MAP[tagName];
+		const tracks = {};
+		each(animation, (id) => {
+			const kf = project.kfe[id];
+			if (!kf) {
+				return;
+			}
+			if (!tracks[kf.property]) {
+				tracks[kf.property] = {
+					property: kf.property,
+					keyframes: []
+				};
+			}
+			tracks[kf.property].keyframes.push(kf);
+		});
+		animations.push({
+			id,
+			label: name || tagName,
+			icon,
+			selected: editor.activeLayerIds.includes(id),
+			tracks
+		});
+	});
+	return animations;
+});
+const ___items = computed(() => {
 	return project.animations.map(({ id, tracks }) => {
 		const { tagName, name } = project.byIds[id];
 		let icon = SHAPE_ICON_MAP[tagName];
@@ -52,7 +86,18 @@ const playheadDisplay = computed(() =>
 				</template>
 				<QList dense>
 					<QItem v-for="track of item.tracks">
-						<QItemSection class="leftside">{{ track.property }}</QItemSection>
+						<QItemSection class="leftside">
+							<div
+								class="row justify-between items-center full-width q-pl-lg q-pr-sm"
+							>
+								<span>{{ track.property }}</span>
+								<QIcon
+									:name="mdiRhombus"
+									class="cursor-pointer"
+									title="Add Keyframe"
+								/>
+							</div>
+						</QItemSection>
 						<QItemSection
 							class="keyframes relative-position q-px-none col-grow overflow-hidden"
 						>

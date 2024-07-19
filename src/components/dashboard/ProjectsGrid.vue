@@ -15,7 +15,7 @@ import {
 					<div class="col-grow" />
 
 					<QCardActions vertical>
-						<QBtn :icon="mdiFileEditOutline" flat round size="sm" />
+						<QBtn :icon="mdiFileEditOutline" :to="`/${n}`" flat round size="sm" />
 						<QBtn :icon="mdiEyeOutline" flat round size="sm" />
 						<QBtn :icon="mdiContentDuplicate" flat round size="sm" />
 						<QBtn :icon="mdiTrashCanOutline" flat round size="sm" />

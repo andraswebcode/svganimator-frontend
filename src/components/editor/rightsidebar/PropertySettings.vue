@@ -1,10 +1,18 @@
 <script setup>
 import { mdiAspectRatio, mdiBrushVariant, mdiStar } from '@mdi/js';
+import { useEditor } from '../../../store';
+const editor = useEditor();
 </script>
 
 <template>
 	<QList>
-		<QExpansionItem dense dense-toggle expand-separator default-opened>
+		<QExpansionItem
+			v-if="editor.activeLayerIds.length === 1"
+			dense
+			dense-toggle
+			expand-separator
+			default-opened
+		>
 			<template v-slot:header>
 				<QItemSection side>
 					<QIcon :name="mdiStar" size="xs" />

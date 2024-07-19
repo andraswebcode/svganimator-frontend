@@ -9,7 +9,8 @@ const editor = useEditor();
 
 const expanded = ref(['canvas']);
 const items = computed(() => {
-	const mapRecursve = ({ id, name, tagName, children }) => {
+	const mapRecursve = (id) => {
+		const { name, tagName, children } = project.byIds[id];
 		let icon = SHAPE_ICON_MAP[tagName];
 		if (expanded.value.includes(id)) {
 			icon = mdiFolderOpenOutline;
@@ -27,7 +28,7 @@ const items = computed(() => {
 			id: 'canvas',
 			label: 'Canvas',
 			icon: mdiArtboard,
-			children: project.structuredData.map(mapRecursve)
+			children: project.ids.map(mapRecursve)
 		}
 	];
 });

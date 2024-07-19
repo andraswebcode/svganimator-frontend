@@ -1,16 +1,16 @@
-import { ShapeObject, TrackObject } from '@grafikjs/core';
+import { KeyframeObject, Shape, ShapeObject, TrackObject, uniqueId } from '@grafikjs/core';
 import { defineStore } from 'pinia';
 import axios from '../axios';
 import { useUser } from '.';
-import { parse, serialize } from '../utils/project';
 import { useLoader, useNotice } from '../hooks';
 import { UndoRedoActions } from '../plugins/undo-redo';
 
 export type IDList = string[];
 
-export interface ByID extends ShapeObject {
+export interface ByID extends Omit<ShapeObject, 'animation'> {
 	parent: string;
 	children: IDList;
+	animation: IDList;
 }
 
 export type ByIDs = {
@@ -26,30 +26,39 @@ export type AnimationList = {
 	tracks?: TrackObject[];
 };
 
+export interface KeyframeEntity extends KeyframeObject {
+	id: string;
+	shapeId: string;
+	property: string;
+}
+
+export type KeyframeEntities = {
+	[key: string]: KeyframeEntity;
+};
+
+export type ChangedKeyframes = {
+	[key: string]: Partial<KeyframeObject>;
+};
+
 export interface ProjectState {
 	width: number;
 	height: number;
 	byIds: ByIDs;
 	ids: IDList;
+	kfe: KeyframeEntities;
 }
 
-export type ProjectGetters = {
-	structuredData: (state: ProjectState) => ShapeObject[];
-	animations: (state: ProjectState) => AnimationList[];
-	rulerXMarks: (state: ProjectState) => string[];
-	rulerYMarks: (state: ProjectState) => string[];
-	rulerSubmarks: (state: ProjectState) => string[];
-};
+export type ProjectGetters = {};
 
 export interface ProjectActions extends UndoRedoActions {
 	fetch: (id: string) => void;
 	save: () => void;
 	addLayer: (layer: ByID, parent?: string) => void;
 	removeLayer: (id: string) => void;
-	getById: (id: string) => ByID | undefined;
-	getProp: (id: string, prop: string) => any;
 	updateProps: (id: string | ChangedProps, props?: Partial<ByID>) => void;
-	animate: (id: string, prop: string, value: any, time: number) => void;
+	addKf: (id: string, prop: string, value: any, time: number) => void;
+	removeKf: () => void;
+	updateKf: (id: string | ChangedKeyframes, kf?: Partial<KeyframeObject>) => void;
 }
 
 export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>('project', {
@@ -57,27 +66,9 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 		width: 400,
 		height: 400,
 		ids: [],
-		byIds: {}
+		byIds: {},
+		kfe: {}
 	}),
-	getters: {
-		structuredData: (state) => serialize(state.byIds, state.ids),
-		animations: (state) =>
-			state.ids
-				.map((id) => ({
-					id,
-					tracks: state.byIds[id]?.animation?.tracks
-				}))
-				.filter((item) => !!item.tracks?.length),
-		rulerXMarks: (state) =>
-			Array(Math.ceil(state.width / 100))
-				.fill('')
-				.map((_, i) => '' + i * 100),
-		rulerYMarks: (state) =>
-			Array(Math.ceil(state.height / 100))
-				.fill('')
-				.map((_, i) => '' + i * 100),
-		rulerSubmarks: () => Array(10).fill('')
-	},
 	actions: {
 		fetch(id) {
 			const _id = parseInt(id);
@@ -99,17 +90,16 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 				.get('projects/' + _id, { headers: { Authorization: bearerToken } })
 				.then((response) => {
 					const {
-						data: {
-							project: { width, height, layers }
-						}
+						data: { width, height, layers, layer_ids, keyframes }
 					} = response;
+					console.log(response.data);
 
-					const { ids, byIds } = parse(layers);
 					this.$patch({
 						width,
 						height,
-						ids,
-						byIds
+						byIds: layers,
+						ids: layer_ids,
+						kfe: keyframes
 					});
 					hide();
 					this.startHistory();
@@ -119,28 +109,24 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 					hide();
 				});
 		},
-		save() {
-			console.log(this.structuredData);
-		},
+		save() {},
 		addLayer(layer, parent) {
-			const { id } = layer;
+			const id = layer.id || uniqueId(layer.tagName);
+			const defs = new Shape();
+			defs.init({});
 			if (!parent) {
 				this.ids.push(id);
-				this.byIds[id] = layer;
+				this.byIds[id] = {
+					...defs.toJSON(),
+					...layer,
+					animation: layer.animation || []
+				};
 			} else {
 				//
 			}
 		},
 		removeLayer(id) {
 			console.log(id);
-		},
-		getById(id) {
-			return this.byIds?.[id];
-		},
-		getProp(id, prop) {
-			if (this.byIds[id]) {
-				return this.byIds[id][prop];
-			}
 		},
 		updateProps(id, props) {
 			if (typeof id === 'string') {
@@ -156,33 +142,35 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 				}
 			}
 		},
-		animate(id, prop, value, time) {
-			const byId = this.byIds[id];
-			const timeMs = time * 1000;
-			if (byId) {
-				if (!byId.animation) {
-					byId.animation = {
-						tracks: []
+		addKf(id, prop, value, time) {
+			const layer = this.byIds[id];
+			if (layer) {
+				const kf: KeyframeEntity = {
+					id: uniqueId('keyframe'),
+					shapeId: id,
+					property: prop,
+					to: time * 1000,
+					value
+				};
+				this.kfe[kf.id] = kf;
+				if (!layer.animation) {
+					layer.animation = [];
+				}
+				layer.animation.push(kf.id);
+			}
+		},
+		removeKf() {},
+		updateKf(id, kf) {
+			if (typeof id === 'string') {
+				if (this.kfe[id] && kf) {
+					this.kfe[id] = {
+						...this.kfe[id],
+						...kf
 					};
 				}
-				let track = byId.animation.tracks.find((track) => track.property === prop);
-				if (!track) {
-					track = {
-						property: prop,
-						originalValue: value,
-						keyframes: []
-					};
-					byId.animation.tracks.push(track);
-				}
-				let keyframe = track.keyframes.find((kf) => kf.to === timeMs);
-				if (!keyframe) {
-					keyframe = {
-						to: timeMs,
-						value
-					};
-					track.keyframes.push(keyframe);
-				} else {
-					keyframe.value = value;
+			} else {
+				for (let _id in id) {
+					this.updateKf(_id, id[_id]);
 				}
 			}
 		},

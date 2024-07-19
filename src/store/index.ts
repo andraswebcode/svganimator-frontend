@@ -8,7 +8,7 @@ import grafikUpdater from '../plugins/grafik-updater';
 const pinia = createPinia();
 
 pinia.use(undoRedo);
-pinia.use(grafikUpdater);
+// pinia.use(grafikUpdater);
 
 export default pinia;
 export { useEditor, useUser, useProject };

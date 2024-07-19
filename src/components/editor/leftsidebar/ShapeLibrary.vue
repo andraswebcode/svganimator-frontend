@@ -1,5 +1,21 @@
-<script setup></script>
+<script setup>
+import { useProject } from '../../../store';
 
-<template></template>
+const project = useProject();
+</script>
+
+<template>
+	<button
+		@click="
+			project.addLayer({
+				tagName: 'rect',
+				width: 100,
+				height: 100
+			})
+		"
+	>
+		Rectangle
+	</button>
+</template>
 
 <style scoped></style>

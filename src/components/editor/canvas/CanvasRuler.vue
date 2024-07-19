@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useProject } from '../../../store';
 import { useCanvas } from '@grafikjs/vue';
+import { useProject } from '../../../store';
 
 const { direction } = defineProps<{
 	direction: 'x' | 'y';
 }>();
 const isX = direction === 'x';
 const project = useProject();
+const rulerMarks = computed(() => {
+	const n = isX ? project.width / 100 : project.height / 100;
+	return Array(Math.ceil(n))
+		.fill('')
+		.map((_, i) => '' + i * 100);
+});
+const rulerSubmarks = Array(10).fill('');
 const {
 	state: { left, top, width, height }
 } = useCanvas(
@@ -43,10 +50,10 @@ const style = computed(() =>
 <template>
 	<div class="ruler q-dark" :class="{ [`ruler__${direction}`]: direction }">
 		<div class="ruler__inner no-wrap" :class="isX ? 'row' : 'column'" :style="style">
-			<div v-for="mark in project[isX ? 'rulerXMarks' : 'rulerYMarks']" class="col mark">
+			<div v-for="mark in rulerMarks" class="col mark">
 				<span class="number">{{ mark }}</span>
 				<div class="no-wrap submarks" :class="isX ? 'row' : 'column'">
-					<div class="col submark" v-for="_submark in project.rulerSubmarks" />
+					<div class="col submark" v-for="_submark in rulerSubmarks" />
 				</div>
 			</div>
 		</div>

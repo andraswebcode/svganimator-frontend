@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { toFixed } from '@grafikjs/core';
-import { mdiCardsDiamond } from '@mdi/js';
+import { mdiRhombus } from '@mdi/js';
 import { useEditor, useProject } from '../../store';
 import { computed } from 'vue';
 
@@ -54,10 +54,9 @@ const update = (value) => {
 	}
 };
 const animate = () => {
-	if (!props.animatable || !props.property) {
-		return;
+	if (props.animatable && props.property) {
+		project.addKf(editor.activeLayerIds[0], props.property, model.value, editor.time);
 	}
-	project.animate(editor.activeLayerIds[0], props.property, model.value, editor.time);
 };
 </script>
 
@@ -74,7 +73,7 @@ const animate = () => {
 		<template v-slot:append>
 			<QIcon
 				v-if="props.animatable"
-				:name="mdiCardsDiamond"
+				:name="mdiRhombus"
 				size="xs"
 				@click="animate"
 				class="cursor-pointer"

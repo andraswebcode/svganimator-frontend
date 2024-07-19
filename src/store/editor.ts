@@ -85,11 +85,13 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 	actions: {
 		selectLayer(id) {
 			this.mode = 'select';
-			if (this.activeLayerIds.includes(id)) {
-				this.activeLayerIds = [];
-			} else {
-				this.activeLayerIds = [id];
-			}
+			setTimeout(() => {
+				if (this.activeLayerIds.includes(id)) {
+					this.activeLayerIds = [];
+				} else {
+					this.activeLayerIds = [id];
+				}
+			}, 0);
 		}
 	}
 });
