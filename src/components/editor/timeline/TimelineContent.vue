@@ -101,7 +101,12 @@ const playheadDisplay = computed(() =>
 						<QItemSection
 							class="keyframes relative-position q-px-none col-grow overflow-hidden"
 						>
-							<KeyFramesTrack :track="track" />
+							<div
+								class="absolute full-height"
+								:style="{ left: -editor.trackLeft + 'px' }"
+							>
+								<KeyFrame v-for="kf of track.keyframes" :keyframe="kf" />
+							</div>
 						</QItemSection>
 					</QItem>
 				</QList>

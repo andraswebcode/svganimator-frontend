@@ -47,7 +47,7 @@ const animate = () => {
 	if (!props.animatable || !props.property) {
 		return;
 	}
-	project.animate(editor.activeLayerIds[0], props.property, model.value, editor.time);
+	project.addKf(editor.activeLayerIds[0], props.property, model.value, editor.time);
 };
 </script>
 

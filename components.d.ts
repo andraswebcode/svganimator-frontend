@@ -22,6 +22,7 @@ declare module 'vue' {
     ImageLibrary: typeof import('./src/components/editor/leftsidebar/ImageLibrary.vue')['default']
     Input: typeof import('./src/components/controls/Input.vue')['default']
     InputGroup: typeof import('./src/components/controls/InputGroup.vue')['default']
+    KeyFrame: typeof import('./src/components/editor/timeline/KeyFrame.vue')['default']
     KeyFramesTrack: typeof import('./src/components/editor/timeline/KeyFramesTrack.vue')['default']
     LayerList: typeof import('./src/components/editor/leftsidebar/LayerList.vue')['default']
     LeftSideBar: typeof import('./src/components/editor/LeftSideBar.vue')['default']

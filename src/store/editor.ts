@@ -21,6 +21,8 @@ export interface EditorState {
 	penColor: string;
 	// Layers
 	activeLayerIds: string[];
+	// Keyframes
+	activeKeyframeIds: string[];
 	// Times
 	time: number;
 	seconds: number;
@@ -60,6 +62,8 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 		penColor: '#000',
 		// Layers
 		activeLayerIds: [],
+		// Keyframes
+		activeKeyframeIds: [],
 		// Times
 		time: 0,
 		seconds: 30,
