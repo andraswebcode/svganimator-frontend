@@ -26,9 +26,13 @@ const login = () => {
 		.catch((error) => {
 			console.log(error);
 			loading.value = false;
-			notice.send(error.message, 'negative');
+			notice.send(error.response?.data?.message || error.message, 'negative');
 		});
 };
+const emailRules = [
+	(value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || 'Please provide a valid email address.'
+];
+const pwRules = [(value) => (value && value.length) || 'Please enter your password.'];
 </script>
 
 <template>
@@ -40,8 +44,24 @@ const login = () => {
 			<RouterLink to="/register">Create an account</RouterLink>
 		</template>
 		<template #form>
-			<QInput label="Email" type="email" v-model="email" required />
-			<QInput label="Password" type="password" v-model="password" required />
+			<QInput
+				label="Email"
+				type="email"
+				class="q-mb-sm"
+				filled
+				v-model="email"
+				lazy-rules
+				:rules="emailRules"
+			/>
+			<QInput
+				label="Password"
+				type="password"
+				class="q-mb-sm"
+				filled
+				v-model="password"
+				lazy-rules
+				:rules="pwRules"
+			/>
 			<small>
 				<RouterLink to="/pwreset">Forgot your password?</RouterLink>
 			</small>

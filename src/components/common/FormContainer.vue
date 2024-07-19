@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+const emit = defineEmits(['submit']);
+</script>
 
 <template>
 	<QPageContainer>
@@ -13,7 +15,7 @@
 					</div>
 				</QCardSection>
 				<QSeparator />
-				<QForm @submit="$emit('submit')">
+				<QForm @submit="emit('submit')">
 					<QCardSection>
 						<slot name="form" />
 					</QCardSection>

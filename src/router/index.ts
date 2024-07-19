@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
 	},
 	{
 		name: 'dashboard',
-		path: '/dashboard',
+		path: '/dashboard/:page?',
 		component: DashboardView,
 		meta: {
 			requiresAuth: true

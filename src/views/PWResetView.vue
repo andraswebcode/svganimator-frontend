@@ -3,6 +3,9 @@ import { ref } from 'vue';
 
 const email = ref('');
 const loading = ref(false);
+const emailRules = [
+	(value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || 'Please provide a valid email address.'
+];
 </script>
 
 <template>
@@ -13,7 +16,15 @@ const loading = ref(false);
 			>Enter your email, and we'll send a link to reset your password.</template
 		>
 		<template #form>
-			<QInput label="Email" type="email" v-model="email" required />
+			<QInput
+				label="Email"
+				type="email"
+				class="q-mb-sm"
+				filled
+				v-model="email"
+				lazy-rules
+				:rules="emailRules"
+			/>
 			<small>
 				<RouterLink to="/login">&larr; Back to Login</RouterLink>
 			</small>
