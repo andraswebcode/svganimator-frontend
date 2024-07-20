@@ -1,12 +1,29 @@
 <script setup>
-import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useDashboard } from '../../store';
 
-const current = ref(1);
+const router = useRouter();
+const dashboard = useDashboard();
+const paginate = (page) => {
+	router.push({
+		query: {
+			...router.currentRoute.value.query,
+			page
+		}
+	});
+};
 </script>
 
 <template>
 	<div class="row justify-end q-mt-md">
-		<QPagination v-model="current" :max="20" :max-pages="6" direction-links />
+		<QPagination
+			v-if="dashboard.totalPages > 1"
+			:model-value="parseInt($route.query.page || 1)"
+			:max="dashboard.totalPages"
+			:max-pages="6"
+			direction-links
+			@update:model-value="paginate"
+		/>
 	</div>
 </template>
 

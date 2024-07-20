@@ -21,14 +21,38 @@ import {
 	mdiViewDashboard
 } from '@mdi/js';
 import { useEditor, useProject } from '../../store';
+import { useProjectRequest } from '../../hooks';
+import { toRaw } from 'vue';
+import { useRouter } from 'vue-router';
 
 const editor = useEditor();
 const project = useProject();
+const router = useRouter();
+const { save } = useProjectRequest();
 const changeMode = (mode) => {
 	editor.mode = mode;
 	if (mode === 'draw') {
 		editor.activeLayerIds = [];
 	}
+};
+const saveProject = (id) => {
+	const { width, height, byIds, ids, kfe } = project;
+	save(
+		id,
+		{
+			title: '',
+			width,
+			height,
+			layers: toRaw(byIds),
+			layer_ids: toRaw(ids),
+			keyframes: toRaw(kfe)
+		},
+		({ id }) => {
+			router.push({
+				params: { id }
+			});
+		}
+	);
 };
 </script>
 
@@ -38,7 +62,7 @@ const changeMode = (mode) => {
 			<QBtn class="q-mr-sm" size="sm" round flat :icon="mdiDotsVertical">
 				<QMenu>
 					<QList dense>
-						<QItem>
+						<QItem to="/">
 							<QItemSection side>
 								<QIcon :name="mdiDraw" size="small" />
 							</QItemSection>
@@ -172,7 +196,9 @@ const changeMode = (mode) => {
 			/>
 			<QSpace />
 			<QBtn class="q-mx-sm" size="sm" flat @click="editor.exportDialog = true">Export</QBtn>
-			<QBtn class="q-mx-sm" size="sm" color="primary" @click="project.save()">Save</QBtn>
+			<QBtn class="q-mx-sm" size="sm" color="primary" @click="saveProject($route.params.id)"
+				>Save</QBtn
+			>
 			<UserMenu />
 		</QToolbar>
 	</QHeader>

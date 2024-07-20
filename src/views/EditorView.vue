@@ -1,12 +1,35 @@
 <script setup>
 import { onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
+import { useProjectRequest } from '../hooks';
 import { useProject } from '../store';
+
 const route = useRoute();
 const project = useProject();
+const { get } = useProjectRequest();
 
 onMounted(() => {
-	project.fetch(route.params.id);
+	get(route.params.id, (state) => {
+		if (state) {
+			project.$patch(state);
+		} else {
+			project.$reset();
+		}
+		project.startHistory();
+	});
+});
+onBeforeRouteUpdate((to, from) => {
+	if (to.path !== '/' && from.path === '/') {
+		return;
+	}
+	get(to.params.id, (state) => {
+		if (state) {
+			project.$patch(state);
+		} else {
+			project.$reset();
+		}
+		project.startHistory();
+	});
 });
 </script>
 

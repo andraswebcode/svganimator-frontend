@@ -31,7 +31,8 @@ const _serializeMap = (byIds: any) => (id: string) => {
 	const children = item.children?.map(_serializeMap(byIds));
 	return {
 		...item,
-		children
+		children,
+		animation: { tracks: [] }
 	};
 };
 

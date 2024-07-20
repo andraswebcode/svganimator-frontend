@@ -12,6 +12,7 @@ const editor = useEditor();
 		:breakpoint="0"
 		overlay
 		elevated
+		persistent
 		v-model="editor.showLeftSideBar"
 	>
 		<div class="q-pa-md">

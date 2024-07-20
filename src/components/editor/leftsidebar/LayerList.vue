@@ -38,6 +38,11 @@ const resetFilter = () => {
 	filter.value = '';
 	filterRef.value.focus();
 };
+const selectLayer = (id) => {
+	if (id !== 'canvas') {
+		editor.selectLayer(id);
+	}
+};
 </script>
 
 <template>
@@ -70,7 +75,7 @@ const resetFilter = () => {
 				size="xs"
 				class="q-mr-sm"
 				:class="{ 'text-primary': prop.node.selected }"
-				@click.stop="editor.selectLayer(prop.node.id)"
+				@click.stop="selectLayer(prop.node.id)"
 			/>
 			<div :class="{ 'text-primary': prop.node.selected }">{{ prop.node.label }}</div>
 		</template>

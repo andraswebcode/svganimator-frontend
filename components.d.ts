@@ -29,6 +29,7 @@ declare module 'vue' {
     MainContent: typeof import('./src/components/editor/MainContent.vue')['default']
     PlaybackButtons: typeof import('./src/components/editor/timeline/PlaybackButtons.vue')['default']
     ProjectFilter: typeof import('./src/components/dashboard/ProjectFilter.vue')['default']
+    ProjectItem: typeof import('./src/components/dashboard/ProjectItem.vue')['default']
     ProjectPaginator: typeof import('./src/components/dashboard/ProjectPaginator.vue')['default']
     ProjectSettings: typeof import('./src/components/editor/leftsidebar/ProjectSettings.vue')['default']
     ProjectsGrid: typeof import('./src/components/dashboard/ProjectsGrid.vue')['default']

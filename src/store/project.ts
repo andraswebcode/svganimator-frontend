@@ -1,10 +1,8 @@
-import { KeyframeObject, Shape, ShapeObject, TrackObject, uniqueId } from '@grafikjs/core';
+import { KeyframeObject, ShapeObject, TrackObject, uniqueId } from '@grafikjs/core';
 import { defineStore } from 'pinia';
-import { isArray } from 'lodash';
-import axios from '../axios';
-import { useUser } from '.';
-import { useLoader, useNotice } from '../hooks';
+import { isArray, omit } from 'lodash';
 import { UndoRedoActions } from '../plugins/undo-redo';
+import { CLASSES } from '@grafikjs/vue';
 
 export type IDList = string[];
 
@@ -52,8 +50,6 @@ export interface ProjectState {
 export type ProjectGetters = {};
 
 export interface ProjectActions extends UndoRedoActions {
-	fetch: (id: string) => void;
-	save: () => void;
 	addLayer: (layer: ByID, parent?: string) => void;
 	removeLayer: (id: string) => void;
 	updateProps: (id: string | ChangedProps, props?: Partial<ByID>) => void;
@@ -71,55 +67,18 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 		kfe: {}
 	}),
 	actions: {
-		fetch(id) {
-			const _id = parseInt(id);
-
-			if (!_id) {
-				this.$reset();
-				this.startHistory();
-				return;
-			}
-
-			const userData = useUser();
-			const { send } = useNotice();
-			const { show, hide } = useLoader();
-			const { bearerToken } = userData;
-
-			show('Project is loading. This might take a while...');
-
-			axios
-				.get('projects/' + _id, { headers: { Authorization: bearerToken } })
-				.then((response) => {
-					const {
-						data: { width, height, layers, layer_ids, keyframes }
-					} = response;
-					console.log(response.data);
-
-					this.$patch({
-						width,
-						height,
-						byIds: layers,
-						ids: layer_ids,
-						kfe: keyframes
-					});
-					hide();
-					this.startHistory();
-				})
-				.catch((error) => {
-					send(error.response?.data.message || error.message, 'negative');
-					hide();
-				});
-		},
-		save() {},
 		addLayer(layer, parent) {
-			const id = layer.id || uniqueId(layer.tagName);
-			const defs = new Shape();
-			defs.init({});
+			const { tagName } = layer;
+			const id = layer.id || uniqueId(tagName);
+			const Shape = CLASSES[tagName];
+			const defs = omit(new Shape().toJSON(), 'id', 'animation', 'tagName');
+
 			if (!parent) {
 				this.ids.push(id);
 				this.byIds[id] = {
-					...defs.toJSON(),
+					...defs,
 					...layer,
+					id,
 					animation: isArray(layer.animation) ? layer.animation : []
 				};
 			} else {

@@ -36,7 +36,9 @@ const model = defineModel<string | number>({
 		return value;
 	}
 });
-const placeholder = computed(() => (editor.activeLayerIds.length === 1 ? '' : 'Mixed'));
+const placeholder = computed(() =>
+	!props.property || editor.activeLayerIds.length === 1 ? '' : 'Mixed'
+);
 const update = (value) => {
 	if (props.type === 'number') {
 		value = toFixed(value);

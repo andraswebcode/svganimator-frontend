@@ -15,7 +15,8 @@ const editor = useEditor();
 			</template>
 			<QCard>
 				<QCardSection>
-					<Input type="text" label="Project Name" />
+					<Input type="text" label="Project Title" />
+					<Input type="textarea" label="Project Description" />
 				</QCardSection>
 			</QCard>
 		</QExpansionItem>
