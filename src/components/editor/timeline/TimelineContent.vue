@@ -1,56 +1,27 @@
 <script setup>
 import { computed } from 'vue';
-import { each } from 'lodash';
+import { map } from 'lodash';
 import { useEditor, useProject } from './../../../store';
 import { SHAPE_ICON_MAP } from './../../../utils/constants';
 import { mdiRhombus } from '@mdi/js';
 const project = useProject();
 const editor = useEditor();
-const items = computed(() => {
-	const animations = [];
-	each(project.byIds, (layer, id) => {
-		const { tagName, name, animation } = layer;
-		if (!animation?.length) {
+const items = computed(() =>
+	map(project.byIds, (layer) => {
+		const { id, tagName, name, tracks } = layer;
+		if (!tracks.length) {
 			return;
 		}
-		let icon = SHAPE_ICON_MAP[tagName];
-		const tracks = {};
-		each(animation, (id) => {
-			const kf = project.kfe[id];
-			if (!kf) {
-				return;
-			}
-			if (!tracks[kf.property]) {
-				tracks[kf.property] = {
-					property: kf.property,
-					keyframes: []
-				};
-			}
-			tracks[kf.property].keyframes.push(kf);
-		});
-		animations.push({
-			id,
-			label: name || tagName,
-			icon,
-			selected: editor.activeLayerIds.includes(id),
-			tracks
-		});
-	});
-	return animations;
-});
-const ___items = computed(() => {
-	return project.animations.map(({ id, tracks }) => {
-		const { tagName, name } = project.byIds[id];
-		let icon = SHAPE_ICON_MAP[tagName];
+		const icon = SHAPE_ICON_MAP[tagName];
 		return {
 			id,
 			label: name || tagName,
 			icon,
 			selected: editor.activeLayerIds.includes(id),
-			tracks
+			tracks: tracks.map((prop) => id + '--' + prop)
 		};
-	});
-});
+	}).filter((layer) => !!layer)
+);
 const playheadLeft = computed(
 	() => editor.time * editor.secondWidth - editor.trackLeft + 311 + 'px'
 );
@@ -64,6 +35,7 @@ const playheadDisplay = computed(() =>
 		<QList class="scroll">
 			<QExpansionItem
 				v-for="item of items"
+				:key="item.id"
 				class="full-width"
 				dense
 				dense-toggle
@@ -85,30 +57,7 @@ const playheadDisplay = computed(() =>
 					}}</QItemSection>
 				</template>
 				<QList dense>
-					<QItem v-for="track of item.tracks">
-						<QItemSection class="leftside">
-							<div
-								class="row justify-between items-center full-width q-pl-lg q-pr-sm"
-							>
-								<span>{{ track.property }}</span>
-								<QIcon
-									:name="mdiRhombus"
-									class="cursor-pointer"
-									title="Add Keyframe"
-								/>
-							</div>
-						</QItemSection>
-						<QItemSection
-							class="keyframes relative-position q-px-none col-grow overflow-hidden"
-						>
-							<div
-								class="absolute full-height"
-								:style="{ left: -editor.trackLeft + 'px' }"
-							>
-								<KeyFrame v-for="kf of track.keyframes" :keyframe="kf" />
-							</div>
-						</QItemSection>
-					</QItem>
+					<KeyFrameTrack v-for="track of item.tracks" :key="track" :id="track" />
 				</QList>
 			</QExpansionItem>
 		</QList>
@@ -132,13 +81,6 @@ const playheadDisplay = computed(() =>
 		background-color: $editor-border-dark-color;
 		pointer-events: none;
 	}
-}
-.leftside {
-	width: 312px !important;
-	flex: 0 0 auto;
-}
-.keyframes {
-	margin: 0 !important;
 }
 .q-list {
 	height: 100%;

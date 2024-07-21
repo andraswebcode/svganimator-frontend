@@ -2,28 +2,26 @@
 import { mdiRhombus } from '@mdi/js';
 import { useEditor, useProject } from '../../../store';
 import { computed, ref } from 'vue';
-import { KeyframeEntity } from '../../../store/project';
 
 const props = defineProps<{
-	keyframe: KeyframeEntity;
+	id: string;
 }>();
 const editor = useEditor();
 const project = useProject();
 const isDragging = ref(false);
 const startX = ref(0);
 const startTime = ref(0);
-const color = computed(() =>
-	editor.activeKeyframeIds.includes(props.keyframe.id) ? 'primary' : ''
-);
-const left = computed(() => (props.keyframe.to / 1000) * editor.secondWidth + 'px');
+const kf = computed(() => project.kfe[props.id]);
+const color = computed(() => (editor.activeKeyframeIds.includes(props.id) ? 'primary' : ''));
+const left = computed(() => (kf.value.to / 1000) * editor.secondWidth + 'px');
 const title = computed(
 	() =>
-		`Value: ${props.keyframe.value} at Time: ${props.keyframe.to / 1000}s with ${
-			props.keyframe.easing || 'linear'
+		`Value: ${kf.value.value} at Time: ${kf.value.to / 1000}s with ${
+			kf.value.easing || 'linear'
 		} easing.`
 );
 const dragStart = (event) => {
-	const { to, id } = props.keyframe;
+	const { to, id } = kf.value;
 	isDragging.value = true;
 	startX.value = event.clientX;
 	startTime.value = to / 1000;

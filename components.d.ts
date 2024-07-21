@@ -23,7 +23,7 @@ declare module 'vue' {
     Input: typeof import('./src/components/controls/Input.vue')['default']
     InputGroup: typeof import('./src/components/controls/InputGroup.vue')['default']
     KeyFrame: typeof import('./src/components/editor/timeline/KeyFrame.vue')['default']
-    KeyFramesTrack: typeof import('./src/components/editor/timeline/KeyFramesTrack.vue')['default']
+    KeyFrameTrack: typeof import('./src/components/editor/timeline/KeyFrameTrack.vue')['default']
     LayerList: typeof import('./src/components/editor/leftsidebar/LayerList.vue')['default']
     LeftSideBar: typeof import('./src/components/editor/LeftSideBar.vue')['default']
     MainContent: typeof import('./src/components/editor/MainContent.vue')['default']

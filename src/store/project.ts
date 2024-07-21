@@ -1,15 +1,15 @@
-import { KeyframeObject, ShapeObject, TrackObject, uniqueId } from '@grafikjs/core';
+import { KeyframeObject, ShapeObject, uniqueId } from '@grafikjs/core';
 import { defineStore } from 'pinia';
-import { isArray, omit } from 'lodash';
+import { omit } from 'lodash';
 import { UndoRedoActions } from '../plugins/undo-redo';
 import { CLASSES } from '@grafikjs/vue';
 
 export type IDList = string[];
 
 export interface ByID extends Omit<ShapeObject, 'animation'> {
-	parent: string;
+	parent?: string;
 	children: IDList;
-	animation: IDList;
+	tracks: IDList;
 }
 
 export type ByIDs = {
@@ -19,17 +19,28 @@ export type ByIDs = {
 export type ChangedProps = {
 	[key: string]: Partial<ByID>;
 };
-
+/*
 export type AnimationList = {
 	id: string;
 	tracks?: TrackObject[];
 };
+*/
+
+export interface TrackEntity {
+	shapeId: string;
+	property: string;
+	keyframes: IDList;
+}
 
 export interface KeyframeEntity extends KeyframeObject {
 	id: string;
 	shapeId: string;
 	property: string;
 }
+
+export type TrackEntities = {
+	[key: string]: TrackEntity;
+};
 
 export type KeyframeEntities = {
 	[key: string]: KeyframeEntity;
@@ -44,6 +55,7 @@ export interface ProjectState {
 	height: number;
 	byIds: ByIDs;
 	ids: IDList;
+	tre: TrackEntities;
 	kfe: KeyframeEntities;
 }
 
@@ -64,6 +76,7 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 		height: 400,
 		ids: [],
 		byIds: {},
+		tre: {},
 		kfe: {}
 	}),
 	actions: {
@@ -79,7 +92,7 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 					...defs,
 					...layer,
 					id,
-					animation: isArray(layer.animation) ? layer.animation : []
+					tracks: layer.tracks || []
 				};
 			} else {
 				//
@@ -104,7 +117,16 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 		},
 		addKf(id, prop, value, time) {
 			const layer = this.byIds[id];
+			const trackId = id + '--' + prop;
 			if (layer) {
+				if (!layer.tracks.includes(prop)) {
+					layer.tracks.push(prop);
+					this.tre[trackId] = {
+						shapeId: id,
+						property: prop,
+						keyframes: []
+					};
+				}
 				const kf: KeyframeEntity = {
 					id: uniqueId('keyframe'),
 					shapeId: id,
@@ -112,11 +134,8 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 					to: time * 1000,
 					value
 				};
+				this.tre[trackId].keyframes.push(kf.id);
 				this.kfe[kf.id] = kf;
-				if (!layer.animation) {
-					layer.animation = [];
-				}
-				layer.animation.push(kf.id);
 			}
 		},
 		removeKf() {},
