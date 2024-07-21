@@ -1,5 +1,5 @@
 <script setup>
-import { mdiAccount, mdiAccountCog, mdiDraw, mdiLogin, mdiLogout, mdiViewDashboard } from '@mdi/js';
+import { mdiAccount, mdiAccountCog, mdiDraw, mdiLogout, mdiViewDashboard } from '@mdi/js';
 import { useUser } from '../../store';
 import { useRouter } from 'vue-router';
 import axios from '../../axios';
@@ -29,9 +29,9 @@ const logout = () => {
 </script>
 
 <template>
-	<QBtn size="sm" round flat :icon="mdiAccount">
+	<QBtn v-if="userData.loggedIn" size="sm" round flat :icon="mdiAccount">
 		<QMenu>
-			<QList v-if="userData.loggedIn">
+			<QList>
 				<QItem>
 					<QItemSection avatar>
 						<QAvatar color="primary">U</QAvatar>
@@ -44,31 +44,25 @@ const logout = () => {
 			</QList>
 			<QList dense>
 				<QSeparator />
-				<QItem v-if="userData.loggedIn" to="/">
+				<QItem to="/">
 					<QItemSection side>
 						<QIcon :name="mdiDraw" size="small" />
 					</QItemSection>
 					<QItemSection>Editor</QItemSection>
 				</QItem>
-				<QItem v-if="userData.loggedIn" to="/dashboard">
+				<QItem to="/dashboard">
 					<QItemSection side>
 						<QIcon :name="mdiViewDashboard" size="small" />
 					</QItemSection>
 					<QItemSection>Dashboard</QItemSection>
 				</QItem>
-				<QItem v-if="userData.loggedIn" to="/account">
+				<QItem to="/account">
 					<QItemSection side>
 						<QIcon :name="mdiAccountCog" size="small" />
 					</QItemSection>
 					<QItemSection>Account</QItemSection>
 				</QItem>
-				<QItem v-if="!userData.loggedIn" to="/login">
-					<QItemSection side>
-						<QIcon :name="mdiLogin" size="small" />
-					</QItemSection>
-					<QItemSection>Login</QItemSection>
-				</QItem>
-				<QItem v-if="userData.loggedIn" clickable @click="logout">
+				<QItem clickable @click="logout">
 					<QItemSection side>
 						<QIcon :name="mdiLogout" size="small" />
 					</QItemSection>
@@ -77,6 +71,7 @@ const logout = () => {
 			</QList>
 		</QMenu>
 	</QBtn>
+	<QBtn v-else size="sm" round flat :icon="mdiAccount" to="/login" />
 </template>
 
 <style scoped></style>

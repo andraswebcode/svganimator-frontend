@@ -9,7 +9,7 @@ const tab = ref('profile');
 	<AppBar />
 	<QPageContainer>
 		<QPage>
-			<QTabs class="q-my-md" v-model="tab">
+			<QTabs class="q-py-md" v-model="tab">
 				<QTab name="profile" label="Profile" :icon="mdiAccount" />
 				<QTab name="notification" label="Notification" :icon="mdiInformation" />
 				<QTab name="subscription" label="Subscription" :icon="mdiInvoice" />
@@ -17,12 +17,18 @@ const tab = ref('profile');
 			</QTabs>
 			<div class="row justify-center">
 				<QTabPanels class="col-4 shadow-5" v-model="tab">
-					<QTabPanel name="profile">name email password</QTabPanel>
-					<QTabPanel name="notification">send email campaigns</QTabPanel>
-					<QTabPanel name="subscription"
-						>current plan payment info billing hystory/invoices</QTabPanel
-					>
-					<QTabPanel name="support">subjeck message</QTabPanel>
+					<QTabPanel name="profile">
+						<ProfilePanel />
+					</QTabPanel>
+					<QTabPanel name="notification">
+						<NotificationPanel />
+					</QTabPanel>
+					<QTabPanel name="subscription">
+						<SubscriptionPanel />
+					</QTabPanel>
+					<QTabPanel name="support">
+						<SupportPanel />
+					</QTabPanel>
 				</QTabPanels>
 			</div>
 		</QPage>

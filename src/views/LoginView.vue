@@ -49,6 +49,7 @@ const pwRules = [(value) => (value && value.length) || 'Please enter your passwo
 				type="email"
 				class="q-mb-sm"
 				filled
+				square
 				v-model="email"
 				lazy-rules
 				:rules="emailRules"
@@ -58,6 +59,7 @@ const pwRules = [(value) => (value && value.length) || 'Please enter your passwo
 				type="password"
 				class="q-mb-sm"
 				filled
+				square
 				v-model="password"
 				lazy-rules
 				:rules="pwRules"
@@ -67,7 +69,7 @@ const pwRules = [(value) => (value && value.length) || 'Please enter your passwo
 			</small>
 		</template>
 		<template #actions>
-			<QBtn type="submit" :loading="loading" color="primary">Login</QBtn>
+			<QBtn type="submit" :loading="loading" square color="primary">Login</QBtn>
 		</template>
 	</FormContainer>
 </template>

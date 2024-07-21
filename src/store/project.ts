@@ -51,6 +51,9 @@ export type ChangedKeyframes = {
 };
 
 export interface ProjectState {
+	title: string;
+	description: string;
+	status: 'public' | 'private' | 'deleted';
 	width: number;
 	height: number;
 	byIds: ByIDs;
@@ -72,6 +75,9 @@ export interface ProjectActions extends UndoRedoActions {
 
 export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>('project', {
 	state: () => ({
+		title: '',
+		description: '',
+		status: 'private',
 		width: 400,
 		height: 400,
 		ids: [],

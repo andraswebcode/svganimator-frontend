@@ -59,7 +59,9 @@ const pwcRules = [
 				label="Name"
 				type="text"
 				class="q-mb-sm"
+				autocomplete="off"
 				filled
+				square
 				v-model="name"
 				lazy-rules
 				:rules="nameRules"
@@ -68,7 +70,9 @@ const pwcRules = [
 				label="Email"
 				type="email"
 				class="q-mb-sm"
+				autocomplete="off"
 				filled
+				square
 				v-model="email"
 				lazy-rules
 				:rules="emailRules"
@@ -77,7 +81,9 @@ const pwcRules = [
 				label="Password"
 				type="password"
 				class="q-mb-sm"
+				autocomplete="new-password"
 				filled
+				square
 				v-model="password"
 				lazy-rules
 				:rules="pwRules"
@@ -86,14 +92,16 @@ const pwcRules = [
 				label="Confirm Password"
 				type="password"
 				class="q-mb-sm"
+				autocomplete="new-password"
 				filled
+				square
 				v-model="passwordConfirm"
 				lazy-rules
 				:rules="pwcRules"
 			/>
 		</template>
 		<template #actions>
-			<QBtn type="submit" :loading="loading" color="primary">Register</QBtn>
+			<QBtn type="submit" :loading="loading" square color="primary">Register</QBtn>
 		</template>
 	</FormContainer>
 </template>

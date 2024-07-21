@@ -24,14 +24,30 @@ const useProjectRequest = () => {
 			.get('projects/' + _id, { headers: { Authorization: bearerToken } })
 			.then((response) => {
 				const {
-					data: { width, height, layers, layer_ids, keyframes }
+					data: {
+						title,
+						description,
+						status,
+						width,
+						height,
+						layers,
+						layer_ids,
+						tracks,
+						keyframes
+					}
 				} = response;
+				console.log(response.data);
+
 				hide();
 				return {
+					title,
+					description,
+					status,
 					width,
 					height,
 					byIds: layers,
 					ids: layer_ids,
+					tre: tracks,
 					kfe: keyframes
 				};
 			})

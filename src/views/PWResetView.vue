@@ -21,6 +21,7 @@ const emailRules = [
 				type="email"
 				class="q-mb-sm"
 				filled
+				square
 				v-model="email"
 				lazy-rules
 				:rules="emailRules"
@@ -30,7 +31,7 @@ const emailRules = [
 			</small>
 		</template>
 		<template #actions>
-			<QBtn type="submit" :loading="loading" color="primary">Send Email</QBtn>
+			<QBtn type="submit" :loading="loading" square color="primary">Send Email</QBtn>
 		</template>
 	</FormContainer>
 </template>

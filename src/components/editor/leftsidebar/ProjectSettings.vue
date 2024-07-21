@@ -1,6 +1,7 @@
 <script setup>
 import { mdiFile, mdiPencilRuler } from '@mdi/js';
-import { useEditor } from './../../../store';
+import { useProject, useEditor } from './../../../store';
+const project = useProject();
 const editor = useEditor();
 </script>
 
@@ -15,8 +16,12 @@ const editor = useEditor();
 			</template>
 			<QCard>
 				<QCardSection>
-					<Input type="text" label="Project Title" />
-					<Input type="textarea" label="Project Description" />
+					<Input type="text" label="Project Title" v-model="project.title" />
+					<Input
+						type="textarea"
+						label="Project Description"
+						v-model="project.description"
+					/>
 				</QCardSection>
 			</QCard>
 		</QExpansionItem>

@@ -36,15 +36,18 @@ const changeMode = (mode) => {
 	}
 };
 const saveProject = (id) => {
-	const { width, height, byIds, ids, kfe } = project;
+	const { title, description, status, width, height, byIds, ids, tre, kfe } = project;
 	save(
 		id,
 		{
-			title: '',
+			title,
+			description,
+			status,
 			width,
 			height,
 			layers: toRaw(byIds),
 			layer_ids: toRaw(ids),
+			tracks: toRaw(tre),
 			keyframes: toRaw(kfe)
 		},
 		({ id }) => {

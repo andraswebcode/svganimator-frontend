@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { mdiRhombus } from '@mdi/js';
+import { toFixed } from '@grafikjs/core';
 import { useEditor, useProject } from '../../../store';
 import { computed, ref } from 'vue';
 
@@ -14,12 +15,12 @@ const startTime = ref(0);
 const kf = computed(() => project.kfe[props.id]);
 const color = computed(() => (editor.activeKeyframeIds.includes(props.id) ? 'primary' : ''));
 const left = computed(() => (kf.value.to / 1000) * editor.secondWidth + 'px');
-const title = computed(
-	() =>
-		`Value: ${kf.value.value} at Time: ${kf.value.to / 1000}s with ${
-			kf.value.easing || 'linear'
-		} easing.`
-);
+const title = computed(() => {
+	const v = kf.value.value;
+	const t = toFixed(kf.value.to / 1000);
+	const e = kf.value.easing || 'linear';
+	return `Value: ${v} at Time: ${t}s with ${e} easing.`;
+});
 const dragStart = (event) => {
 	const { to, id } = kf.value;
 	isDragging.value = true;
