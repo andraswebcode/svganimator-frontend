@@ -34,6 +34,10 @@ const stopResize = () => {
 
 onMounted(() => {
 	document.addEventListener('mouseup', stopResize);
+	setTimeout(() => {
+		// Dispatch a resize event here to update canvas position.
+		window.dispatchEvent(new Event('resize'));
+	}, 20);
 });
 
 onBeforeMount(() => {

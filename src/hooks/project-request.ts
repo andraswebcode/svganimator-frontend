@@ -71,14 +71,18 @@ const useProjectRequest = () => {
 				hide();
 				return {
 					totalPages: data.total_pages,
-					projects: data.items.map(({ id, title, width, height, layer_ids, layers }) => {
-						const data = serialize(layers, layer_ids);
-						return { id, title, width, height, data };
-					})
+					projects: data.items.map(
+						({ id, title, width, height, layer_ids, layers, tracks, keyframes }) => {
+							const data = serialize(layers, layer_ids, tracks, keyframes);
+							return { id, title, width, height, data };
+						}
+					)
 				};
 			})
 			.then(then)
 			.catch((error) => {
+				console.log(error);
+
 				send(error.response?.data.message || error.message, 'negative');
 				hide();
 			});

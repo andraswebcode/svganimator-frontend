@@ -15,7 +15,7 @@ const model = defineModel({
 		if (props.property) {
 			const ids = editor.activeLayerIds;
 			if (ids.length === 1) {
-				return project.byIds[ids[0]][props.property];
+				return project.byIds[ids[0]]?.[props.property];
 			} else {
 				return '';
 			}

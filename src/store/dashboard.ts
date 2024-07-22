@@ -1,8 +1,5 @@
+import { ShapeObject } from '@grafikjs/core';
 import { defineStore } from 'pinia';
-import axios from '../axios';
-import { useUser } from '.';
-import { useLoader, useNotice } from '../hooks';
-import { serialize } from '../utils/project';
 
 export type DashboardQueryParams = {
 	page?: number;
@@ -10,9 +7,19 @@ export type DashboardQueryParams = {
 	date?: string;
 };
 
+export type PreviewItem = {
+	id: number;
+	title: string;
+	data: ShapeObject[];
+	width: number;
+	height: number;
+};
+
 export interface DashboardState {
 	projects: any[];
 	totalPages: number;
+	showPreview: boolean;
+	preview: PreviewItem | null;
 }
 
 export interface DashboardGetters {}
@@ -22,6 +29,8 @@ export interface DashboardActions {}
 export default defineStore<string, DashboardState>('dashboard', {
 	state: () => ({
 		projects: [],
-		totalPages: 1
+		totalPages: 1,
+		showPreview: false,
+		preview: null
 	})
 });

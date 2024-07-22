@@ -11,7 +11,7 @@
 	},
 	"dependencies": {
 		"@grafikjs/core": "^0.0.64",
-		"@grafikjs/vue": "^0.0.3",
+		"@grafikjs/vue": "^0.0.31",
 		"@mdi/js": "^7.4.47",
 		"@quasar/extras": "^1.16.11",
 		"@vueuse/core": "^10.11.0",

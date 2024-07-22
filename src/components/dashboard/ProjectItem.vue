@@ -8,14 +8,16 @@ import {
 	mdiShareVariant
 } from '@mdi/js';
 import { toRaw } from 'vue';
+import useDashboard, { PreviewItem } from '../../store/dashboard';
 
-const props = defineProps<{
-	id: number;
-	title: string;
-	data: any[];
-	width: number;
-	height: number;
-}>();
+const props = defineProps<PreviewItem>();
+const dashboard = useDashboard();
+const openPreview = () => {
+	dashboard.$patch({
+		showPreview: true,
+		preview: toRaw(props)
+	});
+};
 </script>
 
 <template>
@@ -35,7 +37,7 @@ const props = defineProps<{
 				</div>
 				<QCardActions class="full-height" vertical>
 					<QBtn :icon="mdiFileEditOutline" flat round size="sm" :to="`/${id}`" />
-					<QBtn :icon="mdiEyeOutline" flat round size="sm" />
+					<QBtn :icon="mdiEyeOutline" flat round size="sm" @click="openPreview" />
 					<QBtn :icon="mdiContentDuplicate" flat round size="sm" />
 					<QBtn :icon="mdiTrashCanOutline" flat round size="sm" />
 					<QSpace vertical />

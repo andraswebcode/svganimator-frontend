@@ -1,3 +1,4 @@
+import { TrackObject } from '@grafikjs/core';
 import { IDList } from '../store/project';
 
 const _parseLayers = (layers: any[], idsRef: string[], byIdsRef: any, parentId?: string) => {
@@ -26,14 +27,32 @@ export const parse = (layers: any[]) => {
 	return output;
 };
 
-const _serializeMap = (byIds: any) => (id: string) => {
-	const item = byIds[id];
-	const children = item.children?.map(_serializeMap(byIds));
+const _serializeMap = (byIds: any, tre: any, kfe: any) => (id: string) => {
+	const item = byIds[id] || {};
+	const children = item.children?.map(_serializeMap(byIds, tre, kfe));
+	const tracks = item.tracks?.map((prop): TrackObject => {
+		const track = tre[id + '--' + prop];
+		const keyframes = track.keyframes?.map((kfId) => {
+			const { to, value, easing } = kfe[kfId];
+			return {
+				to,
+				value,
+				easing
+			};
+		});
+		return {
+			property: track.property,
+			originalValue: item[prop],
+			keyframes
+		};
+	});
+
 	return {
 		...item,
 		children,
-		animation: { tracks: [] }
+		animation: { tracks }
 	};
 };
 
-export const serialize = (byIds: any, ids: any) => ids.map(_serializeMap(byIds));
+export const serialize = (byIds: any, ids: any, tre: any, kfe: any) =>
+	ids.map(_serializeMap(byIds, tre, kfe));

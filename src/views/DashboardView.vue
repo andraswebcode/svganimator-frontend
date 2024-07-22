@@ -24,6 +24,7 @@ onBeforeRouteUpdate((to) => {
 	<AppBar />
 	<DashboardSideBar />
 	<DashboardContent />
+	<PreviewDialog />
 </template>
 
 <style scoped></style>

@@ -3,9 +3,12 @@ import { mdiAccount, mdiAccountCog, mdiDraw, mdiLogout, mdiViewDashboard } from 
 import { useUser } from '../../store';
 import { useRouter } from 'vue-router';
 import axios from '../../axios';
+import { useLoader } from '../../hooks';
 const userData = useUser();
 const router = useRouter();
+const { show, hide } = useLoader();
 const logout = () => {
+	show();
 	axios
 		.post(
 			'logout',
@@ -20,6 +23,7 @@ const logout = () => {
 			console.log(data);
 			userData.user = {};
 			localStorage.removeItem('userData');
+			hide();
 			router.push('/login');
 		})
 		.catch((error) => {
