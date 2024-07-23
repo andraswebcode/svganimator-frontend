@@ -1,5 +1,5 @@
 <script setup>
-import { mdiMagnifyMinus, mdiMagnifyPlus } from '@mdi/js';
+import { mdiMagnifyMinus, mdiMagnifyPlus, mdiChat, mdiHelpCircle, mdiShareVariant } from '@mdi/js';
 import { useEditor } from '../../../store';
 
 const editor = useEditor();
@@ -16,23 +16,25 @@ const zoom = (dir) => {
 	<div class="footer row align-center">
 		<div class="zoom col">
 			<div class="row items-center">
-				<div class="col col-shrink">
+				<div class="col col-shrink q-ml-sm">
 					<QBtn
 						:icon="mdiMagnifyMinus"
-						square
+						round
 						flat
+						size="sm"
 						:disable="editor.secondWidth <= 40"
 						@click="zoom('minus')"
 					/>
 				</div>
-				<div class="col">
+				<div class="col q-mx-sm">
 					<QSlider v-model="editor.secondWidth" :min="40" :max="400" />
 				</div>
-				<div class="col col-shrink">
+				<div class="col col-shrink q-mr-sm">
 					<QBtn
 						:icon="mdiMagnifyPlus"
-						square
+						round
 						flat
+						size="sm"
 						:disable="editor.secondWidth >= 400"
 						@click="zoom('plus')"
 					/>
@@ -40,9 +42,14 @@ const zoom = (dir) => {
 			</div>
 		</div>
 		<div class="col">
-			<div class="row">
+			<div class="row justify-between items-center">
 				<div class="col-3">
 					<QSlider v-model="editor.trackLeft" :max="2000" />
+				</div>
+				<div class="col-shrink">
+					<QBtn :icon="mdiShareVariant" title="Share" round size="sm" />
+					<QBtn :icon="mdiChat" title="Feedback" round size="sm" />
+					<QBtn :icon="mdiHelpCircle" title="Help" round size="sm" />
 				</div>
 			</div>
 		</div>
