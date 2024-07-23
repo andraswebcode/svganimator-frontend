@@ -1,7 +1,7 @@
 <script setup>
 import { useEditor } from '../../store';
 import { clamp } from '../../utils/functions';
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const editor = useEditor();
 const isResizing = ref(false);
@@ -33,15 +33,10 @@ const stopResize = () => {
 };
 
 onMounted(() => {
-	document.addEventListener('mouseup', stopResize);
 	setTimeout(() => {
 		// Dispatch a resize event here to update canvas position.
 		window.dispatchEvent(new Event('resize'));
 	}, 20);
-});
-
-onBeforeMount(() => {
-	document.removeEventListener('mouseup', stopResize);
 });
 </script>
 

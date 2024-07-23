@@ -26,7 +26,11 @@ const dragStart = (event) => {
 	isDragging.value = true;
 	startX.value = event.clientX;
 	startTime.value = to / 1000;
-	editor.activeKeyframeIds = [id];
+
+	if (!editor.activeKeyframeIds.length) {
+		editor.activeKeyframeIds = [id];
+	}
+
 	document.addEventListener('mousemove', drag);
 	document.addEventListener('mouseup', dragEnd);
 };
@@ -51,6 +55,7 @@ const dragEnd = () => {
 		:color="color"
 		:style="{ left }"
 		:title="title"
+		:data-keyframe="props.id"
 		@mousedown="dragStart"
 	/>
 </template>
@@ -59,5 +64,8 @@ const dragEnd = () => {
 .keyframe {
 	top: 50%;
 	transform: translate(-50%, -50%);
+}
+:deep(svg) {
+	pointer-events: none;
 }
 </style>

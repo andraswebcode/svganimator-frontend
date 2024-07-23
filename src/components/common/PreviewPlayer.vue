@@ -47,4 +47,9 @@ const playPause = () => {
 	</QItemSection>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.q-slider__thumb--h),
+:deep(.q-slider__selection) {
+	transition: none !important;
+}
+</style>

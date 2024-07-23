@@ -29,8 +29,4 @@ const close = () => {
 	max-width: 100%;
 	max-height: 50vh;
 }
-:deep(.q-slider__thumb--h),
-:deep(.q-slider__selection) {
-	transition: none;
-}
 </style>

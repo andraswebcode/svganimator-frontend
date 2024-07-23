@@ -1,11 +1,14 @@
 <script setup>
 import { computed } from 'vue';
+import { mdiRhombus } from '@mdi/js';
 import { map } from 'lodash';
 import { useEditor, useProject } from './../../../store';
 import { SHAPE_ICON_MAP } from './../../../utils/constants';
-import { mdiRhombus } from '@mdi/js';
+import { useKeyframeSelector } from './../../../hooks';
+
 const project = useProject();
 const editor = useEditor();
+const { containerRef, startSelect, style } = useKeyframeSelector();
 const items = computed(() =>
 	map(project.byIds, (layer) => {
 		const { id, tagName, name, tracks } = layer;
@@ -31,7 +34,7 @@ const playheadDisplay = computed(() =>
 </script>
 
 <template>
-	<div class="content col">
+	<div ref="containerRef" class="content col overflow-hidden" @mousedown.prevent="startSelect">
 		<QList class="scroll">
 			<QExpansionItem
 				v-for="item of items"
@@ -62,6 +65,7 @@ const playheadDisplay = computed(() =>
 			</QExpansionItem>
 		</QList>
 		<div class="playhead" :style="{ display: playheadDisplay, left: playheadLeft }" />
+		<div class="selector absolute" :style="style"></div>
 	</div>
 </template>
 
@@ -80,6 +84,10 @@ const playheadDisplay = computed(() =>
 		height: 100%;
 		background-color: $editor-border-dark-color;
 		pointer-events: none;
+	}
+	.selector {
+		background: rgba(173, 216, 230, 0.4);
+		border: dashed 2px rgba(75, 170, 200, 0.4);
 	}
 }
 .q-list {

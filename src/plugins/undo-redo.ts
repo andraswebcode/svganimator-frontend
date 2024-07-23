@@ -1,7 +1,6 @@
 import { PiniaPluginContext } from 'pinia';
 import { ProjectState } from '../store/project';
 import { toRaw } from 'vue';
-import { throttle } from 'quasar';
 
 export interface UndoRedoActions {
 	undo: () => void;
