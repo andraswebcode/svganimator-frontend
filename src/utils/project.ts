@@ -30,22 +30,27 @@ export const parse = (layers: any[]) => {
 const _serializeMap = (byIds: any, tre: any, kfe: any) => (id: string) => {
 	const item = byIds[id] || {};
 	const children = item.children?.map(_serializeMap(byIds, tre, kfe));
-	const tracks = item.tracks?.map((prop): TrackObject => {
-		const track = tre[id + '--' + prop];
-		const keyframes = track.keyframes?.map((kfId) => {
-			const { to, value, easing } = kfe[kfId];
+	const tracks = item.tracks
+		?.map((prop): TrackObject | undefined => {
+			const track = tre[id + '--' + prop];
+			if (!track) {
+				return;
+			}
+			const keyframes = track.keyframes?.map((kfId) => {
+				const { to, value, easing } = kfe[kfId];
+				return {
+					to,
+					value,
+					easing
+				};
+			});
 			return {
-				to,
-				value,
-				easing
+				property: track.property,
+				originalValue: item[prop],
+				keyframes
 			};
-		});
-		return {
-			property: track.property,
-			originalValue: item[prop],
-			keyframes
-		};
-	});
+		})
+		.filter((track) => !!track);
 
 	return {
 		...item,

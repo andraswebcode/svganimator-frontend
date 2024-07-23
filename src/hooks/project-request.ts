@@ -45,10 +45,10 @@ const useProjectRequest = () => {
 					status,
 					width,
 					height,
-					byIds: layers,
+					byIds: Array.isArray(layers) && !layers.length ? {} : layers,
 					ids: layer_ids,
-					tre: tracks,
-					kfe: keyframes
+					tre: Array.isArray(tracks) && !tracks.length ? {} : tracks,
+					kfe: Array.isArray(keyframes) && !keyframes.length ? {} : keyframes
 				};
 			})
 			.then(then)
@@ -73,7 +73,11 @@ const useProjectRequest = () => {
 					totalPages: data.total_pages,
 					projects: data.items.map(
 						({ id, title, width, height, layer_ids, layers, tracks, keyframes }) => {
-							const data = serialize(layers, layer_ids, tracks, keyframes);
+							const l = Array.isArray(layers) && !layers.length ? {} : layers;
+							const tre = Array.isArray(tracks) && !tracks.length ? {} : tracks;
+							const kfe =
+								Array.isArray(keyframes) && !keyframes.length ? {} : keyframes;
+							const data = serialize(l, layer_ids, tre, kfe);
 							return { id, title, width, height, data };
 						}
 					)
