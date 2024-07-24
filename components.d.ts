@@ -53,6 +53,7 @@ declare module 'vue' {
     TimeLine: typeof import('./src/components/editor/TimeLine.vue')['default']
     TimelineContent: typeof import('./src/components/editor/timeline/TimelineContent.vue')['default']
     TimelineFooter: typeof import('./src/components/editor/timeline/TimelineFooter.vue')['default']
+    TimelineFooterButtons: typeof import('./src/components/editor/timeline/TimelineFooterButtons.vue')['default']
     TimelineHeader: typeof import('./src/components/editor/timeline/TimelineHeader.vue')['default']
     TimelineSettings: typeof import('./src/components/editor/timeline/TimelineSettings.vue')['default']
     TimeTrack: typeof import('./src/components/editor/timeline/TimeTrack.vue')['default']

@@ -199,9 +199,9 @@ const saveProject = (id) => {
 			/>
 			<QSpace />
 			<QBtn class="q-mx-sm" size="sm" flat @click="editor.exportDialog = true">Export</QBtn>
-			<QBtn class="q-mx-sm" size="sm" color="primary" @click="saveProject($route.params.id)"
-				>Save</QBtn
-			>
+			<QBtn class="q-mx-sm" size="sm" color="primary" @click="saveProject($route.params.id)">
+				Save
+			</QBtn>
 			<UserMenu />
 		</QToolbar>
 	</QHeader>

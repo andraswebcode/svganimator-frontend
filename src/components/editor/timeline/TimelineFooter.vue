@@ -1,5 +1,5 @@
 <script setup>
-import { mdiMagnifyMinus, mdiMagnifyPlus, mdiChat, mdiHelpCircle, mdiShareVariant } from '@mdi/js';
+import { mdiMagnifyMinus, mdiMagnifyPlus } from '@mdi/js';
 import { useEditor } from '../../../store';
 
 const editor = useEditor();
@@ -46,10 +46,8 @@ const zoom = (dir) => {
 				<div class="col-3">
 					<QSlider v-model="editor.trackLeft" :max="2000" />
 				</div>
-				<div class="col-shrink">
-					<QBtn :icon="mdiShareVariant" title="Share" round size="sm" />
-					<QBtn :icon="mdiChat" title="Feedback" round size="sm" />
-					<QBtn :icon="mdiHelpCircle" title="Help" round size="sm" />
+				<div class="col-shrink q-mr-sm">
+					<TimelineFooterButtons />
 				</div>
 			</div>
 		</div>

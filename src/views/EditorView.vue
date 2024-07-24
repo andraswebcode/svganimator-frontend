@@ -2,19 +2,19 @@
 import { onMounted } from 'vue';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import { useProjectRequest } from '../hooks';
-import { useProject } from '../store';
+import { useEditor, useProject } from '../store';
 
 const route = useRoute();
 const project = useProject();
+const editor = useEditor();
 const { get } = useProjectRequest();
 
 onMounted(() => {
 	get(route.params.id, (state) => {
+		editor.$reset();
+		project.$reset();
 		if (state) {
-			project.$reset();
 			project.$patch(state);
-		} else {
-			project.$reset();
 		}
 		project.clearHistory();
 		project.startHistory();
@@ -25,11 +25,10 @@ onBeforeRouteUpdate((to, from) => {
 		return;
 	}
 	get(to.params.id, (state) => {
+		editor.$reset();
+		project.$reset();
 		if (state) {
-			project.$reset();
 			project.$patch(state);
-		} else {
-			project.$reset();
 		}
 		project.clearHistory();
 		project.startHistory();
