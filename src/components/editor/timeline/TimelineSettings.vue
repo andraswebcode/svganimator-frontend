@@ -1,8 +1,9 @@
 <script setup>
 import { mdiChartBellCurveCumulative, mdiTransition } from '@mdi/js';
-import { useEditor } from '../../../store';
+import { useEditor, useProject } from '../../../store';
 
 const editor = useEditor();
+const project = useProject();
 const easings = [
 	{
 		label: 'Linear',
@@ -53,6 +54,13 @@ const easings = [
 		value: 'backOut'
 	}
 ];
+const setEasing = (easing) => {
+	const kfs = editor.activeKeyframeIds.reduce((memo, id) => {
+		memo[id] = { easing };
+		return memo;
+	}, {});
+	project.updateKf(kfs);
+};
 </script>
 
 <template>
@@ -74,9 +82,9 @@ const easings = [
 		size="sm"
 		:disable="!editor.activeKeyframeIds.length"
 	>
-		<QMenu>
+		<QMenu auto-close>
 			<QList dense>
-				<QItem v-for="easing of easings" clickable>
+				<QItem v-for="easing of easings" clickable @click="setEasing(easing.value)">
 					<QItemSection>{{ easing.label }}</QItemSection>
 				</QItem>
 			</QList>

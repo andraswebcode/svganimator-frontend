@@ -41,6 +41,7 @@ const useKeyframeSelector = () => {
 		}
 
 		isSelecting.value = true;
+		editor.activeKeyframeIds = [];
 
 		const rect = containerRef.value?.getBoundingClientRect();
 		if (!rect) {

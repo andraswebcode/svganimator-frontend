@@ -28,7 +28,7 @@ const dragStart = (event) => {
 	isDragging.value = true;
 	startX.value = event.clientX;
 
-	if (!editor.activeKeyframeIds.length) {
+	if (editor.activeKeyframeIds.length < 2) {
 		editor.activeKeyframeIds = [id];
 	}
 

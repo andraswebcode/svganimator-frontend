@@ -10,13 +10,27 @@ import {
 	mdiShareVariant
 } from '@mdi/js';
 import { ref } from 'vue';
+import axios from '../../../axios';
 
 const rate = ref(0);
 const message = ref('');
 const loading = ref(false);
 const send = () => {
 	loading.value = true;
-	console.log(rate, message);
+	console.log(rate.value);
+	axios
+		.post('feedback', {
+			rate,
+			message
+		})
+		.then((response) => {
+			console.log(response);
+			loading.value = false;
+		})
+		.catch((error) => {
+			console.error(error);
+			loading.value = false;
+		});
 };
 </script>
 
