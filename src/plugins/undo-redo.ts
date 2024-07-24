@@ -1,6 +1,7 @@
 import { PiniaPluginContext } from 'pinia';
 import { ProjectState } from '../store/project';
 import { toRaw } from 'vue';
+import { debounce } from 'quasar';
 
 export interface UndoRedoActions {
 	undo: () => void;
@@ -8,6 +9,7 @@ export interface UndoRedoActions {
 	canUndo: () => boolean;
 	canRedo: () => boolean;
 	startHistory: () => void;
+	clearHistory: () => void;
 }
 
 export default ({
@@ -20,6 +22,7 @@ export default ({
 	let _stack: ProjectState[] = [];
 	let _index = 0;
 	let _isUndoRedoing = false;
+	let _unsubscribe: (() => void) | null = null;
 
 	const undo = () => {
 		_isUndoRedoing = true;
@@ -39,17 +42,28 @@ export default ({
 	};
 	const canUndo = () => true;
 	const canRedo = () => true;
+	const saveState = debounce(() => {
+		const state = JSON.parse(JSON.stringify(toRaw(store.$state)));
+		_stack = _stack.slice(0, _index + 1);
+		_stack.push(state);
+		_index++;
+	}, 200);
 	const startHistory = () => {
 		_stack.push(JSON.parse(JSON.stringify(toRaw(store.$state))));
-		store.$subscribe(() => {
+		_unsubscribe = store.$subscribe(() => {
 			if (!_isUndoRedoing) {
-				const state = JSON.parse(JSON.stringify(toRaw(store.$state)));
-				_stack = _stack.slice(0, _index + 1);
-				_stack.push(state);
-				_index++;
+				saveState();
 			}
-			console.log(_stack);
+			console.log(_stack, _index);
 		});
+	};
+	const clearHistory = () => {
+		_stack = [];
+		_index = 0;
+		if (_unsubscribe) {
+			_unsubscribe();
+			_unsubscribe = null;
+		}
 	};
 
 	return {
@@ -57,6 +71,7 @@ export default ({
 		redo,
 		canUndo,
 		canRedo,
-		startHistory
+		startHistory,
+		clearHistory
 	};
 };

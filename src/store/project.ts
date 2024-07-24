@@ -64,7 +64,7 @@ export interface ProjectState {
 
 export type ProjectGetters = {};
 
-export interface ProjectActions extends UndoRedoActions {
+export interface ProjectActions extends Partial<UndoRedoActions> {
 	addLayer: (layer: ByID, parent?: string) => void;
 	removeLayer: (id: string) => void;
 	updateProps: (id: string | ChangedProps, props?: Partial<ByID>) => void;
@@ -158,15 +158,6 @@ export default defineStore<string, ProjectState, ProjectGetters, ProjectActions>
 					this.updateKf(_id, id[_id]);
 				}
 			}
-		},
-		undo() {},
-		redo() {},
-		canUndo() {
-			return false;
-		},
-		canRedo() {
-			return false;
-		},
-		startHistory() {}
+		}
 	}
 });

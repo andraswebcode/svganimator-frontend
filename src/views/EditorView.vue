@@ -11,10 +11,12 @@ const { get } = useProjectRequest();
 onMounted(() => {
 	get(route.params.id, (state) => {
 		if (state) {
+			project.$reset();
 			project.$patch(state);
 		} else {
 			project.$reset();
 		}
+		project.clearHistory();
 		project.startHistory();
 	});
 });
@@ -24,10 +26,12 @@ onBeforeRouteUpdate((to, from) => {
 	}
 	get(to.params.id, (state) => {
 		if (state) {
+			project.$reset();
 			project.$patch(state);
 		} else {
 			project.$reset();
 		}
+		project.clearHistory();
 		project.startHistory();
 	});
 });

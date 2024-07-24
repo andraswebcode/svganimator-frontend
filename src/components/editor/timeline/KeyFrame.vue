@@ -27,15 +27,16 @@ const dragStart = (event) => {
 	const { id } = kf.value;
 	isDragging.value = true;
 	startX.value = event.clientX;
+
+	if (!editor.activeKeyframeIds.length) {
+		editor.activeKeyframeIds = [id];
+	}
+
 	startTimes.value = editor.activeKeyframeIds.reduce((memo, id) => {
 		const { to } = project.kfe[id];
 		memo[id] = to;
 		return memo;
 	}, {});
-
-	if (!editor.activeKeyframeIds.length) {
-		editor.activeKeyframeIds = [id];
-	}
 
 	document.addEventListener('mousemove', drag);
 	document.addEventListener('mouseup', dragEnd);
@@ -45,8 +46,6 @@ const drag = (event) => {
 		const delta = event.clientX - startX.value;
 		const changedKeyframes = editor.activeKeyframeIds.reduce((memo, id) => {
 			const to = startTimes.value[id] + (delta / editor.secondWidth) * 1000;
-			console.log(id, to, startTimes.value[id], delta);
-
 			memo[id] = { to };
 			return memo;
 		}, {});
