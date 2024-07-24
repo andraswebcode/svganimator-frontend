@@ -11,7 +11,9 @@ const editor = useEditor();
 const project = useProject();
 const isDragging = ref(false);
 const startX = ref(0);
-const startTime = ref(0);
+const startTimes = ref<{
+	[kfId: string]: number;
+}>({});
 const kf = computed(() => project.kfe[props.id]);
 const color = computed(() => (editor.activeKeyframeIds.includes(props.id) ? 'primary' : ''));
 const left = computed(() => (kf.value.to / 1000) * editor.secondWidth + 'px');
@@ -22,10 +24,14 @@ const title = computed(() => {
 	return `Value: ${v} at Time: ${t}s with ${e} easing.`;
 });
 const dragStart = (event) => {
-	const { to, id } = kf.value;
+	const { id } = kf.value;
 	isDragging.value = true;
 	startX.value = event.clientX;
-	startTime.value = to / 1000;
+	startTimes.value = editor.activeKeyframeIds.reduce((memo, id) => {
+		const { to } = project.kfe[id];
+		memo[id] = to;
+		return memo;
+	}, {});
 
 	if (!editor.activeKeyframeIds.length) {
 		editor.activeKeyframeIds = [id];
@@ -37,8 +43,15 @@ const dragStart = (event) => {
 const drag = (event) => {
 	if (isDragging.value) {
 		const delta = event.clientX - startX.value;
-		const to = (startTime.value + delta / editor.secondWidth) * 1000;
-		project.updateKf(editor.activeKeyframeIds[0], { to });
+		const changedKeyframes = editor.activeKeyframeIds.reduce((memo, id) => {
+			const to = startTimes.value[id] + (delta / editor.secondWidth) * 1000;
+			console.log(id, to, startTimes.value[id], delta);
+
+			memo[id] = { to };
+			return memo;
+		}, {});
+
+		project.updateKf(changedKeyframes);
 	}
 };
 const dragEnd = () => {

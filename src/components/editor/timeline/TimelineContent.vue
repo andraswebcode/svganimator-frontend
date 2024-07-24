@@ -65,7 +65,7 @@ const playheadDisplay = computed(() =>
 			</QExpansionItem>
 		</QList>
 		<div class="playhead" :style="{ display: playheadDisplay, left: playheadLeft }" />
-		<div class="selector absolute" :style="style"></div>
+		<div class="grafik-selector" :style="style"></div>
 	</div>
 </template>
 
@@ -84,10 +84,6 @@ const playheadDisplay = computed(() =>
 		height: 100%;
 		background-color: $editor-border-dark-color;
 		pointer-events: none;
-	}
-	.selector {
-		background: rgba(173, 216, 230, 0.4);
-		border: dashed 2px rgba(75, 170, 200, 0.4);
 	}
 }
 .q-list {

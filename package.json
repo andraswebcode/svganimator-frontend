@@ -10,7 +10,7 @@
 		"api": "cd ../website && php artisan serve"
 	},
 	"dependencies": {
-		"@grafikjs/core": "^0.0.64",
+		"@grafikjs/core": "^0.0.641",
 		"@grafikjs/vue": "^0.0.31",
 		"@mdi/js": "^7.4.47",
 		"@quasar/extras": "^1.16.11",

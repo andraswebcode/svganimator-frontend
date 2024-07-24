@@ -29,6 +29,7 @@ export interface EditorState {
 	secondWidth: number;
 	trackLeft: number;
 	playing: boolean;
+	loop: boolean;
 	// Dialogs
 	exportDialog: boolean;
 }
@@ -70,6 +71,7 @@ export default defineStore<string, EditorState, EditorGetters, EditorActions>('e
 		secondWidth: 200,
 		trackLeft: 0,
 		playing: false,
+		loop: false,
 		// Dialogs
 		exportDialog: false
 	}),

@@ -31,6 +31,9 @@ const goToStart = () => {
 const goToEnd = () => {
 	editor.time = editor.seconds;
 };
+const loop = () => {
+	editor.loop = !editor.loop;
+};
 </script>
 
 <template>
@@ -47,7 +50,12 @@ const goToEnd = () => {
 			<QBtn size="sm" :icon="mdiSkipPrevious" @click="goToStart" />
 			<QBtn size="sm" :icon="editor.playing ? mdiPause : mdiPlay" @click="play" />
 			<QBtn size="sm" :icon="mdiSkipNext" @click="goToEnd" />
-			<QBtn size="sm" :icon="mdiInfinity" />
+			<QBtn
+				size="sm"
+				:icon="mdiInfinity"
+				@click="loop"
+				:color="editor.loop ? 'primary' : ''"
+			/>
 		</QBtnGroup>
 	</div>
 </template>
